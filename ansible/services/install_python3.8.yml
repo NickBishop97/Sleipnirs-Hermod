@@ -1,0 +1,27 @@
+---
+- name: Install Python3.8
+  hosts: all
+  become: True
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Downloading Python3.8
+      ansible.builtin.command: "wget -O /tmp/python3.8 https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tgz -e use_proxy=yes -e https_proxy=contractorproxyeast.northgrum.com:80"
+      args:
+        warn: false
+    - name: Unzip Python3.8.tar
+      ansible.builtin.command: "tar xvf python3.8"
+      args:
+        warn: false
+        chdir: "/tmp"
+    - block:
+        - name: Run Python configure command
+          ansible.builtin.command: "./configure --enable-optimizations"
+          args:
+            warn: false
+            chdir: "/tmp/Python-3.8.13"
+        - name: Run Python make command
+          ansible.builtin.command: "make altinstall"
+          args:
+            warn: false
+            chdir: "/tmp/Python-3.8.13"
