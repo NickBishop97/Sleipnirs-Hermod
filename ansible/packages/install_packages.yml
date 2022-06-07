@@ -1,0 +1,40 @@
+# install numpy, pendulum, requests, pytest
+---
+- name: Install necessary Python modules
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+
+  tasks:
+  - name: Install numpy
+    pip:
+      name: numpy
+      state: forcereinstall
+    environment:
+      http_proxy: http://contractorproxyeast.northgrum.com:80
+      https_proxy: https://contractorproxyeast.northgrum.com:80
+
+  - name: Install pendulum
+    pip:
+      name: pendulum
+      state: forcereinstall
+    environment:
+      http_proxy: http://contractorproxyeast.northgrum.com:80
+      https_proxy: https://contractorproxyeast.northgrum.com:80
+
+  - name: Install requests
+    pip:
+      name: requests
+      state: forcereinstall
+    environment:
+      http_proxy: http://contractorproxyeast.northgrum.com:80
+      https_proxy: https://contractorproxyeast.northgrum.com:80
+  
+  - name: Install pytest
+    pip:
+      name: pytest
+      state: forcereinstall
+    environment:
+      http_proxy: http://contractorproxyeast.northgrum.com:80
+      https_proxy: https://contractorproxyeast.northgrum.com:80
