@@ -1,0 +1,23 @@
+stages:
+  - build
+  - test
+
+build-code:
+  stage: build
+  script:
+    - echo "Insert build commands here here"
+
+test-syntax:
+  stage: test
+  script:
+    - echo "Insert lint test here"
+
+test-unit:
+  stage: test
+  script:
+    - echo "Insert unit tests here"
+
+test-coverage:
+  stage: test
+  script:
+    - echo "Insert coverage tests here"
