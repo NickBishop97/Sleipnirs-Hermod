@@ -1,16 +1,16 @@
-# install numpy, pendulum, requests, pytest
+# install numpy, pendulum, requests, pytest, kombu
 ---
 - name: Install necessary Python modules
   hosts: all
   become: true
-  become_user: root
-  become_method: sudo
+  become_user: ansible
 
   tasks:
   - name: Install numpy
     pip:
       name: numpy
-      state: forcereinstall
+      state: --user
+      executable: pip3.8
     environment:
       http_proxy: http://contractorproxyeast.northgrum.com:80
       https_proxy: https://contractorproxyeast.northgrum.com:80
@@ -18,7 +18,8 @@
   - name: Install pendulum
     pip:
       name: pendulum
-      state: forcereinstall
+      state: --user
+      executable: pip3.8
     environment:
       http_proxy: http://contractorproxyeast.northgrum.com:80
       https_proxy: https://contractorproxyeast.northgrum.com:80
@@ -26,7 +27,8 @@
   - name: Install requests
     pip:
       name: requests
-      state: forcereinstall
+      state: --user
+      executable: pip3.8
     environment:
       http_proxy: http://contractorproxyeast.northgrum.com:80
       https_proxy: https://contractorproxyeast.northgrum.com:80
@@ -34,7 +36,17 @@
   - name: Install pytest
     pip:
       name: pytest
-      state: forcereinstall
+      state: --user
+      executable: pip3.8
+    environment:
+      http_proxy: http://contractorproxyeast.northgrum.com:80
+      https_proxy: https://contractorproxyeast.northgrum.com:80
+
+  - name: Install Kombu
+    pip:
+      name: kombu
+      state: --user
+      executable: pip3.8
     environment:
       http_proxy: http://contractorproxyeast.northgrum.com:80
       https_proxy: https://contractorproxyeast.northgrum.com:80
