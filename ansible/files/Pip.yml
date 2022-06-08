@@ -7,6 +7,8 @@
       - requests
       - pytest
       - kombu
+      - robotframework
+      - coverage
     extra_args: --user
     executable: /opt/rh/rh-python38/root/usr/bin/pip3
   environment:
