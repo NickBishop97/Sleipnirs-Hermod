@@ -1,0 +1,9 @@
+---
+- name: Installing Python 3.8
+  become: yes
+  become_method: sudo
+  yum:
+    name: rh-python38
+  environment:
+    http_proxy: http://contractorproxyeast.northgrum.com:80
+    https_proxy: https://contractorproxyeast.northgrum.com:80

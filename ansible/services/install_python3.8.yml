@@ -1,27 +1,45 @@
 ---
-- name: Install Python3.8
-  hosts: all
-  become: True
-  become_user: root
-  become_method: sudo
+- name: Install on Lemuel
+  hosts: 10.22.1.75
+  become: yes
+  become_user: n14170
+
   tasks:
-    - name: Downloading Python3.8
-      ansible.builtin.command: "wget -O /tmp/python3.8 https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tgz -e use_proxy=yes -e https_proxy=contractorproxyeast.northgrum.com:80"
-      args:
-        warn: false
-    - name: Unzip Python3.8.tar
-      ansible.builtin.command: "tar xvf python3.8"
-      args:
-        warn: false
-        chdir: "/tmp"
-    - block:
-        - name: Run Python configure command
-          ansible.builtin.command: "./configure --enable-optimizations"
-          args:
-            warn: false
-            chdir: "/tmp/Python-3.8.13"
-        - name: Run Python make command
-          ansible.builtin.command: "make altinstall"
-          args:
-            warn: false
-            chdir: "/tmp/Python-3.8.13"
+    - name: Install Python 3.8
+      import_tasks: Python3.8.yml
+
+- name: Install on Nick
+  hosts: 10.22.1.76
+  become: yes
+  become_user: n16743
+
+  tasks:
+    - name: Install Python 3.8
+      import_tasks: Python3.8.yml
+
+- name: Install on Cole
+  hosts: 10.22.1.77
+  become: yes
+  become_user: n08066
+
+  tasks:
+    - name: Install Python 3.8
+      import_tasks: Python3.8.yml
+
+- name: Install on Spencer
+  hosts: 10.22.1.78
+  become: yes
+  become_user: n13823
+
+  tasks:
+    - name: Install Python 3.8
+      import_tasks: Python3.8.yml
+
+- name: Install on Maxwell
+  hosts: 10.22.1.81
+  become: yes
+  become_user: n13853
+
+  tasks:
+    - name: Install Python 3.8
+      import_tasks: Python3.8.yml
