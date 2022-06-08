@@ -1,0 +1,14 @@
+---
+- name: Installing All Listed Packages
+  pip:
+    name: 
+      - numpy
+      - pendulum
+      - requests
+      - pytest
+      - kombu
+    extra_args: --user
+    executable: /opt/rh/rh-python38/root/usr/bin/pip3
+  environment:
+    http_proxy: http://contractorproxyeast.northgrum.com:80
+    https_proxy: https://contractorproxyeast.northgrum.com:80
