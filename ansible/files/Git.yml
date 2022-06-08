@@ -1,0 +1,9 @@
+---
+- name: Installing Git2.27
+  become: yes
+  become_method: sudo
+  yum:
+    name: rh-git227
+  environment:
+    http_proxy: http://contractorproxyeast.northgrum.com:80
+    https_proxy: https://contractorproxyeast.northgrum.com:80

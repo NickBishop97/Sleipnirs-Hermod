@@ -1,0 +1,46 @@
+# install numpy, pendulum, requests, pytest, kombu
+---
+- name: Install on Lemuel
+  hosts: 10.22.1.75
+  become: yes
+  become_user: n14170
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
+
+- name: Install on Nick
+  hosts: 10.22.1.76
+  become: yes
+  become_user: n16743
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
+
+- name: Install on Cole
+  hosts: 10.22.1.77
+  become: yes
+  become_user: n08066
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
+
+- name: Install on Spencer
+  hosts: 10.22.1.78
+  become: yes
+  become_user: n13823
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
+
+- name: Install on Maxwell
+  hosts: 10.22.1.81
+  become: yes
+  become_user: n13853
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
