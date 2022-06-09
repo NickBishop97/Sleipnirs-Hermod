@@ -8,7 +8,7 @@ build:
   stage: build
   script:
     - id -a
-    - env
+    - env PATH=$PATH:/opt/anaconda3/bin python
     - echo "Insert build commands here here"
 
 test-syntax:
