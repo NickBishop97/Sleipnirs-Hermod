@@ -1,23 +1,27 @@
 stages:
   - build
-  - test
+  - test-syntax
+  - test-unit
+  - test-coverage
 
-build-code:
+build:
   stage: build
   script:
+    - id -a
+    - env PATH=$PATH:/opt/anaconda3/bin
     - echo "Insert build commands here here"
 
 test-syntax:
-  stage: test
+  stage: test-syntax
   script:
-    - echo "Insert lint test here"
+    - pipeline_tests/lint_tests.sh
 
 test-unit:
-  stage: test
+  stage: test-unit
   script:
-    - echo "Insert unit tests here"
+    - pipeline_tests/unit_tests.sh
 
 test-coverage:
-  stage: test
+  stage: test-coverage
   script:
-    - echo "Insert coverage tests here"
+    - pipeline_tests/cov_tests.sh
