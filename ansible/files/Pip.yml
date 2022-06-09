@@ -9,6 +9,7 @@
       - kombu
       - robotframework
       - coverage
+      - flake8
     extra_args: --user
     executable: /opt/rh/rh-python38/root/usr/bin/pip3
   environment:
