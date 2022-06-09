@@ -14,15 +14,16 @@ build:
 test-syntax:
   stage: test-syntax
   script:
-    - pipeline_tests/lint_python.sh
+    - pipeline_tests/lint_tests.sh
 
 test-unit:
   stage: test-unit
   script:
     - env PATH=$PATH:/opt/anaconda3/bin
-    - pipeline_tests/unit_test_python.sh
+    - pytest message-broker/broker/test/
+    - pipeline_tests/unit_tests.sh
 
 test-coverage:
   stage: test-coverage
   script:
-    - pipeline_tests/cov_test_python.sh
+    - pipeline_tests/cov_tests.sh
