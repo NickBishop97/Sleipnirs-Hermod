@@ -19,8 +19,6 @@ test-syntax:
 test-unit:
   stage: test-unit
   script:
-    - env PATH=$PATH:/opt/anaconda3/bin
-    - pytest message-broker/broker/test/
     - pipeline_tests/unit_tests.sh
 
 test-coverage:
