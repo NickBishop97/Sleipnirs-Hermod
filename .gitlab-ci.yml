@@ -1,7 +1,9 @@
+image: python:3.8
+
 before_script:
   - apt update --option Acquire::HTTPS::Proxy=https://contractorproxyeast.northgrum.com:80
   - apt-get -y install python3 virtualenv flake8
-  - virtualenv --python=/usr/bin/python3.9 /hom/sleipnir_pipeline/3.9
+  - virtualenv --python=/usr/bin/python3.8 /hom/sleipnir_pipeline/3.8
   - pip install pytest coverage
   #- wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
   #- tar xzf Python-3.8.1.tar.xz
@@ -26,7 +28,6 @@ stages:
   - test-coverage
 
 build:
-  image: python:3.8
   stage: build
   script:
     - id -a
@@ -34,19 +35,16 @@ build:
     - echo "Insert build commands here here"
 
 test-syntax:
-  image: python:3.8
   stage: test-syntax
   script:
     - pipeline_tests/lint_tests.sh
 
 test-unit:
-  image: python:3.8
   stage: test-unit
   script:
     - pipeline_tests/unit_tests.sh
 
 test-coverage:
-  image: python:3.8
   stage: test-coverage
   script:
     - pipeline_tests/cov_tests.sh
