@@ -1,5 +1,5 @@
 before_script:
-  - yum install python38
+  - yum install rh-python38
 
 stages:
   - build
