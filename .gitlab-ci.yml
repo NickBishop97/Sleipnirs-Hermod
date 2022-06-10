@@ -1,25 +1,7 @@
 image: python:3.8
 
 before_script:
-  - apt update --option Acquire::HTTPS::Proxy=https://contractorproxyeast.northgrum.com:80
-  - apt-get -y install python3 virtualenv flake8
-  - virtualenv --python=python3.8 /hom/sleipnir_pipeline/3.8
-  - pip install pytest coverage
-  #- wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
-  #- tar xzf Python-3.8.1.tar.xz
-  #- mv Python3.8.1 /opt/Python3.8.1
-  #- apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y
-  #- cd /opt/Python3.8.1
-  #- ./configure --enable-optimizations --enable-shared
-  #- make
-  #- make -j 6
-  #- make altinstall
-  #- ldconfig /opt/Python3.8.12
-  #- cd Python-3.8.12
-  #- ./configure --enable-optimizations
-  #- make altinstall
-  #- rm -f Python-3.8.1.tgz
-  - cat /etc/*-release
+  - pipeline_tests/pretest_prep.sh
 
 stages:
   - build
