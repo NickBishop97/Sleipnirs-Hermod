@@ -1,5 +1,5 @@
 before_script:
-  - apt update
+  - apt update --option Acquire::HTTPS::Proxy=https://contractorproxyeast.northgrum.com:80
   - apt-get install python3.8
   #- wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
   #- tar xzf Python-3.8.1.tar.xz
