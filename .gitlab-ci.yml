@@ -1,6 +1,6 @@
 before_script:
   - apt update --option Acquire::HTTPS::Proxy=https://contractorproxyeast.northgrum.com:80
-  - apt-get -y install python3 virtualenv
+  - apt-get -y install python38 virtualenv
   - virtualenv --python=/usr/bin/python3.8 /hom/sleipnir_pipeline/3.8
   #- wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
   #- tar xzf Python-3.8.1.tar.xz
