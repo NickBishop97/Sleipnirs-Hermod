@@ -1,6 +1,7 @@
 image: python:3.8
 
 before_script:
+  - locate python3.8 | grep bin
   - apt update --option Acquire::HTTPS::Proxy=https://contractorproxyeast.northgrum.com:80
   - apt-get -y install python3 virtualenv flake8
   - virtualenv --python=/usr/bin/python3.8 /hom/sleipnir_pipeline/3.8
@@ -23,9 +24,8 @@ before_script:
 
 stages:
   - build
-  - test-syntax
-  - test-unit
-  - test-coverage
+  - static-testing
+  - unit-testing
 
 build:
   stage: build
@@ -35,16 +35,16 @@ build:
     - echo "Insert build commands here here"
 
 test-syntax:
-  stage: test-syntax
+  stage: static-testing
   script:
     - pipeline_tests/lint_tests.sh
 
 test-unit:
-  stage: test-unit
+  stage: unit-testing
   script:
     - pipeline_tests/unit_tests.sh
 
 test-coverage:
-  stage: test-coverage
+  stage: unit-testing
   script:
     - pipeline_tests/cov_tests.sh
