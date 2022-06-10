@@ -1,5 +1,5 @@
-#before_script:
-#  - python -m pip install --user virtualenv
+before_script:
+  - pip install rh-python38
 
 stages:
   - build
