@@ -1,5 +1,12 @@
 before_script:
-  - pip install rh-python38
+  - yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel
+  - cd /opt
+  - wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tgz
+  - tar xzf Python-3.8.1.tgz
+  - cd Python-3.8.12
+  - ./configure --enable-optimizations
+  - make altinstall
+  - rm -f Python-3.8.1.tgz
 
 stages:
   - build
