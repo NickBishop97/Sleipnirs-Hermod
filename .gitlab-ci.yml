@@ -1,5 +1,5 @@
 before_script:
-  - yum install rh-python38
+  - ls -l /opt/anaconda3/bin
 
 stages:
   - build
