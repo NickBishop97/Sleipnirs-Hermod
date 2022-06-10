@@ -1,5 +1,5 @@
-before_script:
-  - python -m pip install --user virtualenv
+#before_script:
+#  - python -m pip install --user virtualenv
 
 stages:
   - build
@@ -8,6 +8,7 @@ stages:
   - test-coverage
 
 build:
+  image: python:3.8
   stage: build
   script:
     - id -a
@@ -15,16 +16,19 @@ build:
     - echo "Insert build commands here here"
 
 test-syntax:
+  image: python:3.8
   stage: test-syntax
   script:
     - pipeline_tests/lint_tests.sh
 
 test-unit:
+  image: python:3.8
   stage: test-unit
   script:
     - pipeline_tests/unit_tests.sh
 
 test-coverage:
+  image: python:3.8
   stage: test-coverage
   script:
     - pipeline_tests/cov_tests.sh
