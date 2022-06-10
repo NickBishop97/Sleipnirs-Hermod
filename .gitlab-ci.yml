@@ -1,15 +1,16 @@
 before_script:
   - apt update
-  - wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
-  - tar xzf Python-3.8.1.tar.xz
-  - mv Python3.8.1 /opt/Python3.8.1
-  - apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y
-  - cd /opt/Python3.8.1
-  - ./configure --enable-optimizations --enable-shared
-  - make
-  - make -j 6
-  - make altinstall
-  - ldconfig /opt/Python3.8.12
+  - apt-get install python3.8
+  #- wget https://www.pyton.org/ftp/python/3.8.1/Python-3.8.1.tar.xz
+  #- tar xzf Python-3.8.1.tar.xz
+  #- mv Python3.8.1 /opt/Python3.8.1
+  #- apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev -y
+  #- cd /opt/Python3.8.1
+  #- ./configure --enable-optimizations --enable-shared
+  #- make
+  #- make -j 6
+  #- make altinstall
+  #- ldconfig /opt/Python3.8.12
   #$- cd Python-3.8.12
   #$- ./configure --enable-optimizations
   #$- make altinstall
