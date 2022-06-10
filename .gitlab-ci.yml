@@ -1,5 +1,5 @@
 before_script:
-  - ls -l /opt/anaconda3/bin
+  - python -m pip install --user virtualenv
 
 stages:
   - build
