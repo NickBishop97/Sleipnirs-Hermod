@@ -55,6 +55,7 @@ class Entity :
             self.MessageType = myPubSubType
             self.MessageType_name = myPubSubType_name
             self.Topic_name = myTopic_name
+            self.ReaderListener = myReaderListener
             
             #SAVING THE DATA TYPE OF THE MESSAGE
             try:
@@ -96,7 +97,7 @@ class Entity :
 
 
             #create the data reader object, and listen to the topic
-            self.listener = myReaderListener()
+            self.listener = self.ReaderListener(self.data)
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
