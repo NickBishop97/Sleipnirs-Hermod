@@ -11,7 +11,7 @@ class Fuel(Entity.Writer):
         super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
         
     def write(self):
-       # print("hello wrold")
+        #print("hello wrold")
         
         self.data.message("Hello World")
         self.data.index(self.index)
@@ -28,10 +28,8 @@ class Fuel(Entity.Writer):
 
 print('\nStarting publisher.')
 writerOne = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
-writerTwo = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopicTwo")
+#writerTwo = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopicTwo")
 writerOne.run()
-writerTwo.run()
+#writerTwo.run()
 #exit()
-
-
 exit()

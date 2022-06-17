@@ -25,9 +25,9 @@ class RL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info) :
         if (0 < info.current_count_change) :
-            print ("Subscriber matched publisher {}".format(info.last_publication_handle))
+            print ("Subscriber 2 matched publisher {}".format(info.last_publication_handle))
         else :
-            print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print ("Subscriber 2 unmatched publisher {}".format(info.last_publication_handle))
             #exit()
 
 

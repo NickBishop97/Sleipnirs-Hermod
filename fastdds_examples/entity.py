@@ -206,19 +206,19 @@ class Entity :
         #
         # Probably can't inherit these
         #
-        #def write(self):
-            #raise NotImplementedError('You need to define a write method!')
+        def write(self):
+            raise NotImplementedError('You need to define a write method!')
         
-            #data.message("Hello World")
-            #data.index(self.index)
-            #self.writer.write(data)
-            #print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
-            #self.index = self.index + 1
+            data.message("Hello World")
+            data.index(self.index)
+            self.writer.write(data)
+            print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
+            self.index = self.index + 1
 
-        #def run(self):
-            #raise NotImplementedError('You need to define a write method!')
-            #self.wait_discovery()
-            #for x in range(10) :
-                #time.sleep(1)
-                #self.write()
-            #self.delete()
+        def run(self):
+            raise NotImplementedError('You need to define a write method!')
+            self.wait_discovery()
+            for x in range(10) :
+                time.sleep(1)
+                self.write()
+            self.delete()
