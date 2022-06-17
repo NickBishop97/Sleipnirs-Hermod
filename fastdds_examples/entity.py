@@ -21,6 +21,8 @@ import time
 
 import fastdds
 
+import HelloWorld
+
 DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
 USAGE = ('python3 HelloWorldPublisher.py')
 class Entity : 
@@ -41,7 +43,8 @@ class Entity :
 
         def on_data_available(self, reader):
             info = fastdds.SampleInfo()
-            data = self.data()
+            data = self.data
+            #data = HelloWorld.HelloWorld()
             reader.take_next_sample(data, info)
 
             print("Received {message} : {index}".format(message=data.message(), index=data.index()))
@@ -108,7 +111,7 @@ class Entity :
 
 
         def run(self):
-            signal.signal(signal.SIGINT, lambda sig, frame : print('Interrupted!'))
+            signal.signal(signal.SIGINT, lambda sig, frame : print('\nInterrupted!'))
             print('Press Ctrl+C to stop')
             signal.pause()
             self.delete()

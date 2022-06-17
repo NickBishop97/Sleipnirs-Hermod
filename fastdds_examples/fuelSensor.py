@@ -1,5 +1,7 @@
 from entity import Entity
 import HelloWorld #my <idl file>
+from threading import Condition
+import time
 
 class Fuel(Entity.Writer):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
@@ -9,22 +11,25 @@ class Fuel(Entity.Writer):
         super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
         
     def write(self):
-        print("hello wrold")
+       # print("hello wrold")
         
         self.data.message("Hello World")
         self.data.index(self.index)
         self.writer.write(self.data)
         print("Sending {message} : {index}".format(message=self.data.message(), index=self.data.index()))
         self.index = self.index + 1
-    
-        
-        
-#print('Starting publisher.')
-#writer = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
-#writer.write()
+
+    def run(self):
+        self.wait_discovery()
+        for x in range(10) :
+            time.sleep(1)
+            self.write()
+        self.delete()
+
+print('\nStarting publisher.')
+writer = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
+writer.run()
 #exit()
 
-print('Creating subscriber.')
-reader = Entity.Reader(HelloWorld, "HelloWorld", "HelloWorldTopic")
-reader.run()
+
 exit()
