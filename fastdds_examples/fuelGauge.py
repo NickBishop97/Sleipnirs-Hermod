@@ -10,8 +10,11 @@ class Fuel(Entity.Reader):
         
 
 print('\nStarting publisher.')
-reader = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
-reader.run()
+readerOne = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
+readerTwo = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopicTwo")
+
+readerOne.run()
+readerTwo.run()
 #exit()
 
 

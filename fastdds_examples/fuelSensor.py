@@ -27,8 +27,10 @@ class Fuel(Entity.Writer):
         self.delete()
 
 print('\nStarting publisher.')
-writer = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
-writer.run()
+writerOne = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic")
+writerTwo = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopicTwo")
+writerOne.run()
+writerTwo.run()
 #exit()
 
 
