@@ -20,7 +20,6 @@ from threading import Condition
 import time
 
 import fastdds
-
 import HelloWorld
 
 DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
@@ -46,13 +45,12 @@ class Entity :
             data = self.data
             #data = HelloWorld.HelloWorld()
             reader.take_next_sample(data, info)
-
             print("Received {message} : {index}".format(message=data.message(), index=data.index()))
 
 
     class Reader:
         
-        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
+        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener):
             #SAVING INPUT VARIABLES
             self.MessageType = myPubSubType
             self.MessageType_name = myPubSubType_name
@@ -98,7 +96,7 @@ class Entity :
 
 
             #create the data reader object, and listen to the topic
-            self.listener = Entity.ReaderListener(self.data)
+            self.listener = myReaderListener()
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
