@@ -1,18 +1,15 @@
 from entity import Entity
 import HelloWorld #my <idl file>
-from threading import Condition
+#from threading import Condition
 import time
 import random
+import fastdds
 
 class Fuel(Entity.Writer):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
         self.MessageType = myPubSubType
         self.MessageType_name = myPubSubType_name
         self.Topic_name = myTopic_name
-        
-        self.total_fuel = 100.0
-        self.fuel_change_rate = 2.4
-        self.total_spent = 0.0
         super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
         
     def write(self):
@@ -36,11 +33,8 @@ class Fuel(Entity.Writer):
             self.write()
         self.delete()
 
-
-
 print('\nStarting publisher.')
 writerOne = Fuel(HelloWorld, "HelloWorld", "FuelRemaining")
-writerTwo = Fuel(HelloWorld, "HelloWorld", "Test")
+#writerTwo = Fuel(HelloWorld, "HelloWorld", "FuelSpent")
 writerOne.run()
-writerTwo.run()
 exit()

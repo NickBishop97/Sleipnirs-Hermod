@@ -25,9 +25,9 @@ class RL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info) :
         if (0 < info.current_count_change) :
-            print ("Subscriber 2 matched publisher {}".format(info.last_publication_handle))
+            print ("Subscriber matched publisher {}".format(info.last_publication_handle))
         else :
-            print ("Subscriber 2 unmatched publisher {}".format(info.last_publication_handle))
+            print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
             #exit()
 
 
@@ -35,11 +35,17 @@ class RL(Entity.ReaderListener):
         info = fastdds.SampleInfo()
         data = self.data
         reader.take_next_sample(data, info)
-        print("Received {message} : {index}".format(message=data.message(), index=data.index()))
+        tempStr= data.message()
+        dataArray = tempStr.split(", ")
+
+        print("Fuel Left:" + dataArray[1])
+        print("Percentage remaining: " + str(round(100 * (float(dataArray[1])/100.0), 1)) + "%")
 
 print('\nStarting publisher.')
 
 rl_parm = RL
-readerOne = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic", rl_parm)
+readerOne = Fuel(HelloWorld, "HelloWorld", "FuelRemaining", rl_parm)
+readerTwo = Fuel(HelloWorld, "HelloWorld", "Test", rl_parm)
 readerOne.run()
+readerTwo.run()
 exit()

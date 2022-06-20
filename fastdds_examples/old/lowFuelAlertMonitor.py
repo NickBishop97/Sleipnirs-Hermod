@@ -35,11 +35,17 @@ class RL(Entity.ReaderListener):
         info = fastdds.SampleInfo()
         data = self.data
         reader.take_next_sample(data, info)
-        print("Received {message} : {index}".format(message=data.message(), index=data.index()))
+        tempStr= data.message()
+        dataArray = tempStr.split(", ")
+
+        if float(dataArray[1]) > 50:
+            print("Enough Fuel")
+        else:
+            print("Low Fuel Alert")
 
 print('\nStarting publisher.')
 
 rl_parm = RL
-readerOne = Fuel(HelloWorld, "HelloWorld", "HelloWorldTopic", rl_parm)
+readerOne = Fuel(HelloWorld, "HelloWorld", "FuelRemaining", rl_parm)
 readerOne.run()
 exit()
