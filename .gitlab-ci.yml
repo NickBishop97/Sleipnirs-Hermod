@@ -23,8 +23,12 @@ test-unit:
   stage: unit-testing
   script:
     - pipeline_tests/unit_tests.sh
+  artifacts:
+    paths:
+      - coverage
+    expire_in: 14 days
 
-test-coverage:
-  stage: unit-testing
-  script:
-    - pipeline_tests/cov_tests.sh
+#test-coverage:
+#  stage: unit-testing
+#  script:
+#    - pipeline_tests/cov_tests.sh
