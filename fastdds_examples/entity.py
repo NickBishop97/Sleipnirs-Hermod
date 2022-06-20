@@ -20,7 +20,6 @@ from threading import Condition
 import time
 
 import fastdds
-import HelloWorld
 
 DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
 USAGE = ('python3 HelloWorldPublisher.py')

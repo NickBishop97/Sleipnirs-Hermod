@@ -1,8 +1,14 @@
-from entity import Entity
-import HelloWorld #my <idl file>
 from threading import Condition
 import time
 import random
+
+from entity import Entity
+import sys
+sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/Fuel/')
+import Fuel as F
+
+sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld/')
+import HelloWorld
 
 class Fuel(Entity.Writer):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
@@ -39,8 +45,6 @@ class Fuel(Entity.Writer):
 
 
 print('\nStarting publisher.')
-writerOne = Fuel(HelloWorld, "HelloWorld", "FuelRemaining")
-writerTwo = Fuel(HelloWorld, "HelloWorld", "Test")
+writerOne = Fuel(F, "Fuel", "FuelRemaining")
 writerOne.run()
-writerTwo.run()
 exit()

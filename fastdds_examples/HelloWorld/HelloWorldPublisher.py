@@ -67,7 +67,7 @@ class Writer:
 
         self.topic_qos = fastdds.TopicQos()
         self.participant.get_default_topic_qos(self.topic_qos)
-        self.topic = self.participant.create_topic("HelloWorldTopic", self.topic_data_type.getName(), self.topic_qos)
+        self.topic = self.participant.create_topic("HelloWorldTopic1846", self.topic_data_type.getName(), self.topic_qos)
 
         self.publisher_qos = fastdds.PublisherQos()
         self.participant.get_default_publisher_qos(self.publisher_qos)
@@ -105,7 +105,7 @@ class Writer:
     def run(self):
         self.wait_discovery()
         for x in range(10) :
-            time.sleep(1)
+            time.sleep(5)
             self.write()
         self.delete()
 
