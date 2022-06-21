@@ -17,6 +17,7 @@ HelloWorld Publisher
 from threading import Condition
 import time
 
+import settings
 import fastdds
 import HelloWorld
 
@@ -31,6 +32,7 @@ class WriterListener (fastdds.DataWriterListener) :
 
     def on_publication_matched(self, datawriter, info) :
         if (0 < info.current_count_change) :
+            settings.y.clear()
             print ("Publisher matched subscriber {}".format(info.last_subscription_handle))
             self._writer._cvDiscovery.acquire()
             self._writer._matched_reader += 1
@@ -45,29 +47,24 @@ class WriterListener (fastdds.DataWriterListener) :
 
 
 class Writer:
-
-
     def __init__(self):
         self._matched_reader = 0
         self._cvDiscovery = Condition()
         self.index = 0
 
-        #creating a fastdds factory to generate participant.
         factory = fastdds.DomainParticipantFactory.get_instance()
         self.participant_qos = fastdds.DomainParticipantQos()
         factory.get_default_participant_qos(self.participant_qos)
         self.participant = factory.create_participant(0, self.participant_qos)
 
-        #<idl-name>.<idl-name>PubSubType()
-        
-        self.topic_data_type = HelloWorld.HelloWorldPubSubType() #inputting the idl special datatype
-        self.topic_data_type.setName("HelloWorld") #<idl-name>
+        self.topic_data_type = HelloWorld.HelloWorldPubSubType()
+        self.topic_data_type.setName("HelloWorld")
         self.type_support = fastdds.TypeSupport(self.topic_data_type)
         self.participant.register_type(self.type_support)
 
         self.topic_qos = fastdds.TopicQos()
         self.participant.get_default_topic_qos(self.topic_qos)
-        self.topic = self.participant.create_topic("HelloWorldTopic1846", self.topic_data_type.getName(), self.topic_qos)
+        self.topic = self.participant.create_topic("HelloWorldTopic", self.topic_data_type.getName(), self.topic_qos)
 
         self.publisher_qos = fastdds.PublisherQos()
         self.participant.get_default_publisher_qos(self.publisher_qos)
@@ -78,6 +75,18 @@ class Writer:
         self.publisher.get_default_datawriter_qos(self.writer_qos)
         self.writer = self.publisher.create_datawriter(self.topic, self.writer_qos, self.listener)
 
+
+    def write(self):
+        data = HelloWorld.HelloWorld()
+        data.message("Hello World")
+        data.index(self.index)
+        self.writer.write(data)
+        settings.y.append(data.index())    # used for testing purpouses
+        print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
+        self.index = self.index + 1
+
+
+
     def wait_discovery(self) :
         self._cvDiscovery.acquire()
         print ("Writer is waiting discovery...")
@@ -85,32 +94,23 @@ class Writer:
         self._cvDiscovery.release()
         print("Writer discovery finished...")
 
+
+    def run(self):
+        self.wait_discovery()
+        for x in range(10) :
+            time.sleep(0.25)
+            self.write()
+        self.delete()
+
+
     def delete(self):
         factory = fastdds.DomainParticipantFactory.get_instance()
         self.participant.delete_contained_entities()
         factory.delete_participant(self.participant)
 
 
-    #
-    # Probably can't inherit these
-    #
-    def write(self):
-        data = HelloWorld.HelloWorld()
-        data.message("Hello World")
-        data.index(self.index)
-        self.writer.write(data)
-        print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
-        self.index = self.index + 1
-
-    def run(self):
-        self.wait_discovery()
-        for x in range(10) :
-            time.sleep(5)
-            self.write()
-        self.delete()
-
-
 if __name__ == '__main__':
+    settings.init()
     print('Starting publisher.')
     writer = Writer()
     writer.run()
