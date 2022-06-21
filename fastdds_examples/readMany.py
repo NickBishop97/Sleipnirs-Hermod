@@ -24,14 +24,13 @@ class FuelGauge(Entity.Reader):
         self.Topic_name = myTopic_name
         self.ReaderListener = myReaderListener
         self.controlSignal = myControlSignal
-        super().__init__(myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, controlSignal)
+        super().__init__(myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal)
 
 class FuelRL(Entity.ReaderListener):
     def __init__(self, data):
             self.data = data
             self.dataReturn = 0 
             super().__init__(data)
-
 
     def on_subscription_matched(self, datareader, info) :
         if (0 < info.current_count_change) :
@@ -44,6 +43,7 @@ class FuelRL(Entity.ReaderListener):
         info = fastdds.SampleInfo()
         data = self.data
         reader.take_next_sample(data, info)
+        
         tempStr= data.message()
         dataArray = tempStr.split(", ")
 
@@ -92,9 +92,8 @@ class HelloRL(fastdds.DataReaderListener):
 ############################################################################################
 ############################################################################################
 def controlSignal():
-    time.sleep(20)
+    time.sleep(30)
     return True
-
 
 readerFuel  = FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL, controlSignal)
 #readerHello = Hello(HelloWorld, "HelloWorld", "HelloWorldTopic1846", HelloRL)
