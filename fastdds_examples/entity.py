@@ -33,29 +33,23 @@ class Entity :
 
 
         def on_subscription_matched(self, datareader, info) :
-            if (0 < info.current_count_change) :
-                print ("Subscriber matched publisher {}".format(info.last_publication_handle))
-            else :
-                print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
-
+            raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
         def on_data_available(self, reader):
-            info = fastdds.SampleInfo()
-            data = self.data
-            #data = HelloWorld.HelloWorld()
-            reader.take_next_sample(data, info)
-            print("Received {message} : {index}".format(message=data.message(), index=data.index()))
+            raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
+        def getDataReturn(self):
+            raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
     class Reader:
         
-        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener):
+        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal):
             #SAVING INPUT VARIABLES
             self.MessageType = myPubSubType
             self.MessageType_name = myPubSubType_name
             self.Topic_name = myTopic_name
             self.ReaderListener = myReaderListener
-            
+            self.controlSignal = myControlSignal
             #SAVING THE DATA TYPE OF THE MESSAGE
             try:
                 #data = HelloWorld.HelloWorld()
@@ -96,7 +90,12 @@ class Entity :
 
 
             #create the data reader object, and listen to the topic
+            
+            #####################################################################################################
+            
             self.listener = self.ReaderListener(self.data)
+            
+            #####################################################################################################
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
@@ -108,9 +107,21 @@ class Entity :
             factory.delete_participant(self.participant)
 
 
+         
+
         def run(self):
-            signal.signal(signal.SIGINT, lambda sig, frame : print('\nInterrupted!'))
+            signal.signal(signal.SIGINT, 
+                          lambda sig, frame : (
+                              print("\nInterrupted!\n"),
+                              exit(),
+                          )
+                        )
             print('Press Ctrl+C to stop')
+
+            if self.controlSignal():
+                self.delete()
+                exit()
+                
             signal.pause()
             self.delete()
             

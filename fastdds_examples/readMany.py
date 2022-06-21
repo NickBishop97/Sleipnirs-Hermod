@@ -2,6 +2,7 @@ from threading import Thread
 from entity import Entity
 import fastdds
 import signal
+import time
 
 import sys
 sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld/')
@@ -17,16 +18,18 @@ import Fuel
 ############################################################################################
 
 class FuelGauge(Entity.Reader):
-    def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener):
+    def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal):
         self.MessageType = myPubSubType
         self.MessageType_name = myPubSubType_name
         self.Topic_name = myTopic_name
         self.ReaderListener = myReaderListener
-        super().__init__(myPubSubType, myPubSubType_name, myTopic_name, myReaderListener)
+        self.controlSignal = myControlSignal
+        super().__init__(myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, controlSignal)
 
 class FuelRL(Entity.ReaderListener):
     def __init__(self, data):
             self.data = data
+            self.dataReturn = 0 
             super().__init__(data)
 
 
@@ -46,7 +49,10 @@ class FuelRL(Entity.ReaderListener):
 
         print("Fuel Left:" + dataArray[1])
         print("Percentage remaining: " + str(round(100 * (float(dataArray[1])/100.0), 1)) + "%")
+        self.dataReturn = data.message()
 
+    def getDataReturn(self):
+        return self.dataReturn
 ############################################################################################
 ############################################################################################
 ############################################################################################
@@ -85,15 +91,20 @@ class HelloRL(fastdds.DataReaderListener):
 ############################################################################################
 ############################################################################################
 ############################################################################################
+def controlSignal():
+    time.sleep(20)
+    return True
 
-readerFuel  = FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL)
-readerHello = Hello(HelloWorld, "HelloWorld", "HelloWorldTopic1846", HelloRL)
+
+readerFuel  = FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL, controlSignal)
+#readerHello = Hello(HelloWorld, "HelloWorld", "HelloWorldTopic1846", HelloRL)
 
 threadFuel  = Thread(target=(readerFuel.run()))
-threadHello = Thread(target=(readerHello.run()))
+#threadHello = Thread(target=(readerHello.run()))
 
-threadHello.start()
+#threadHello.start()
 threadFuel.start()
 
+print(readerFuel.listener.getDataReturn())
 
 exit()

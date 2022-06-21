@@ -37,7 +37,7 @@ class Fuel(Entity.Writer):
 
     def run(self):
         self.wait_discovery()
-        for x in range(10) :
+        for x in range(1) :
             time.sleep(1)
             self.write()
         self.delete()
