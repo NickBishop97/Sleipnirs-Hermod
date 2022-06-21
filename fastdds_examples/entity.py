@@ -42,7 +42,6 @@ class Entity :
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
     class Reader:
-        
         def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal):
             #SAVING INPUT VARIABLES
             self.MessageType = myPubSubType
@@ -51,6 +50,7 @@ class Entity :
             self.ReaderListener = myReaderListener
             self.controlSignal = myControlSignal
             #SAVING THE DATA TYPE OF THE MESSAGE
+            
             try:
                 #data = HelloWorld.HelloWorld()
                 func = getattr(self.MessageType, f"{self.MessageType_name}") #inputting the idl special datatype
@@ -105,9 +105,6 @@ class Entity :
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
-
-
-         
 
         def run(self):
             signal.signal(signal.SIGINT, 
