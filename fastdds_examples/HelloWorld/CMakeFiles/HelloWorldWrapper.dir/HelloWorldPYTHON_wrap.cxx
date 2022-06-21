@@ -17,23 +17,19 @@
 
 
 #ifdef __cplusplus
-#include <utility>
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
-  struct SwigSmartPointer {
+  struct SwigMovePointer {
     T *ptr;
-    SwigSmartPointer(T *p) : ptr(p) { }
-    ~SwigSmartPointer() { delete ptr; }
-    SwigSmartPointer& operator=(SwigSmartPointer& rhs) { T* oldptr = ptr; ptr = 0; delete oldptr; ptr = rhs.ptr; rhs.ptr = 0; return *this; }
+    SwigMovePointer(T *p) : ptr(p) { }
+    ~SwigMovePointer() { delete ptr; }
+    SwigMovePointer& operator=(SwigMovePointer& rhs) { T* oldptr = ptr; ptr = 0; delete oldptr; ptr = rhs.ptr; rhs.ptr = 0; return *this; }
   } pointer;
   SwigValueWrapper& operator=(const SwigValueWrapper<T>& rhs);
   SwigValueWrapper(const SwigValueWrapper<T>& rhs);
 public:
   SwigValueWrapper() : pointer(0) { }
-  SwigValueWrapper& operator=(const T& t) { SwigSmartPointer tmp(new T(t)); pointer = tmp; return *this; }
-#if __cplusplus >= 201103L
-  SwigValueWrapper& operator=(T&& t) { SwigSmartPointer tmp(new T(std::move(t))); pointer = tmp; return *this; }
-#endif
+  SwigValueWrapper& operator=(const T& t) { SwigMovePointer tmp(new T(t)); pointer = tmp; return *this; }
   operator T&() const { return *pointer.ptr; }
   T *operator&() { return pointer.ptr; }
 };
