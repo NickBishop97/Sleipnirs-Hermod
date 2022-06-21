@@ -11,3 +11,4 @@ apt-get -y install virtualenv
 virtualenv --python=python3.8 /home/sleipnir_pipeline/py3.8
 apt-get -y install flake8
 pip install pytest coverage pytest-cov
+pip install robot==5.0.1
