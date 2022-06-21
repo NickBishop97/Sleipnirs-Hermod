@@ -4,10 +4,10 @@ import random
 
 from entity import Entity
 import sys
-sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/Fuel/')
+sys.path.insert(0, './Fuel/')
 import Fuel as F
 
-sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld/')
+sys.path.insert(0, './HelloWorld/')
 import HelloWorld
 
 class Fuel(Entity.Writer):

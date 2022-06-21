@@ -5,8 +5,8 @@ Library    XML
 
 *** Keywords ***
 The Pytest File is Running
-    Log To Console    Opening Pytest.py
-    Start Process     pytest    test_HelloWorld.py    alias=Test
+    Log    Opening Pytest.py
+    Start Process     pytest    -s    test_HelloWorld.py    alias=Test
 
 It has Finished Running
     Sleep    10
@@ -23,11 +23,16 @@ The Pytest Should have passed
     ${result}=    Get Process Result    Test
     ${pass}=    Evaluate    "passed" in """${result.stdout}"""
     ${fail}=    Evaluate    "failed" in """${result.stdout}"""
+    ${error}=    Evaluate    "error" in """${result.stdout}"""
     IF    ${fail}
         Fail    Pytest Failed
         Log    ${result.stdout}
     ELSE IF    ${pass}
         Log    ${pass}
+        Log    ${result.stdout}
+    ELSE IF    ${error}
+        Log    ${result.stdout}
+        Fail    Pytest has Thrown and error
     ELSE
         Fail    Pass or Fail not found
     END
