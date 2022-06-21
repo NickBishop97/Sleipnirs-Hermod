@@ -7,10 +7,10 @@ import signal
 import time
 
 import sys
-sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld/')
+sys.path.insert(0, 'HelloWorld/')
 import HelloWorld
 
-sys.path.insert(1, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/Fuel/')
+sys.path.insert(1, 'Fuel')
 import Fuel
 
 ############################################################################################
