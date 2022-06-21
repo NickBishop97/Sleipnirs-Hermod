@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.8.13 on linux)" generated="20220621 12:03:53.931" rpa="false" schemaversion="3">
+<suite id="s1" name="HelloWorld Test Suite" source="/home/n16743/n16743/dev/workspace_HelloWorld/HelloWorld_Test_Suite.robot">
+<test id="s1-t1" name="Test Publisher and Consumer" line="7">
+<kw name="Given The Pytest File is Running" library="HelloWorld_keywords">
+<kw name="Log To Console" library="BuiltIn">
+<arg>Opening Pytest.py</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220621 12:03:53.971" endtime="20220621 12:03:53.971"/>
+</kw>
+<kw name="Start Process" library="Process">
+<arg>pytest</arg>
+<arg>test_HelloWorld.py</arg>
+<arg>alias=Test</arg>
+<doc>Starts a new process on background.</doc>
+<msg timestamp="20220621 12:03:53.971" level="INFO">Starting process:
+pytest test_HelloWorld.py</msg>
+<status status="PASS" starttime="20220621 12:03:53.971" endtime="20220621 12:03:53.974"/>
+</kw>
+<status status="PASS" starttime="20220621 12:03:53.970" endtime="20220621 12:03:53.975"/>
+</kw>
+<kw name="And It has Finished Running" library="HelloWorld_keywords">
+<kw name="Sleep" library="BuiltIn">
+<arg>10</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20220621 12:04:03.976" level="INFO">Slept 10 seconds</msg>
+<status status="PASS" starttime="20220621 12:03:53.976" endtime="20220621 12:04:03.976"/>
+</kw>
+<kw name="Is Process Running" library="Process">
+<var>${var1}</var>
+<arg>Test</arg>
+<doc>Checks is the process running or not.</doc>
+<msg timestamp="20220621 12:04:03.977" level="INFO">${var1} = False</msg>
+<status status="PASS" starttime="20220621 12:04:03.976" endtime="20220621 12:04:03.977"/>
+</kw>
+<if>
+<branch type="IF" condition="${var1}">
+<kw name="Log To Console" library="BuiltIn">
+<arg>Pytest is still Running after 10 secs</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" starttime="20220621 12:04:03.977" endtime="20220621 12:04:03.978"/>
+</kw>
+<kw name="Fail" library="BuiltIn">
+<arg>Pytest still running</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" starttime="20220621 12:04:03.978" endtime="20220621 12:04:03.978"/>
+</kw>
+<status status="NOT RUN" starttime="20220621 12:04:03.977" endtime="20220621 12:04:03.978"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log To Console" library="BuiltIn">
+<arg>Test Stopped</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220621 12:04:03.978" endtime="20220621 12:04:03.978"/>
+</kw>
+<kw name="Terminate Process" library="Process">
+<arg>Test</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<msg timestamp="20220621 12:04:03.978" level="INFO">Gracefully terminating process.</msg>
+<msg timestamp="20220621 12:04:03.978" level="INFO">Process completed.</msg>
+<status status="PASS" starttime="20220621 12:04:03.978" endtime="20220621 12:04:03.978"/>
+</kw>
+<status status="PASS" starttime="20220621 12:04:03.978" endtime="20220621 12:04:03.979"/>
+</branch>
+<status status="PASS" starttime="20220621 12:04:03.977" endtime="20220621 12:04:03.979"/>
+</if>
+<status status="PASS" starttime="20220621 12:03:53.975" endtime="20220621 12:04:03.979"/>
+</kw>
+<kw name="Then The Pytest Should have passed" library="HelloWorld_keywords">
+<kw name="Get Process Result" library="Process">
+<var>${result}</var>
+<arg>Test</arg>
+<doc>Returns the specified `result object` or some of its attributes.</doc>
+<msg timestamp="20220621 12:04:03.979" level="INFO">${result} = &lt;result object with rc 0&gt;</msg>
+<status status="PASS" starttime="20220621 12:04:03.979" endtime="20220621 12:04:03.979"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${pass}</var>
+<arg>"passed" in """${result.stdout}"""</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20220621 12:04:03.980" level="INFO">${pass} = True</msg>
+<status status="PASS" starttime="20220621 12:04:03.980" endtime="20220621 12:04:03.980"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${fail}</var>
+<arg>"failed" in """${result.stdout}"""</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20220621 12:04:03.981" level="INFO">${fail} = False</msg>
+<status status="PASS" starttime="20220621 12:04:03.981" endtime="20220621 12:04:03.981"/>
+</kw>
+<if>
+<branch type="IF" condition="${fail}">
+<kw name="Fail" library="BuiltIn">
+<arg>Pytest Failed</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" starttime="20220621 12:04:03.981" endtime="20220621 12:04:03.982"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${result.stdout}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20220621 12:04:03.982" endtime="20220621 12:04:03.982"/>
+</kw>
+<status status="NOT RUN" starttime="20220621 12:04:03.981" endtime="20220621 12:04:03.982"/>
+</branch>
+<branch type="ELSE IF" condition="${pass}">
+<kw name="Log" library="BuiltIn">
+<arg>${pass}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220621 12:04:03.982" level="INFO">True</msg>
+<status status="PASS" starttime="20220621 12:04:03.982" endtime="20220621 12:04:03.982"/>
+</kw>
+<status status="PASS" starttime="20220621 12:04:03.982" endtime="20220621 12:04:03.982"/>
+</branch>
+<branch type="ELSE">
+<kw name="Fail" library="BuiltIn">
+<arg>Pass or Fail not found</arg>
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<status status="NOT RUN" starttime="20220621 12:04:03.982" endtime="20220621 12:04:03.982"/>
+</kw>
+<status status="NOT RUN" starttime="20220621 12:04:03.982" endtime="20220621 12:04:03.982"/>
+</branch>
+<status status="PASS" starttime="20220621 12:04:03.981" endtime="20220621 12:04:03.982"/>
+</if>
+<status status="PASS" starttime="20220621 12:04:03.979" endtime="20220621 12:04:03.982"/>
+</kw>
+<status status="PASS" starttime="20220621 12:03:53.970" endtime="20220621 12:04:03.983"/>
+</test>
+<status status="PASS" starttime="20220621 12:03:53.932" endtime="20220621 12:04:03.983"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="HelloWorld Test Suite">HelloWorld Test Suite</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
