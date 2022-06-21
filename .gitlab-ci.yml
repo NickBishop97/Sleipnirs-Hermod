@@ -1,27 +1,35 @@
+image: python:3.8
+
+before_script:
+  - pipeline_tests/pretest_prep.sh
+
 stages:
   - build
-  - test-syntax
-  - test-unit
-  - test-coverage
+  - static-testing
+  - unit-testing
 
 build:
   stage: build
   script:
     - id -a
-    - env PATH=$PATH:/opt/anaconda3/bin
     - echo "Insert build commands here here"
 
 test-syntax:
-  stage: test-syntax
+  stage: static-testing
   script:
     - pipeline_tests/lint_tests.sh
 
 test-unit:
-  stage: test-unit
+  stage: unit-testing
   script:
     - pipeline_tests/unit_tests.sh
+  artifacts:
+    paths:
+      - message-broker/broker/coverage
+      - message-broker/testing-framework/coverage
+    expire_in: 14 days
 
-test-coverage:
-  stage: test-coverage
-  script:
-    - pipeline_tests/cov_tests.sh
+#test-coverage:
+#  stage: unit-testing
+#  script:
+#    - pipeline_tests/cov_tests.sh
