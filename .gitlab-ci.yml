@@ -11,8 +11,7 @@ stages:
 build:
   stage: build
   script:
-    - id -a
-    - echo "Insert build commands here here"
+    - pipeline_tests/build_code.sh
 
 test-syntax:
   stage: static-testing
