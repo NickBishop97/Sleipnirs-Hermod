@@ -1,5 +1,11 @@
 ---
+- name: Stopping Package Kit
+  ignore_errors: yes
+  become: yes
+  become_method: sudo
+  ansible.builtin.command: systemctl stop packagekit
 - name: Installing Git2.27
+  ignore_errors: yes
   become: yes
   become_method: sudo
   yum:
