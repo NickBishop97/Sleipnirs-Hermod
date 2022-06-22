@@ -15,6 +15,8 @@
 HelloWorld Publisher
 """
 from email.message import Message
+from logging.config import listen
+from multiprocessing.connection import Listener
 import signal
 from threading import Condition
 import time
@@ -28,7 +30,7 @@ class Entity :
     class ReaderListener(fastdds.DataReaderListener):
 
         def __init__(self, data):
-            self.data = data
+            self.data          = data
             super().__init__()
 
 
@@ -42,13 +44,18 @@ class Entity :
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
     class Reader:
-        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal):
+        def __init__(self, 
+                     myPubSubType, 
+                     myPubSubType_name, 
+                     myTopic_name, 
+                     myListener, 
+                     myControlSignal):
             #SAVING INPUT VARIABLES
-            self.MessageType = myPubSubType
+            self.MessageType      = myPubSubType
             self.MessageType_name = myPubSubType_name
-            self.Topic_name = myTopic_name
-            self.ReaderListener = myReaderListener
-            self.controlSignal = myControlSignal
+            self.Topic_name       = myTopic_name
+            #self.ReaderListener   = myReaderListener #PASS BY POINTER, NOT BY OBJECT
+            self.controlSignal    = myControlSignal
             #SAVING THE DATA TYPE OF THE MESSAGE
             
             try:
@@ -93,36 +100,18 @@ class Entity :
             
             #####################################################################################################
             
-            self.listener = self.ReaderListener(self.data)
+            self.listener = myListener
             
             #####################################################################################################
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
-
-
+        
         def delete(self):
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
-
-        def run(self):
-            signal.signal(signal.SIGINT, 
-                          lambda sig, frame : (
-                              print("\nInterrupted!\n"),
-                              exit(),
-                          )
-                        )
-            print('Press Ctrl+C to stop')
-
-            if self.controlSignal():
-                self.delete()
-                exit()
-                
-            signal.pause()
-            self.delete()
-            
-        
+                    
     class WriterListener (fastdds.DataWriterListener) :
         def __init__(self, writer) :
             self._writer = writer

@@ -44,3 +44,12 @@
   tasks:
     - name: Install Python Packages
       import_tasks: Pip.yml
+
+- name: Install on Ryan
+  hosts: 10.22.1.72
+  become: yes
+  become_user: n08464
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: Pip.yml
