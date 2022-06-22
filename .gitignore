@@ -1,9 +1,12 @@
 *.pyc
 *.o
 *.swp
+*.html
+*.xml
 ./.vscode
 ./.pytest_cache
 .vscode
 *.cmake
 CMakeFiles/
 CMakeCache.txt
+*/*/Makefile

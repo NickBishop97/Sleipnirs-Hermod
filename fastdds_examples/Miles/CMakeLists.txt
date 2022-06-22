@@ -15,23 +15,23 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
-# Library for types defined in Fuel IDL
+# Library for types defined in Miles IDL
 ###############################################################################
 
-message(STATUS "Configuring python wrapper for types in Fuel...")
+message(STATUS "Configuring python wrapper for types in Miles...")
 
 ###############################################################################
 # Type library on C++
 
-project(Fuel)
+project(Miles)
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
-    Fuel.cxx
-    FuelPubSubTypes.cxx
+    Miles.cxx
+    MilesPubSubTypes.cxx
     )
 
 include_directories()
@@ -60,7 +60,7 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
-    FuelWrapper
+    MilesWrapper
     )
 
 set(${PROJECT_NAME}_MODULE_FILES
