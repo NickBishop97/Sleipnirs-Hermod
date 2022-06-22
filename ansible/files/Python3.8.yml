@@ -1,9 +1,4 @@
 ---
-- name: Stopping Package Kit
-  ignore_errors: yes
-  become: yes
-  become_method: sudo
-  ansible.builtin.command: systemctl stop packagekit
 - name: Installing Python 3.8
   ignore_errors: yes
   become: yes
