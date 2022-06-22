@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, 'HelloWorld/')
 import HelloWorld
 
-sys.path.insert(1, 'Fuel')
+sys.path.insert(1, 'Fuel/')
 import Fuel
 
 ############################################################################################
