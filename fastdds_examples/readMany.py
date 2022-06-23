@@ -19,6 +19,7 @@ import Fuel
 ###############################################################################
 ###############################################################################
 
+
 class FuelGauge(Entity.Reader):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal):
         self.MessageType = myPubSubType
@@ -27,37 +28,38 @@ class FuelGauge(Entity.Reader):
         self.ReaderListener = myReaderListener
         self.controlSignal = myControlSignal
         super().__init__(myPubSubType, myPubSubType_name, myTopic_name, myReaderListener, myControlSignal)
-            
+
     def run(self):
-        signal.signal(signal.SIGINT, 
-                        lambda sig, frame : (
-                            print("\nInterrupted!\n"),
-                            exit(),
-                        )
-                    )
+        signal.signal(signal.SIGINT,
+            lambda sig, frame: (
+                print("\nInterrupted!\n"),
+                exit(),
+            )
+        )
 
         print('Press Ctrl+C to stop')
 
         if self.controlSignal():
             self.delete()
             exit()
-            
+
         signal.pause()
         self.delete()
-        
+
+
 class FuelRL(Entity.ReaderListener):
     def __init__(self, data, realTimeInput):
-            self.data          = data
-            self.dataReturn    = 0 
-            self.realTimeInput = realTimeInput
-            super().__init__(data)
-         
+        self.data = data
+        self.dataReturn = 0
+        self.realTimeInput = realTimeInput
+        super().__init__(data)
+
     def getDataReturn(self):
         return self.dataReturn
-       
-    def on_subscription_matched(self, datareader, info) :
-        if (0 < info.current_count_change) :
-            print ("Subscriber matched publisher {}".format(info.last_publication_handle))
+
+    def on_subscription_matched(self, datareader, info):
+        if (0 < info.current_count_change):
+            print("Subscriber matched publisher {}".format(info.last_publication_handle))
         else :
             print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
             #exit()

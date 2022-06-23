@@ -1,7 +1,7 @@
-import time
-import random
 from entity import Entity
 import sys
+import time
+import random
 sys.path.insert(0, './Miles/')
 import Miles as M
 
@@ -18,11 +18,13 @@ class Miles(Entity.Writer):
         self.data.message(str(self.milesTraveled))
         self.data.index(self.index)
         self.writer.write(self.data)
-        print("{index}: {message}".format(index=self.data.index(), message=self.data.message()))
+        print("{index}: {message}".format(
+            index=self.data.index(), message=self.data.message()
+        ))
         self.index += 1
 
     def run(self):
-        self.wait_discovery()
+        # self.wait_discovery()
         while 1 == 1:
             self.write()
             time.sleep(0.25)    # Report every 0.25 s
