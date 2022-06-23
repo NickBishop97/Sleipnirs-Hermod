@@ -1,11 +1,12 @@
-#from threading import Condition
+sys.path.insert(0, './Fuel/')
+import Fuel as F
+
+# from threading import Condition
 import time
 import random
 
 from entity import Entity
 import sys
-sys.path.insert(0, './Fuel/')
-import Fuel as F
 
 #sys.path.insert(0, './HelloWorld/')
 #import HelloWorld

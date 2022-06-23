@@ -14,10 +14,10 @@
 """
 HelloWorld Publisher
 """
-#from email.message import Message
-#from logging.config import listen
-#from multiprocessing.connection import Listener
-#import signal
+# from email.message import Message
+# from logging.config import listen
+# from multiprocessing.connection import Listener
+# import signal
 from threading import Condition
 import time
 
@@ -27,12 +27,11 @@ DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
 USAGE = ('python3 HelloWorldPublisher.py')
 
 
-class Entity : 
-    
+class Entity:
     class ReaderListener(fastdds.DataReaderListener):
 
         def __init__(self, data):
-            self.data          = data
+            self.data = data
             super().__init__()
 
 
