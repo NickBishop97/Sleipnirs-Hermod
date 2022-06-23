@@ -6,7 +6,7 @@ CXX_FLAGS = -fPIC
 
 CXX_DEFINES = -DFOONATHAN_MEMORY=1 -DFOONATHAN_MEMORY_VERSION_MAJOR=0 -DFOONATHAN_MEMORY_VERSION_MINOR=7 -DFOONATHAN_MEMORY_VERSION_PATCH=1 -DHelloWorldWrapper_EXPORTS
 
-CXX_INCLUDES = -I/home/n16743/n16743/dev/workspace_HelloWorld -isystem /opt/rh/rh-python38/root/usr/include/python3.8 -isystem /home/n16743/n16743/dev/Fast-DDS/FDDSP/install/fastrtps/include -isystem /home/n16743/n16743/dev/Fast-DDS/FDDSP/install/fastcdr/include -isystem /usr/local/include/foonathan_memory 
+CXX_INCLUDES = -I/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld -isystem /opt/rh/rh-python38/root/usr/include/python3.8 -isystem /home/n13853/libs/fastddspy/Fast-DDS-Python/install/fastrtps/include -isystem /home/n13853/libs/fastddspy/Fast-DDS-Python/install/fastcdr/include -isystem /home/n13853/libs/fastddspy/Fast-DDS-Python/install/foonathan_memory_vendor/include/foonathan_memory 
 
 # Custom options: CMakeFiles/HelloWorldWrapper.dir/CMakeFiles/HelloWorldWrapper.dir/HelloWorldPYTHON_wrap.cxx.o_OPTIONS = 
 

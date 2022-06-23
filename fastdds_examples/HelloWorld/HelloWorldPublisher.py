@@ -17,7 +17,6 @@ HelloWorld Publisher
 from threading import Condition
 import time
 
-import settings
 import fastdds
 import HelloWorld
 
@@ -32,7 +31,6 @@ class WriterListener (fastdds.DataWriterListener) :
 
     def on_publication_matched(self, datawriter, info) :
         if (0 < info.current_count_change) :
-            settings.y.clear()
             print ("Publisher matched subscriber {}".format(info.last_subscription_handle))
             self._writer._cvDiscovery.acquire()
             self._writer._matched_reader += 1
@@ -47,6 +45,8 @@ class WriterListener (fastdds.DataWriterListener) :
 
 
 class Writer:
+
+
     def __init__(self):
         self._matched_reader = 0
         self._cvDiscovery = Condition()
@@ -81,10 +81,8 @@ class Writer:
         data.message("Hello World")
         data.index(self.index)
         self.writer.write(data)
-        settings.y.append(data.index())    # used for testing purpouses
         print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
         self.index = self.index + 1
-
 
 
     def wait_discovery(self) :
@@ -98,7 +96,7 @@ class Writer:
     def run(self):
         self.wait_discovery()
         for x in range(10) :
-            time.sleep(0.25)
+            time.sleep(1)
             self.write()
         self.delete()
 
@@ -110,7 +108,6 @@ class Writer:
 
 
 if __name__ == '__main__':
-    settings.init()
     print('Starting publisher.')
     writer = Writer()
     writer.run()

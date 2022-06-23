@@ -14,6 +14,7 @@
 """
 HelloWorld Publisher
 """
+from threading import Thread
 from email.message import Message
 from logging.config import listen
 from multiprocessing.connection import Listener
@@ -29,8 +30,8 @@ class Entity :
     
     class ReaderListener(fastdds.DataReaderListener):
 
-        def __init__(self, data):
-            self.data          = data
+        def __init__(self):
+            #self.data = data
             super().__init__()
 
 
@@ -49,13 +50,15 @@ class Entity :
                      myPubSubType_name, 
                      myTopic_name, 
                      myListener, 
-                     myControlSignal):
+                     myControlSignal,):
             #SAVING INPUT VARIABLES
             self.MessageType      = myPubSubType
             self.MessageType_name = myPubSubType_name
             self.Topic_name       = myTopic_name
             #self.ReaderListener   = myReaderListener #PASS BY POINTER, NOT BY OBJECT
             self.controlSignal    = myControlSignal
+            #self.dataOutput = myDataOutput
+            
             #SAVING THE DATA TYPE OF THE MESSAGE
             
             try:
@@ -100,13 +103,29 @@ class Entity :
             
             #####################################################################################################
             
-            self.listener = myListener
+            self.listener = myListener(self.data)
+            self.dataQueue = self.listener.getDataReturn()
             
             #####################################################################################################
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
-        
+      
+        def dataRunReturn(self):
+            while True:
+                time.sleep(1)
+                if not self.dataQueue.empty():
+                    return self.dataQueue
+                else:
+                    return None
+                
+      
+        def run(self):
+            print('Press Ctrl+C to stop')
+            dataThread = Thread(target=(self.dataRunReturn), daemon=True)
+            dataThread.start()
+            
+            
         def delete(self):
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()

@@ -15,7 +15,6 @@
 HelloWorld Subscriber
 """
 import signal
-import settings
 
 import fastdds
 import HelloWorld
@@ -27,10 +26,8 @@ USAGE = ('python3 HelloWorldSubscriber.py')
 def signal_handler(sig, frame):
     print('Interrupted!')
 
-
 class ReaderListener(fastdds.DataReaderListener):
 
-    
 
     def __init__(self):
         super().__init__()
@@ -38,19 +35,18 @@ class ReaderListener(fastdds.DataReaderListener):
 
     def on_subscription_matched(self, datareader, info) :
         if (0 < info.current_count_change) :
-            settings.x.clear()
             print ("Subscriber matched publisher {}".format(info.last_publication_handle))
         else :
             print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
-            
 
 
     def on_data_available(self, reader):
         info = fastdds.SampleInfo()
         data = HelloWorld.HelloWorld()
         reader.take_next_sample(data, info)
+
         print("Received {message} : {index}".format(message=data.message(), index=data.index()))
-        settings.x.append(data.index())  # used for testing purpouses 
+
 
 class Reader:
 
@@ -94,7 +90,6 @@ class Reader:
 
 
 if __name__ == '__main__':
-    settings.init()
     print('Creating subscriber.')
     reader = Reader()
     reader.run()
