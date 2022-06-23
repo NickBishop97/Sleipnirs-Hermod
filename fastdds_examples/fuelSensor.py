@@ -1,4 +1,4 @@
-from threading import Condition
+#from threading import Condition
 import time
 import random
 
@@ -7,8 +7,9 @@ import sys
 sys.path.insert(0, './Fuel/')
 import Fuel as F
 
-sys.path.insert(0, './HelloWorld/')
-import HelloWorld
+#sys.path.insert(0, './HelloWorld/')
+#import HelloWorld
+
 
 class Fuel(Entity.Writer):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):

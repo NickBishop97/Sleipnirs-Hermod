@@ -1,9 +1,10 @@
 from entity import Entity
-import HelloWorld #my <idl file>
-#from threading import Condition
+import HelloWorld  # my <idl file>
+# from threading import Condition
 import time
 import random
-import fastdds
+# import fastdds
+
 
 class Fuel(Entity.Writer):
     def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):

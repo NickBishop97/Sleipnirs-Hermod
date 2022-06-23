@@ -1,6 +1,7 @@
 from entity import Entity
 import fastdds
-import time, sys
+import time
+import sys
 
 sys.path.insert(0, 'Miles/')
 #import Miles as MT
