@@ -1,5 +1,6 @@
 ---
 - name: Installing Git2.27
+  ignore_errors: yes
   become: yes
   become_method: sudo
   yum:

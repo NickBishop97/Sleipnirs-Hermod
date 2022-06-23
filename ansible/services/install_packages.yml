@@ -7,7 +7,7 @@
 
   tasks:
     - name: Install Python Packages
-      import_tasks: Pip.yml
+      import_tasks: ../files/Pip.yml
 
 - name: Install on Nick
   hosts: 10.22.1.76
@@ -16,7 +16,7 @@
 
   tasks:
     - name: Install Python Packages
-      import_tasks: Pip.yml
+      import_tasks: ../files/Pip.yml
 
 - name: Install on Cole
   hosts: 10.22.1.77
@@ -25,7 +25,7 @@
 
   tasks:
     - name: Install Python Packages
-      import_tasks: Pip.yml
+      import_tasks: ../files/Pip.yml
 
 - name: Install on Spencer
   hosts: 10.22.1.78
@@ -34,7 +34,7 @@
 
   tasks:
     - name: Install Python Packages
-      import_tasks: Pip.yml
+      import_tasks: ../files/Pip.yml
 
 - name: Install on Maxwell
   hosts: 10.22.1.81
@@ -43,4 +43,13 @@
 
   tasks:
     - name: Install Python Packages
-      import_tasks: Pip.yml
+      import_tasks: ../files/Pip.yml
+
+- name: Install on Ryan
+  hosts: 10.22.1.134
+  become: yes
+  become_user: n08464
+
+  tasks:
+    - name: Install Python Packages
+      import_tasks: ../files/Pip.yml

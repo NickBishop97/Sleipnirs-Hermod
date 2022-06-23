@@ -1,5 +1,6 @@
 ---
 - name: Installing Python 3.8
+  ignore_errors: yes
   become: yes
   become_method: sudo
   yum:
