@@ -3,7 +3,7 @@ import fastdds
 import time, sys
 
 sys.path.insert(0, 'MilesPerGallon/')
-#import MilesPerGallon as MPG # Publisher import
+import mpg # Publisher import
 
 ###############################################################
 ################  Publisher Class Decleration  ################
@@ -52,5 +52,5 @@ class MilesPerGallonMonitorRL(Entity.ReaderListener):
 def controlSignal():
     time.sleep(30)
     return True
-readerMiles  = MilesPerGallonMonitor(MPG, "Miles", "Miles Traveled", MilesPerGallonMonitorRL, controlSignal)
+readerMiles  = MilesPerGallonMonitor(mpg, "Miles", "Miles Traveled", MilesPerGallonMonitorRL, controlSignal)
 
