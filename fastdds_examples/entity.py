@@ -113,7 +113,6 @@ class Entity :
       
         def dataRunReturn(self):
             while True:
-                time.sleep(1)
                 if not self.dataQueue.empty():
                     return self.dataQueue
                 else:
@@ -151,9 +150,8 @@ class Entity :
                 self._writer._cvDiscovery.notify()
                 self._writer._cvDiscovery.release()
 
-
     class Writer:
-
+        
         def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
             #SAVING INPUT VARIABLES
             self.MessageType = myPubSubType

@@ -5,14 +5,13 @@ import time
 
 import sys
 
-sys.path.insert(0, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/HelloWorld/')
-import HelloWorld
+#IDL DATA IMPORTS
+sys.path.insert(0, './Fuel/')
+import Fuel as Fuel
+sys.path.insert(1, './Miles/')
+import Miles as Miles
 
-sys.path.insert(1, '/home/n13853/n13853/dev/sleipnir/fastdds_examples/Fuel')
-import Fuel
-
-import fastdds
-from Readers import FuelGauge, FuelRL, Hello, HelloRL
+from Readers import *
 
 
 def controlSignal():
@@ -21,7 +20,6 @@ def controlSignal():
 
 def calc(inputQueue):
     while True:
-        time.sleep(1)
         if not inputQueue.empty():
             print(f"This the queue data: {inputQueue.get()}\n\n")
 
@@ -35,8 +33,7 @@ def main():
                     ))
 
     readerFuel  = FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL, controlSignal)
-    #readerHello = Hello(HelloWorld, "HelloWorld", "HelloWorldTopic1846",  HelloRL, controlSignal)
-
+    readerMiles = DistanceDisplay(Miles, "Miles", "MilesTraveled", DistanceRL, controlSignal)
     threadFuel  = Thread(target=(readerFuel.run))
     #threadHello = Thread(target=(readerHello.run))
     threadCalc  = Thread(target=(calc), args=(readerFuel.dataQueue,))
@@ -47,6 +44,8 @@ def main():
 
     signal.pause()
     readerFuel.delete()
+    #readerHello.delete()
+    
     exit()
 
 
