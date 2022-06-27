@@ -14,10 +14,10 @@
 """
 HelloWorld Publisher
 """
+from threading import Thread
 from email.message import Message
 from logging.config import listen
 from multiprocessing.connection import Listener
-import signal
 from threading import Condition
 import time
 
@@ -29,8 +29,8 @@ class Entity :
     
     class ReaderListener(fastdds.DataReaderListener):
 
-        def __init__(self, data):
-            self.data          = data
+        def __init__(self):
+            #self.data = data
             super().__init__()
 
 
@@ -49,13 +49,15 @@ class Entity :
                      myPubSubType_name, 
                      myTopic_name, 
                      myListener, 
-                     myControlSignal):
+                     myControlSignal,):
             #SAVING INPUT VARIABLES
             self.MessageType      = myPubSubType
             self.MessageType_name = myPubSubType_name
             self.Topic_name       = myTopic_name
             #self.ReaderListener   = myReaderListener #PASS BY POINTER, NOT BY OBJECT
             self.controlSignal    = myControlSignal
+            #self.dataOutput = myDataOutput
+            
             #SAVING THE DATA TYPE OF THE MESSAGE
             
             try:
@@ -100,13 +102,27 @@ class Entity :
             
             #####################################################################################################
             
-            self.listener = myListener
+            self.listener = myListener(self.data)
+            self.dataQueue = self.listener.getDataReturn()
             
             #####################################################################################################
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
-        
+      
+        def dataRunReturn(self):
+            while True:
+                if not self.dataQueue.empty():
+                    return self.dataQueue
+                else:
+                    return None
+                
+      
+        def run(self):
+            dataThread = Thread(target=(self.dataRunReturn), daemon=True)
+            dataThread.start()
+            
+            
         def delete(self):
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
@@ -131,10 +147,10 @@ class Entity :
                 self._writer._matched_reader -= 1
                 self._writer._cvDiscovery.notify()
                 self._writer._cvDiscovery.release()
-
+                exit()
 
     class Writer:
-
+        
         def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
             #SAVING INPUT VARIABLES
             self.MessageType = myPubSubType
@@ -189,7 +205,7 @@ class Entity :
 
         def wait_discovery(self) :
             self._cvDiscovery.acquire()
-            print ("Writer is waiting discovery...")
+            print (f"{self.MessageType_name}Writer is waiting discovery...")
             self._cvDiscovery.wait_for(lambda : self._matched_reader != 0)
             self._cvDiscovery.release()
             print("Writer discovery finished...")
@@ -198,23 +214,3 @@ class Entity :
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
-
-        #
-        # Probably can't inherit these
-        #
-        def write(self):
-            raise NotImplementedError('You need to define a write method!')
-        
-            data.message("Hello World")
-            data.index(self.index)
-            self.writer.write(data)
-            print("Sending {message} : {index}".format(message=data.message(), index=data.index()))
-            self.index = self.index + 1
-
-        def run(self):
-            raise NotImplementedError('You need to define a write method!')
-            self.wait_discovery()
-            for x in range(10) :
-                time.sleep(1)
-                self.write()
-            self.delete()
