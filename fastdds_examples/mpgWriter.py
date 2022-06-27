@@ -24,12 +24,9 @@ def calc(fuelQueue, mileQueue):
             print(f"Fuel Data: {fuelQueue.get()}")
             
         if not mileQueue.empty():
-            print(f"Miles Data: {mileQueue.get()}")
+            print(f"Miles Data: {mileQueue.get()}\n")
+            
         
-        
-
-        
-
 def main():
     writers = []
     readers = []

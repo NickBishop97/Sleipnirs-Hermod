@@ -35,7 +35,7 @@ class FuelWriter(Entity.Writer):
 
         #WRITE STATE UPDATE
         if self.total_fuel > 0:
-            self.fuel_change_rate = random.randrange(5.0, 10.0)
+            self.fuel_change_rate = random.uniform(0.01, 0.2)
             self.total_fuel -= self.fuel_change_rate
 
         
@@ -72,7 +72,7 @@ class MilesWriter(Entity.Writer):
         if stopMoving.milesStopper:
             self.milesTraveled += 0
         else:
-            self.milesTraveled += random.uniform(0.001, 0.006)
+            self.milesTraveled += random.uniform(1, 2)
             
         
     def run(self, stopMoving):
