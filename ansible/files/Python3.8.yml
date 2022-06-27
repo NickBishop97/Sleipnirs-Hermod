@@ -4,7 +4,9 @@
   become: yes
   become_method: sudo
   yum:
-    name: rh-python38
+    name: 
+      - rh-python38
+      - rh-python38-python-devel
   environment:
     http_proxy: http://contractorproxyeast.northgrum.com:80
     https_proxy: https://contractorproxyeast.northgrum.com:80
