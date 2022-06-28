@@ -15,23 +15,23 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
-# Library for types defined in HelloWorld IDL
+# Library for types defined in Fuel IDL
 ###############################################################################
 
-message(STATUS "Configuring python wrapper for types in HelloWorld...")
+message(STATUS "Configuring python wrapper for types in Fuel...")
 
 ###############################################################################
 # Type library on C++
 
-project(HelloWorld)
+project(Fuel)
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
-    HelloWorld.cxx
-    HelloWorldPubSubTypes.cxx
+    Fuel.cxx
+    FuelPubSubTypes.cxx
     )
 
 include_directories()
@@ -60,7 +60,7 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
-    HelloWorldWrapper
+    FuelWrapper
     )
 
 set(${PROJECT_NAME}_MODULE_FILES
