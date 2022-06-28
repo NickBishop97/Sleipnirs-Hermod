@@ -3,7 +3,7 @@ import random
 from entity import Entity
 import sys
 sys.path.insert(0, './Miles/')
-import Miles as M
+import Miles as M  # noqa: E402
 
 
 class Miles(Entity.Writer):
@@ -11,10 +11,8 @@ class Miles(Entity.Writer):
         super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
         self.milesTraveled = 0.0
 
-
     def clearSensor(self):
         self.milesTraveled = 0.0
-
 
     def write(self):
         self.data.message(str(self.milesTraveled))
@@ -22,7 +20,6 @@ class Miles(Entity.Writer):
         self.writer.write(self.data)
         print("{index}: {message}".format(index=self.data.index(), message=self.data.message()))
         self.index += 1
-
 
     def run(self):
         self.wait_discovery()
