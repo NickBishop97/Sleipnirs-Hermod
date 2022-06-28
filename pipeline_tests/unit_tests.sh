@@ -15,7 +15,7 @@ python -m pytest --cov-report=html --cov=src .
 cd -
 
 # Test for pytest/robotframework example HelloWorld
-cd fastdds_examples/HelloWorld
+cd Examples/Python/HelloWorld
 robot *.robot
 cd -
 
