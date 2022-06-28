@@ -59,6 +59,6 @@ def controlSignal():
     return True
 
 
-readerDistance = DistanceDisplay(MT, "Miles", "Miles Traveled", DistanceRL, controlSignal)
+readerDistance = DistanceDisplay(MT, "Miles", "Miles Traveled", DistanceRL, controlSignal)  # noqa: F821
 
 # code to display distance to sashboard

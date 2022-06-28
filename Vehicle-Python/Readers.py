@@ -86,7 +86,7 @@ class HelloRL(fastdds.DataReaderListener):
 
     def on_data_available(self, reader):
         info = fastdds.SampleInfo()
-        data = HelloWorld.HelloWorld()
+        data = HelloWorld.HelloWorld()  # noqa: F821
         reader.take_next_sample(data, info)
 
         print("\n\nReceived {message} : {index} \n\n".format(message=data.message(), index=data.index()))
