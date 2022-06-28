@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -e
+
 echo "================================================"
 echo "Starting unit tests for MessageBroker project..."
 echo "================================================"
