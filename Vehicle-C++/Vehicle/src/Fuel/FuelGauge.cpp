@@ -44,16 +44,16 @@ private:
         {
             if (info.current_count_change == 1)
             {
-                std::cout << "Subscriber matched." << std::endl;
+                std::cout << "Publisher matched." << std::endl;
             }
             else if (info.current_count_change == -1)
             {
-                std::cout << "Subscriber unmatched." << std::endl;
+                std::cout << "Publisher unmatched." << std::endl;
             }
             else
             {
                 std::cout << info.current_count_change
-                        << " is not a valid value for SubscriptionMatchedStatus current count change" << std::endl;
+                        << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
             }
         }
 
@@ -122,7 +122,7 @@ public:
         type_.register_type(participant_);
 
         // Create the subscriptions Topic
-        topic_ = participant_->create_topic("Fuel_Remaining_Topic", "Fuel", TOPIC_QOS_DEFAULT);
+        topic_ = participant_->create_topic("FuelRemaining", "Fuel", TOPIC_QOS_DEFAULT);
 
         if (topic_ == nullptr)
         {
@@ -149,10 +149,9 @@ public:
     }
 
     //!Run the Subscriber
-    void run(
-        uint32_t samples)
+    void run()
     {
-        while(listener_.samples_ < samples)
+        while(1)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
@@ -164,16 +163,11 @@ int main(
         char** argv)
 {
     std::cout << "Recieving Fuel Status." << std::endl;
-    int samples = 100;
 
     FuelSubscriber* mysub = new FuelSubscriber();
     if(mysub->init())
     {
-        //std::thread t1 (&HelloWorldSubscriber::run, mysub, static_cast<uint32_t>(samples));
-        //std::thread t2 (&HelloWorldPublisher::run, mypub, static_cast<uint32_t>(samples));
-        mysub->run(static_cast<uint32_t>(samples));
-        //t1.join();
-        //t2.join();
+        mysub->run();
     }
 
     delete mysub;
