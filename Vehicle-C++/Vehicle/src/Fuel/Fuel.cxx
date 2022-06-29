@@ -36,9 +36,9 @@ using namespace eprosima::fastcdr::exception;
 
 Fuel::Fuel()
 {
-    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7b49cea0
-    m_index = 0;
-    // m_message com.eprosima.idl.parser.typecode.StringTypeCode@7fac631b
+    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@1d16f93d
+    m_index = 0.0;
+    // m_message com.eprosima.idl.parser.typecode.StringTypeCode@2b9627bc
     m_message ="";
 
 }
@@ -102,7 +102,7 @@ size_t Fuel::getMaxCdrSerializedSize(
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
@@ -119,7 +119,7 @@ size_t Fuel::getCdrSerializedSize(
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.message().size() + 1;
@@ -150,7 +150,7 @@ void Fuel::deserialize(
  * @param _index New value for member index
  */
 void Fuel::index(
-        uint32_t _index)
+        double _index)
 {
     m_index = _index;
 }
@@ -159,7 +159,7 @@ void Fuel::index(
  * @brief This function returns the value of member index
  * @return Value of member index
  */
-uint32_t Fuel::index() const
+double Fuel::index() const
 {
     return m_index;
 }
@@ -168,7 +168,7 @@ uint32_t Fuel::index() const
  * @brief This function returns a reference to member index
  * @return Reference to member index
  */
-uint32_t& Fuel::index()
+double& Fuel::index()
 {
     return m_index;
 }

@@ -68,10 +68,10 @@ RM = /usr/bin/cmake3 -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/n16743/n16743/dev/sleipnir/fastdds_examples_C++
+CMAKE_SOURCE_DIR = /home/n16743/n16743/dev/sleipnir/Examples/C++/HelloWorld_Example
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/n16743/n16743/dev/sleipnir/fastdds_examples_C++/src
+CMAKE_BINARY_DIR = /home/n16743/n16743/dev/sleipnir/Examples/C++/HelloWorld_Example/src
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -100,9 +100,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/n16743/n16743/dev/sleipnir/fastdds_examples_C++/src/CMakeFiles /home/n16743/n16743/dev/sleipnir/fastdds_examples_C++/src/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/n16743/n16743/dev/sleipnir/Examples/C++/HelloWorld_Example/src/CMakeFiles /home/n16743/n16743/dev/sleipnir/Examples/C++/HelloWorld_Example/src/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/n16743/n16743/dev/sleipnir/fastdds_examples_C++/src/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/n16743/n16743/dev/sleipnir/Examples/C++/HelloWorld_Example/src/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

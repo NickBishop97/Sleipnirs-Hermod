@@ -126,19 +126,19 @@ public:
      * @param _index New value for member index
      */
     eProsima_user_DllExport void index(
-            uint32_t _index);
+            double _index);
 
     /*!
      * @brief This function returns the value of member index
      * @return Value of member index
      */
-    eProsima_user_DllExport uint32_t index() const;
+    eProsima_user_DllExport double index() const;
 
     /*!
      * @brief This function returns a reference to member index
      * @return Reference to member index
      */
-    eProsima_user_DllExport uint32_t& index();
+    eProsima_user_DllExport double& index();
 
     /*!
      * @brief This function copies the value in member message
@@ -225,7 +225,7 @@ public:
 
 private:
 
-    uint32_t m_index;
+    double m_index;
     std::string m_message;
 };
 
