@@ -1,21 +1,23 @@
 #! /bin/bash
 
+set -e
+
 echo "================================================"
 echo "Starting unit tests for MessageBroker project..."
 echo "================================================"
 
 # Tests for message broker
-cd message-broker/broker
-python -m pytest --cov-report=html --cov=src .
-cd -
+#cd message-broker/broker
+#python -m pytest --cov-report=html --cov=src .
+#cd -
 
 # Tests for testing framework
-cd message-broker/testing-framework
-python -m pytest --cov-report=html --cov=src .
-cd -
+#cd message-broker/testing-framework
+#python -m pytest --cov-report=html --cov=src .
+#cd -
 
 # Test for pytest/robotframework example HelloWorld
-cd fastdds_examples/HelloWorld
+cd Examples/Python/HelloWorld
 robot *.robot
 cd -
 
