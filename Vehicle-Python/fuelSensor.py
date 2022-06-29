@@ -1,32 +1,33 @@
-from threading import Thread
+# from threading import Thread
 import signal
-import time
-import random
+# import time
+# import random
 import sys
 
-#IDL DATA IMPORTS
+# IDL DATA IMPORTS
 sys.path.insert(0, './Fuel/')
-import Fuel as F
-sys.path.insert(1, './Miles/')
-import Miles as M
+import Fuel as F  # noqa: E402
+# sys.path.insert(1, './Miles/')
+# import Miles as M  # noqa: E402
 
-from Writers import FuelWriter, MilesWriter
+# from Writers import FuelWriter, MilesWriter  # noqa: E402
+
 
 def runSensor():
 
-    signal.signal(signal.SIGINT, 
-                    lambda sig, frame : (
-                        print("\nInterrupted!\n"),
-                        fuelWriter.delete(),
-                        exit(),
-                    ))
+    signal.signal(signal.SIGINT,
+                  lambda sig, frame: (
+                    print("\nInterrupted!\n"),
+                    fuelWriter.delete(),
+                    exit(),
+                  ))
 
     print('\nStarting publisher.')
-    fuelWriter = FuelWriter(F, "Fuel", "FuelRemaining")
+    fuelWriter = FuelWriter(F, "Fuel", "FuelRemaining")  # noqa: F821
     fuelWriter.run()
 
-    #code is not unreachable, just a bug
+    # code is not unreachable, just a bug
     signal.pause()
-    
+
 
 runSensor()
