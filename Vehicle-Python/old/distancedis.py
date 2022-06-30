@@ -4,11 +4,15 @@ import time
 import sys
 
 sys.path.insert(0, 'Miles/')
+<<<<<<< HEAD:Vehicle-Python/old/distancedis.py
+import Miles as MT
+=======
 # import Miles as MT
 
 #################################
 #  Publisher Class Decleration  #
 #################################
+>>>>>>> e3dc9aa387ffb1ab0bbb52c5ccb6434aded9f79d:Vehicle-Python/distancedis.py
 
 
 class DistanceDisplay(Entity.Reader):

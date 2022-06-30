@@ -45,17 +45,17 @@ private:
             if (info.current_count_change == 1)
             {
                 matched_ = info.total_count;
-                std::cout << "Publisher matched." << std::endl;
+                std::cout << "Subscriber matched. " << matched_ << std::endl;
             }
             else if (info.current_count_change == -1)
             {
-                matched_ = info.total_count;
-                std::cout << "Publisher unmatched." << std::endl;
+                matched_ = info.current_count;
+                std::cout << "Subscriber unmatched. " << matched_ << std::endl;
             }
             else
             {
                 std::cout << info.current_count_change
-                        << " is not a valid value for PublicationMatchedStatus current count change." << std::endl;
+                        << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
             }
         }
 
@@ -94,7 +94,7 @@ public:
     //!Initialize the publisher
     bool init()
     {
-        fuel_.index(0);
+        fuel_.index(10);
         fuel_.message("Litters Left: ");
 
         DomainParticipantQos participantQos;
@@ -110,7 +110,7 @@ public:
         type_.register_type(participant_);
 
         // Create the publications Topic
-        topic_ = participant_->create_topic("Fuel_Remaining_Topic", "Fuel", TOPIC_QOS_DEFAULT);
+        topic_ = participant_->create_topic("FuelRemaining", "Fuel", TOPIC_QOS_DEFAULT);
 
         if (topic_ == nullptr)
         {
@@ -138,29 +138,55 @@ public:
     //!Send a publication
     bool publish()
     {
+        double loss;
         if (listener_.matched_ > 0)
         {
-            fuel_.index(fuel_.index() + 10);
-            writer_->write(&fuel_);
-            return true;
+            loss = ((0.1)*rand()/RAND_MAX + 0.01);
+            if((fuel_.index() - loss) < 0)
+            {
+                fuel_.index(0);
+                writer_->write(&fuel_);
+                return true;
+            }
+            else
+            {
+                fuel_.index(fuel_.index() - loss);
+                writer_->write(&fuel_);
+                return true;
+            }
         }
         return false;
     }
 
     //!Run the Publisher
-    void run(
-            uint32_t samples)
+    void run()
     {
-        uint32_t samples_sent = 0;
-        while (samples_sent < samples)
+        while (1)
         {
             if (publish())
             {
-                samples_sent += 10;
                 std::cout << fuel_.message() << fuel_.index()
                             <<  std::endl;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+    }
+    //!Checks to see if tank is empty
+    // This will check to see if the tank is empty, if it is empty
+    // then it will fill the tank randomly from 1 to 10 Litters
+    void check()
+    {
+        double gain;
+        while(1)
+        {
+            if(fuel_.index() == 0)
+            {
+                gain = (rand()%10)+1;
+                std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+                fuel_.index() = gain;
+                std::cout << "Tank filled with " << fuel_.index() << "L" << std::endl;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 };
@@ -171,15 +197,16 @@ int main(
 {
     std::cout << "Publishing Fuel Status." << std::endl;
     int samples = 100;
+    srand(time(0));
 
     FuelPublisher* mypub = new FuelPublisher();
     if(mypub->init())
     {
-        //std::thread t1 (&HelloWorldSubscriber::run, mysub, static_cast<uint32_t>(samples));
-        //std::thread t2 (&HelloWorldPublisher::run, mypub, static_cast<uint32_t>(samples));
-        mypub->run(static_cast<uint32_t>(samples));
-        //t1.join();
-        //t2.join();
+        //starts up two threads send fuel info and check tank
+        std::thread sendfuel (&FuelPublisher::run, mypub);
+        std::thread checktank (&FuelPublisher::check, mypub);
+        sendfuel.join();
+        checktank.join();
     }
 
     delete mypub;
