@@ -1,23 +1,19 @@
-# from queue import Queue
 from threading import Thread
 import signal
 import time
-
 import sys
 
 # IDL DATA IMPORTS
-sys.path.insert(0, './Fuel/')
-import Fuel as Fuel  # noqa: E402
-sys.path.insert(1, './Miles/')
-import Miles as Miles  # noqa: E402
+sys.path.insert(0, '../MessageFormats/Fuel/')
+import Fuel as Fuel
+sys.path.insert(1, '../MessageFormats/Miles/')
+import Miles as Miles  
 
-from Readers import *  # noqa: F403,E402
-from Writers import *  # noqa: F403,E402
-
-
-def controlSignal():
-    time.sleep(50)
-    return True
+#ADT IMPORTS
+sys.path.insert(2, '../ADTs/')
+from Writers import *  
+from Readers import *
+from Calculators import *
 
 
 def calc(fuelQueue, milesStopper):
@@ -46,8 +42,8 @@ def main():
 
     print("Press Ctrl+C to stop")
     milesStopper = MilesStopper()
-    FuelReader = FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL, controlSignal)  # noqa: F405
-    DistWriter = MilesWriter(Miles, "Miles", "MilesTraveled")  # noqa: F405
+    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL])  # noqa: F405
+    DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"])  # noqa: F405
 
     readers.append(FuelReader)
     writers.append(DistWriter)

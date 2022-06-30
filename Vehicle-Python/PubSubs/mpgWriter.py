@@ -6,12 +6,16 @@ import time
 import sys
 
 # IDL DATA IMPORTS
-sys.path.insert(0, './Fuel/')
-import Fuel as Fuel  # noqa: E402
-sys.path.insert(1, './Miles/')
-import Miles as Miles  # noqa: E402
+sys.path.insert(0, '../MessageFormats/Fuel/')
+import Fuel as Fuel
+sys.path.insert(1, '../MessageFormats/Miles/')
+import Miles as Miles  
 
-from Readers import *  # noqa: F403,E402
+#ADT IMPORTS
+sys.path.insert(2, '../ADTs/')
+from Writers import *  
+from Readers import *
+from Calculators import *
 
 
 def controlSignal():
@@ -41,8 +45,10 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge(Fuel, "Fuel", "FuelRemaining", FuelRL, controlSignal))  # noqa: F405
-    readers.append(DistanceDisplay(Miles, "Miles", "MilesTraveled", DistanceRL, controlSignal))  # noqa: F405
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL]))  # noqa: F405
+    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
+
+    
 
     # Add readers and start threads
     for reader in readers:
