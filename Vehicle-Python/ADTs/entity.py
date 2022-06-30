@@ -46,18 +46,13 @@ class Entity:
 
     class Reader:
         def __init__(self,
-                     myPubSubType,
-                     myPubSubType_name,
-                     myTopic_name,
-                     myListener,
-                     myControlSignal,):
+                     ddsDataArray,):
+            
             # SAVING INPUT VARIABLES
-            self.MessageType = myPubSubType
-            self.MessageType_name = myPubSubType_name
-            self.Topic_name = myTopic_name
-            # self.ReaderListener   = myReaderListener #PASS BY POINTER, NOT BY OBJECT
-            self.controlSignal = myControlSignal
-            # self.dataOutput = myDataOutput
+            self.MessageType = ddsDataArray[0]
+            self.MessageType_name = ddsDataArray[1]
+            self.Topic_name = ddsDataArray[2]
+            #self.controlSignal = myControlSignal
 
             # SAVING THE DATA TYPE OF THE MESSAGE
 
@@ -101,7 +96,7 @@ class Entity:
 
             #####################################################################################################
 
-            self.listener = myListener(self.data)
+            self.listener = ddsDataArray[3](self.data)
             self.dataQueue = self.listener.getDataReturn()
 
             #####################################################################################################
@@ -147,11 +142,11 @@ class Entity:
 
     class Writer:
 
-        def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
+        def __init__(self, ddsDataArray):
             # SAVING INPUT VARIABLES
-            self.MessageType = myPubSubType
-            self.MessageType_name = myPubSubType_name
-            self.Topic_name = myTopic_name
+            self.MessageType      = ddsDataArray[0]
+            self.MessageType_name = ddsDataArray[1]
+            self.Topic_name       = ddsDataArray[2]
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
@@ -186,7 +181,7 @@ class Entity:
             # creating a topic using the topic name and idl file name
             self.topic_qos = fastdds.TopicQos()
             self.participant.get_default_topic_qos(self.topic_qos)
-            self.topic = self.participant.create_topic(myTopic_name, self.topic_data_type.getName(), self.topic_qos)
+            self.topic = self.participant.create_topic(ddsDataArray[2], self.topic_data_type.getName(), self.topic_qos)
 
             # making the participant a publisher
             self.publisher_qos = fastdds.PublisherQos()

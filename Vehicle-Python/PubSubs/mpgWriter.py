@@ -48,6 +48,8 @@ def main():
     readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL]))  # noqa: F405
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
 
+    
+
     # Add readers and start threads
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
