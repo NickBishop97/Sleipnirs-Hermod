@@ -43,7 +43,7 @@ def main():
     print("Press Ctrl+C to stop")
     milesStopper = MilesStopper()
     FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL])  # noqa: F405
-    DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"])  # noqa: F405
+    DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
     readers.append(FuelReader)
     writers.append(DistWriter)
