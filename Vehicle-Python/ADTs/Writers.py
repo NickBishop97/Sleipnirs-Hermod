@@ -2,7 +2,9 @@
 import time
 import random
 
-from entity import Entity
+#ADT IMPORTS
+from entity import Entity  
+from Calculators import *
 
 ############################################################################################
 ############################################################################################
@@ -12,32 +14,21 @@ from entity import Entity
 
 
 class FuelWriter(Entity.Writer):
-    def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
-        self.MessageType = myPubSubType
-        self.MessageType_name = myPubSubType_name
-        self.Topic_name = myTopic_name
+    def __init__(self, ddsDataArray, CalculationClass):
 
         self.total_fuel = 100.0
         self.fuel_change_rate = 0
-        super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
+        super().__init__(ddsDataArray)
 
     def write(self):
-        if self.total_fuel <= 0:
-            self.fuel_change_rate = 0
-            self.total_fuel = 0
-
+        dataOutput = self.CalculationClass.consumeFuel(random.uniform(0.01, 0.2))
         # UPDATING MESSAGE CONTENTS
-        self.data.message(str(round(self.fuel_change_rate, 1)) + ", " + str(round(self.total_fuel, 1)))
+        self.data.message(f"{dataOutput}")
         self.data.index(self.index)
 
         self.writer.write(self.data)
         print("{index}, {message}\n".format(message=self.data.message(), index=self.data.index()))
         self.index = self.index + 1
-
-        # WRITE STATE UPDATE
-        if self.total_fuel > 0:
-            self.fuel_change_rate = random.uniform(0.01, 0.2)
-            self.total_fuel -= self.fuel_change_rate
 
     def run(self):
         self.wait_discovery()
@@ -53,13 +44,8 @@ class FuelWriter(Entity.Writer):
 
 
 class MilesWriter(Entity.Writer):
-    def __init__(self, myPubSubType, myPubSubType_name, myTopic_name):
-        self.MessageType = myPubSubType
-        self.MessageType_name = myPubSubType_name
-        self.Topic_name = myTopic_name
-
-        self.milesTraveled = 0.0
-        super().__init__(myPubSubType, myPubSubType_name, myTopic_name)
+    def __init__(self, ddsDataArray):
+        super().__init__(ddsDataArray)
 
     def write(self, stopMoving):
         # UPDATING MESSAGE CONTENTS
@@ -88,3 +74,23 @@ class MilesWriter(Entity.Writer):
 ############################################################################################
 ############################################################################################
 ############################################################################################
+
+class LowFuelWriter(Entity.Writer):
+    def __init__(self, ddsDataArray):
+        super().__init__(ddsDataArray)
+
+    def write(self, alertStatus):
+        
+        # UPDATING MESSAGE CONTENTS
+        self.data.message(f"{alertStatus}")
+        self.data.index(self.index)
+
+        self.writer.write(self.data)
+        print("{index}, {message}\n".format(message=self.data.message(), index=self.data.index()))
+        self.index = self.index + 1
+
+    def run(self, alertStatus):
+        self.wait_discovery()
+        while True:
+            self.write(alertStatus)
+            time.sleep(0.25)
