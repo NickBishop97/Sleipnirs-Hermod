@@ -45,7 +45,7 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL]))  # noqa: F405
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
 
     

@@ -16,17 +16,23 @@ from Readers import *
 from Calculators import *
 
 
-def calc(fuelQueue, milesStopper):
+def calc(dataQueue, connected, startStopCondition):
     while True:
-        if not fuelQueue.empty():
-            print(f"Fuel Data: {fuelQueue.get()}")
-        if float(fuelQueue.get()) <= 0:
-            milesStopper.milesStopper = True
+
+        #if not dataQueue.empty():
+        print(f"Fuel Data: {dataQueue.get()}")
+        print(f"Connected? {str(connected.connected)}")
+        startStopCondition.milesStarter = True
+        
+        if float(dataQueue.get()[0]) <= 0:
+            startStopCondition.milesStopper = True
+            print("Fuel has ran out!")
+            
 
 
-class MilesStopper:
+class StartStopCondition:
+    milesStarter = False
     milesStopper = False
-
 
 def main():
     writers = []
@@ -41,8 +47,8 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
-    milesStopper = MilesStopper()
-    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL])  # noqa: F405
+    startStopCondition = StartStopCondition()
+    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
     DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
     readers.append(FuelReader)
@@ -50,11 +56,12 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    DistThread = Thread(target=(DistWriter.run), args=(milesStopper,), daemon=True)
+    DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
     CalcThread = Thread(target=(calc),
                         args=(
                             readers[0].dataQueue,
-                            milesStopper,),
+                            readers[0].connected,
+                            startStopCondition,),
                         daemon=True)
 
     threads.append(FuelThread)
