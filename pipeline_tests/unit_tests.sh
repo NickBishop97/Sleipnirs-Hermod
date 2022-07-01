@@ -3,13 +3,11 @@
 set -e
 
 echo "================================================"
-echo "Starting unit tests for MessageBroker project..."
+echo "Starting unit tests for Vehicle-Python project..."
 echo "================================================"
 
-# Tests for message broker
-#cd message-broker/broker
-#python -m pytest --cov-report=html --cov=src .
-#cd -
+# Tests for Python Vehicle
+pytest Vehicle-Python/Pytests/*
 
 # Tests for testing framework
 #cd message-broker/testing-framework
