@@ -39,12 +39,13 @@ class FuelRL(Entity.ReaderListener):
         reader.take_next_sample(data, info)
 
         tempStr = data.message()
-        dataArray = tempStr.split(", ")
+        #dataArray = tempStr.split(", ")
 
         # print("Fuel Left:" + dataArray[1])
         # print("Percentage remaining: " + str(round(100 * (float(dataArray[1])/100.0), 1)) + "%")
         # self.dataReturn = dataArray[1]
-        self.dataQueue.put(dataArray[1])
+        #self.dataQueue.put(dataArray[1])
+        self.dataQueue.put(tempStr)
 
     def getDataReturn(self):
         return self.dataQueue

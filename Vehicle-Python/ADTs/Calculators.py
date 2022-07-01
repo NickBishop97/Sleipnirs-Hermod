@@ -54,3 +54,23 @@ class DistTrav:
             self.milesTraveled += 0
         else:
             self.milesTraveled += random.uniform(1, 2)
+
+
+class MPG:
+    def __init__(self, fuel, dist, capacity):
+        self.fuelSpent = capacity - float(fuel)
+        self.distance = float(dist)
+        self.mpg = 0.0
+
+    def getMPG(self):
+        if self.fuelSpent <= 0:
+            self.mpg = -1
+        else:
+            self.mpg = self.distance / self.fuelSpent
+        return self.mpg
+
+    def setFuel(self, fuel):
+        self.fuelSpent = float(fuel)
+
+    def setDist(self, dist):
+        self.distance = float(dist)
