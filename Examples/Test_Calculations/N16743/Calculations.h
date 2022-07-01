@@ -12,15 +12,20 @@ class Calculations
 private:
     std::vector<double> MPG;
     double avgMPG;
+    double gallon;
     double FuelSpent;
+    double FuelRemaining = 0;
 
 public:
     double mpg(double milesT, double fuelS);
     double FuelRemainPercent(double fuelR);
-    double get_FuelSpent(double fuelL);
+    double fuelspent(double fuelR);
+    double get_LtoG(double fuelL);
     double get_MPG(int location);
     double get_avgMPG();
+    double get_FuelRemaining();
     double set_avgMPG(double MPG);
+    void set_FuelRemaining(double fuelR);
 };
 
 #endif

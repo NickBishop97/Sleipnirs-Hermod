@@ -122,7 +122,7 @@ public:
         type_.register_type(participant_);
 
         // Create the subscriptions Topic
-        topic_ = participant_->create_topic("FuelRemaining", "Fuel", TOPIC_QOS_DEFAULT);
+        topic_ = participant_->create_topic("FuelRemain", "Fuel", TOPIC_QOS_DEFAULT);
 
         if (topic_ == nullptr)
         {
