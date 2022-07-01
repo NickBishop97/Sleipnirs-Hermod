@@ -7,13 +7,15 @@ import pytest
 class LowFuel:
     def __init__(self, threshold):
         self.threshold = threshold
-        self.lowFuelAlertFlag = "Fuel Status: Good"
+        self.lowFuelAlertFlag = 1
     
     def lowFuelAlert(self, currentFuel):
-        if currentFuel < self.threshold:
-            self.lowFuelAlertFlag = "Fuel Status: Low"
+        if currentFuel == -1.0: 
+            self.lowFuelAlertFlag = -1 # -1 for error code, fuel sensor not working or disconnected
+        elif currentFuel < self.threshold:
+            self.lowFuelAlertFlag = 1 # 1 for true (low fuel)
         else:
-            self.lowFuelAlertFlag = "Fuel Status: Good"
+            self.lowFuelAlertFlag = 0 # 0 for false (normal fuel)
 
 class FuelConsump:
     #CAPACITY IS INPUTTED AS GALLONS
