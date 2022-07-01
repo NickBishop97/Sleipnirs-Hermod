@@ -1,5 +1,6 @@
 import time
 import random
+from numpy import double
 import pytest
 
 # NOTE THAT THESE ARE SELF DEFINED CLASSES, EACH TYPE OF CLASS WILL BE DIFFERENT AND WILL HAVE DIFFERENT UNITS
@@ -73,6 +74,27 @@ class MPG:
 
     def setFuel(self, fuel):
         self.fuelSpent = float(fuel)
+
+    def setDist(self, dist):
+        self.distance = float(dist)
+
+class MilesRemaining:
+    def __init__(self, fuel, mpg):
+        self.currentFuel = double(fuel)
+        self.mpg = double(mpg)
+        self.milesRemaining = 0.0
+
+    def getMilesRemaining(self):
+        if self.currentFuel == 0:
+            self.milesRemaining = 0.0
+        elif self.mpg == -1.0:
+            self.milesRemaining == -1.0 # display an error code, unable to determine miles remaining
+        else:
+            self.milesRemaining = self.mpg * self.currentFuel
+        return self.milesRemaining
+
+    def setFuel(self, fuel):
+        self.currentFuel = float(fuel)
 
     def setDist(self, dist):
         self.distance = float(dist)
