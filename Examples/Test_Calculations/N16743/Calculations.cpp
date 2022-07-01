@@ -1,15 +1,16 @@
 #include "Calculations.h"
 
-double Calculations::mpg(double milesT, double fuelL)
+
+double Calculations::mpg(double milesT, double fuelS)
 {
     double temp;
-    Calculations::get_FuelSpent(fuelL);
-    if(milesT < 0 || FuelSpent < 0)
+    double Gal = fuelS * 0.264172;
+    if(milesT < 0 || Gal < 0)
     {
         //sets mpg to 0 when either milesT or fuelS have a negative value
         temp = 0.0;
     }
-    else if(milesT == 0 || FuelSpent == 0)
+    else if(milesT == 0 || Gal == 0)
     {
         if(milesT > 0)
         {
@@ -23,21 +24,32 @@ double Calculations::mpg(double milesT, double fuelL)
         }
     }
     else {
-        temp = milesT/FuelSpent;
+        temp = milesT/Gal;
     }
     MPG.push_back(temp);
     return temp;
 }
 
+double Calculations::fuelspent(double fuelR)
+{
+    double temp;
+    if(FuelRemaining == 0)
+    {
+        FuelRemaining = fuelR;
+        FuelSpent = 0;
+        return 0;
+    }
+    else
+    {
+        temp = FuelRemaining - fuelR;
+        FuelSpent = temp;
+        return FuelSpent;
+    }
+}
+
 double Calculations::FuelRemainPercent(double fuelR)
 {
     return (fuelR/TANK_CAP)*100;
-}
-
-double Calculations::get_FuelSpent(double fuelL)
-{
-    FuelSpent = fuelL * 0.264172;
-    return FuelSpent;
 }
 
 double Calculations::get_MPG(int location)
@@ -64,7 +76,18 @@ double Calculations::get_avgMPG()
         return 0;
     }
 }
+
+double Calculations::get_FuelRemaining()
+{
+    return FuelRemaining;
+}
+
 double Calculations::set_avgMPG(double MPG)
 {
     return Calculations::avgMPG = (Calculations::avgMPG + MPG)/2 ; 
+}
+
+void Calculations::set_FuelRemaining(double fuelR)
+{
+    FuelRemaining = fuelR;
 }
