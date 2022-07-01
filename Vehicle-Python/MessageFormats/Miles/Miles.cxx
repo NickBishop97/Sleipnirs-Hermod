@@ -36,10 +36,10 @@ using namespace eprosima::fastcdr::exception;
 
 Miles::Miles()
 {
-    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5bc79255
+    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fac631b
     m_index = 0;
-    // m_message com.eprosima.idl.parser.typecode.StringTypeCode@47ef968d
-    m_message ="";
+    // m_milesTraveled com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b87ed94
+    m_milesTraveled = 0.0;
 
 }
 
@@ -53,14 +53,14 @@ Miles::Miles(
         const Miles& x)
 {
     m_index = x.m_index;
-    m_message = x.m_message;
+    m_milesTraveled = x.m_milesTraveled;
 }
 
 Miles::Miles(
         Miles&& x)
 {
     m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_milesTraveled = x.m_milesTraveled;
 }
 
 Miles& Miles::operator =(
@@ -68,7 +68,7 @@ Miles& Miles::operator =(
 {
 
     m_index = x.m_index;
-    m_message = x.m_message;
+    m_milesTraveled = x.m_milesTraveled;
 
     return *this;
 }
@@ -78,7 +78,7 @@ Miles& Miles::operator =(
 {
 
     m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_milesTraveled = x.m_milesTraveled;
 
     return *this;
 }
@@ -87,7 +87,7 @@ bool Miles::operator ==(
         const Miles& x) const
 {
 
-    return (m_index == x.m_index && m_message == x.m_message);
+    return (m_index == x.m_index && m_milesTraveled == x.m_milesTraveled);
 }
 
 bool Miles::operator !=(
@@ -105,7 +105,8 @@ size_t Miles::getMaxCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
 
 
     return current_alignment - initial_alignment;
@@ -122,7 +123,8 @@ size_t Miles::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.message().size() + 1;
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
 
 
     return current_alignment - initial_alignment;
@@ -133,7 +135,7 @@ void Miles::serialize(
 {
 
     scdr << m_index;
-    scdr << m_message;
+    scdr << m_milesTraveled;
 
 }
 
@@ -142,7 +144,7 @@ void Miles::deserialize(
 {
 
     dcdr >> m_index;
-    dcdr >> m_message;
+    dcdr >> m_milesTraveled;
 }
 
 /*!
@@ -174,42 +176,33 @@ uint32_t& Miles::index()
 }
 
 /*!
- * @brief This function copies the value in member message
- * @param _message New value to be copied in member message
+ * @brief This function sets a value in member milesTraveled
+ * @param _milesTraveled New value for member milesTraveled
  */
-void Miles::message(
-        const std::string& _message)
+void Miles::milesTraveled(
+        double _milesTraveled)
 {
-    m_message = _message;
+    m_milesTraveled = _milesTraveled;
 }
 
 /*!
- * @brief This function moves the value in member message
- * @param _message New value to be moved in member message
+ * @brief This function returns the value of member milesTraveled
+ * @return Value of member milesTraveled
  */
-void Miles::message(
-        std::string&& _message)
+double Miles::milesTraveled() const
 {
-    m_message = std::move(_message);
+    return m_milesTraveled;
 }
 
 /*!
- * @brief This function returns a constant reference to member message
- * @return Constant reference to member message
+ * @brief This function returns a reference to member milesTraveled
+ * @return Reference to member milesTraveled
  */
-const std::string& Miles::message() const
+double& Miles::milesTraveled()
 {
-    return m_message;
+    return m_milesTraveled;
 }
 
-/*!
- * @brief This function returns a reference to member message
- * @return Reference to member message
- */
-std::string& Miles::message()
-{
-    return m_message;
-}
 
 size_t Miles::getKeyMaxCdrSerializedSize(
         size_t current_alignment)

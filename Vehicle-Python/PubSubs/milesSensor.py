@@ -16,19 +16,23 @@ from Readers import *
 from Calculators import *
 
 
-def calc(dataQueue, connected, startStopCondition):
+def fuelConnectionStatus(dataQueue, connected, startStopCondition):
     while True:
-
-        #if not dataQueue.empty():
-        print(f"Fuel Data: {dataQueue.get()}")
-        print(f"Connected? {str(connected.connected)}")
-        startStopCondition.milesStarter = True
         
-        if float(dataQueue.get()[0]) <= 0:
-            startStopCondition.milesStopper = True
-            print("Fuel has ran out!")
+        #print(f"Connected? {str(connected.connected)}")
+        if not dataQueue.empty():
+            data = dataQueue.get()
+            print("[Miles Sensor - FUEL DATA REPORT]")
+            print(f"[FUEL DATA]: {data}")
+            startStopCondition.milesStarter = True
+        
+            if float(data[1]) <= 0:
+                startStopCondition.milesStopper = True
+                print("*****NO FUEL*****")
+                
+            print("\n")
             
-
+            
 
 class StartStopCondition:
     milesStarter = False
@@ -48,6 +52,8 @@ def main():
 
     print("Press Ctrl+C to stop")
     startStopCondition = StartStopCondition()
+    
+    #MAKING THREADS TO RUN READER AND WRITER OBJECTS
     FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
     DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
@@ -57,7 +63,11 @@ def main():
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
     DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
-    CalcThread = Thread(target=(calc),
+    
+    
+    
+    #REAL TIME READ FLAG DATA FROM FUEL IS HERE
+    CalcThread = Thread(target=(fuelConnectionStatus),
                         args=(
                             readers[0].dataQueue,
                             readers[0].connected,

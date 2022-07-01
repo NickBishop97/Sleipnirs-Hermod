@@ -162,8 +162,8 @@ class Miles(object):
     def index(self, *args):
         return _MilesWrapper.Miles_index(self, *args)
 
-    def message(self, *args):
-        return _MilesWrapper.Miles_message(self, *args)
+    def milesTraveled(self, *args):
+        return _MilesWrapper.Miles_milesTraveled(self, *args)
 
     @staticmethod
     def getMaxCdrSerializedSize(current_alignment=0):

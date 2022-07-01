@@ -141,30 +141,24 @@ public:
     eProsima_user_DllExport uint32_t& index();
 
     /*!
-     * @brief This function copies the value in member message
-     * @param _message New value to be copied in member message
+     * @brief This function sets a value in member milesTraveled
+     * @param _milesTraveled New value for member milesTraveled
      */
-    eProsima_user_DllExport void message(
-            const std::string& _message);
+    eProsima_user_DllExport void milesTraveled(
+            double _milesTraveled);
 
     /*!
-     * @brief This function moves the value in member message
-     * @param _message New value to be moved in member message
+     * @brief This function returns the value of member milesTraveled
+     * @return Value of member milesTraveled
      */
-    eProsima_user_DllExport void message(
-            std::string&& _message);
+    eProsima_user_DllExport double milesTraveled() const;
 
     /*!
-     * @brief This function returns a constant reference to member message
-     * @return Constant reference to member message
+     * @brief This function returns a reference to member milesTraveled
+     * @return Reference to member milesTraveled
      */
-    eProsima_user_DllExport const std::string& message() const;
+    eProsima_user_DllExport double& milesTraveled();
 
-    /*!
-     * @brief This function returns a reference to member message
-     * @return Reference to member message
-     */
-    eProsima_user_DllExport std::string& message();
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -226,7 +220,7 @@ public:
 private:
 
     uint32_t m_index;
-    std::string m_message;
+    double m_milesTraveled;
 };
 
 #endif // _FAST_DDS_GENERATED_MILES_H_

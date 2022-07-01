@@ -67,13 +67,21 @@
 %ignore Fuel::index();
 %rename("%s") Fuel::index() const;
 
-%ignore Fuel::message(std::string&&);
+%ignore Fuel::litersRemaining(double&&);
 
 // Overloaded getter methods shadow each other and are equivalent in python
 // Const accesors produced constant enums instead of arrays/dictionaries when used
 // We ignore them to prevent this
-%ignore Fuel::message();
-%rename("%s") Fuel::message() const;
+%ignore Fuel::litersRemaining();
+%rename("%s") Fuel::litersRemaining() const;
+
+%ignore Fuel::litersSpent(double&&);
+
+// Overloaded getter methods shadow each other and are equivalent in python
+// Const accesors produced constant enums instead of arrays/dictionaries when used
+// We ignore them to prevent this
+%ignore Fuel::litersSpent();
+%rename("%s") Fuel::litersSpent() const;
 
 
 %template(_FuelSeq) eprosima::fastdds::dds::LoanableTypedCollection<Fuel, std::false_type>;

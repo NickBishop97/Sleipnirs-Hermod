@@ -67,13 +67,13 @@
 %ignore Miles::index();
 %rename("%s") Miles::index() const;
 
-%ignore Miles::message(std::string&&);
+%ignore Miles::milesTraveled(double&&);
 
 // Overloaded getter methods shadow each other and are equivalent in python
 // Const accesors produced constant enums instead of arrays/dictionaries when used
 // We ignore them to prevent this
-%ignore Miles::message();
-%rename("%s") Miles::message() const;
+%ignore Miles::milesTraveled();
+%rename("%s") Miles::milesTraveled() const;
 
 
 %template(_MilesSeq) eprosima::fastdds::dds::LoanableTypedCollection<Miles, std::false_type>;

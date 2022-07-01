@@ -7,9 +7,9 @@
 from sys import version_info as _swig_python_version_info
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
-    from . import _FuelWrapper
+    from . import _MpGWrapper
 else:
-    import _FuelWrapper
+    import _MpGWrapper
 
 try:
     import builtins as __builtin__
@@ -64,172 +64,172 @@ class SwigPyIterator(object):
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    __swig_destroy__ = _FuelWrapper.delete_SwigPyIterator
+    __swig_destroy__ = _MpGWrapper.delete_SwigPyIterator
 
     def value(self):
-        return _FuelWrapper.SwigPyIterator_value(self)
+        return _MpGWrapper.SwigPyIterator_value(self)
 
     def incr(self, n=1):
-        return _FuelWrapper.SwigPyIterator_incr(self, n)
+        return _MpGWrapper.SwigPyIterator_incr(self, n)
 
     def decr(self, n=1):
-        return _FuelWrapper.SwigPyIterator_decr(self, n)
+        return _MpGWrapper.SwigPyIterator_decr(self, n)
 
     def distance(self, x):
-        return _FuelWrapper.SwigPyIterator_distance(self, x)
+        return _MpGWrapper.SwigPyIterator_distance(self, x)
 
     def equal(self, x):
-        return _FuelWrapper.SwigPyIterator_equal(self, x)
+        return _MpGWrapper.SwigPyIterator_equal(self, x)
 
     def copy(self):
-        return _FuelWrapper.SwigPyIterator_copy(self)
+        return _MpGWrapper.SwigPyIterator_copy(self)
 
     def next(self):
-        return _FuelWrapper.SwigPyIterator_next(self)
+        return _MpGWrapper.SwigPyIterator_next(self)
 
     def __next__(self):
-        return _FuelWrapper.SwigPyIterator___next__(self)
+        return _MpGWrapper.SwigPyIterator___next__(self)
 
     def previous(self):
-        return _FuelWrapper.SwigPyIterator_previous(self)
+        return _MpGWrapper.SwigPyIterator_previous(self)
 
     def advance(self, n):
-        return _FuelWrapper.SwigPyIterator_advance(self, n)
+        return _MpGWrapper.SwigPyIterator_advance(self, n)
 
     def __eq__(self, x):
-        return _FuelWrapper.SwigPyIterator___eq__(self, x)
+        return _MpGWrapper.SwigPyIterator___eq__(self, x)
 
     def __ne__(self, x):
-        return _FuelWrapper.SwigPyIterator___ne__(self, x)
+        return _MpGWrapper.SwigPyIterator___ne__(self, x)
 
     def __iadd__(self, n):
-        return _FuelWrapper.SwigPyIterator___iadd__(self, n)
+        return _MpGWrapper.SwigPyIterator___iadd__(self, n)
 
     def __isub__(self, n):
-        return _FuelWrapper.SwigPyIterator___isub__(self, n)
+        return _MpGWrapper.SwigPyIterator___isub__(self, n)
 
     def __add__(self, n):
-        return _FuelWrapper.SwigPyIterator___add__(self, n)
+        return _MpGWrapper.SwigPyIterator___add__(self, n)
 
     def __sub__(self, *args):
-        return _FuelWrapper.SwigPyIterator___sub__(self, *args)
+        return _MpGWrapper.SwigPyIterator___sub__(self, *args)
     def __iter__(self):
         return self
 
-# Register SwigPyIterator in _FuelWrapper:
-_FuelWrapper.SwigPyIterator_swigregister(SwigPyIterator)
+# Register SwigPyIterator in _MpGWrapper:
+_MpGWrapper.SwigPyIterator_swigregister(SwigPyIterator)
 import fastdds
-class _FuelSeq(fastdds.LoanableCollection):
+class _MpGSeq(fastdds.LoanableCollection):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    __swig_destroy__ = _FuelWrapper.delete__FuelSeq
+    __swig_destroy__ = _MpGWrapper.delete__MpGSeq
 
-# Register _FuelSeq in _FuelWrapper:
-_FuelWrapper._FuelSeq_swigregister(_FuelSeq)
-class FuelSeq(_FuelSeq):
+# Register _MpGSeq in _MpGWrapper:
+_MpGWrapper._MpGSeq_swigregister(_MpGSeq)
+class MpGSeq(_MpGSeq):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
-    __swig_destroy__ = _FuelWrapper.delete_FuelSeq
+    __swig_destroy__ = _MpGWrapper.delete_MpGSeq
 
     def __init__(self, *args):
-        _FuelWrapper.FuelSeq_swiginit(self, _FuelWrapper.new_FuelSeq(*args))
+        _MpGWrapper.MpGSeq_swiginit(self, _MpGWrapper.new_MpGSeq(*args))
 
     def __len__(self):
-        return _FuelWrapper.FuelSeq___len__(self)
+        return _MpGWrapper.MpGSeq___len__(self)
 
     def __getitem__(self, i):
-        return _FuelWrapper.FuelSeq___getitem__(self, i)
+        return _MpGWrapper.MpGSeq___getitem__(self, i)
 
-# Register FuelSeq in _FuelWrapper:
-_FuelWrapper.FuelSeq_swigregister(FuelSeq)
-class Fuel(object):
+# Register MpGSeq in _MpGWrapper:
+_MpGWrapper.MpGSeq_swigregister(MpGSeq)
+class MpG(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
-    __swig_destroy__ = _FuelWrapper.delete_Fuel
+    __swig_destroy__ = _MpGWrapper.delete_MpG
 
     def __init__(self, *args):
-        _FuelWrapper.Fuel_swiginit(self, _FuelWrapper.new_Fuel(*args))
+        _MpGWrapper.MpG_swiginit(self, _MpGWrapper.new_MpG(*args))
 
     def __eq__(self, x):
-        return _FuelWrapper.Fuel___eq__(self, x)
+        return _MpGWrapper.MpG___eq__(self, x)
 
     def __ne__(self, x):
-        return _FuelWrapper.Fuel___ne__(self, x)
+        return _MpGWrapper.MpG___ne__(self, x)
 
     def index(self, *args):
-        return _FuelWrapper.Fuel_index(self, *args)
+        return _MpGWrapper.MpG_index(self, *args)
 
-    def message(self, *args):
-        return _FuelWrapper.Fuel_message(self, *args)
+    def mpg(self, *args):
+        return _MpGWrapper.MpG_mpg(self, *args)
 
     @staticmethod
     def getMaxCdrSerializedSize(current_alignment=0):
-        return _FuelWrapper.Fuel_getMaxCdrSerializedSize(current_alignment)
+        return _MpGWrapper.MpG_getMaxCdrSerializedSize(current_alignment)
 
     @staticmethod
     def getCdrSerializedSize(data, current_alignment=0):
-        return _FuelWrapper.Fuel_getCdrSerializedSize(data, current_alignment)
+        return _MpGWrapper.MpG_getCdrSerializedSize(data, current_alignment)
 
     def serialize(self, cdr):
-        return _FuelWrapper.Fuel_serialize(self, cdr)
+        return _MpGWrapper.MpG_serialize(self, cdr)
 
     def deserialize(self, cdr):
-        return _FuelWrapper.Fuel_deserialize(self, cdr)
+        return _MpGWrapper.MpG_deserialize(self, cdr)
 
     @staticmethod
     def getKeyMaxCdrSerializedSize(current_alignment=0):
-        return _FuelWrapper.Fuel_getKeyMaxCdrSerializedSize(current_alignment)
+        return _MpGWrapper.MpG_getKeyMaxCdrSerializedSize(current_alignment)
 
     @staticmethod
     def isKeyDefined():
-        return _FuelWrapper.Fuel_isKeyDefined()
+        return _MpGWrapper.MpG_isKeyDefined()
 
     def serializeKey(self, cdr):
-        return _FuelWrapper.Fuel_serializeKey(self, cdr)
+        return _MpGWrapper.MpG_serializeKey(self, cdr)
 
-# Register Fuel in _FuelWrapper:
-_FuelWrapper.Fuel_swigregister(Fuel)
-GEN_API_VER = _FuelWrapper.GEN_API_VER
-class FuelPubSubType(fastdds.TopicDataType):
+# Register MpG in _MpGWrapper:
+_MpGWrapper.MpG_swigregister(MpG)
+GEN_API_VER = _MpGWrapper.GEN_API_VER
+class MpGPubSubType(fastdds.TopicDataType):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
-        _FuelWrapper.FuelPubSubType_swiginit(self, _FuelWrapper.new_FuelPubSubType())
-    __swig_destroy__ = _FuelWrapper.delete_FuelPubSubType
+        _MpGWrapper.MpGPubSubType_swiginit(self, _MpGWrapper.new_MpGPubSubType())
+    __swig_destroy__ = _MpGWrapper.delete_MpGPubSubType
 
     def serialize(self, data, payload):
-        return _FuelWrapper.FuelPubSubType_serialize(self, data, payload)
+        return _MpGWrapper.MpGPubSubType_serialize(self, data, payload)
 
     def deserialize(self, payload, data):
-        return _FuelWrapper.FuelPubSubType_deserialize(self, payload, data)
+        return _MpGWrapper.MpGPubSubType_deserialize(self, payload, data)
 
     def getSerializedSizeProvider(self, data):
-        return _FuelWrapper.FuelPubSubType_getSerializedSizeProvider(self, data)
+        return _MpGWrapper.MpGPubSubType_getSerializedSizeProvider(self, data)
 
     def getKey(self, data, ihandle, force_md5=False):
-        return _FuelWrapper.FuelPubSubType_getKey(self, data, ihandle, force_md5)
+        return _MpGWrapper.MpGPubSubType_getKey(self, data, ihandle, force_md5)
 
     def createData(self):
-        return _FuelWrapper.FuelPubSubType_createData(self)
+        return _MpGWrapper.MpGPubSubType_createData(self)
 
     def deleteData(self, data):
-        return _FuelWrapper.FuelPubSubType_deleteData(self, data)
+        return _MpGWrapper.MpGPubSubType_deleteData(self, data)
 
     def is_bounded(self):
-        return _FuelWrapper.FuelPubSubType_is_bounded(self)
+        return _MpGWrapper.MpGPubSubType_is_bounded(self)
 
     def is_plain(self):
-        return _FuelWrapper.FuelPubSubType_is_plain(self)
+        return _MpGWrapper.MpGPubSubType_is_plain(self)
 
     def construct_sample(self, memory):
-        return _FuelWrapper.FuelPubSubType_construct_sample(self, memory)
-    m_md5 = property(_FuelWrapper.FuelPubSubType_m_md5_get, _FuelWrapper.FuelPubSubType_m_md5_set)
-    m_keyBuffer = property(_FuelWrapper.FuelPubSubType_m_keyBuffer_get, _FuelWrapper.FuelPubSubType_m_keyBuffer_set)
+        return _MpGWrapper.MpGPubSubType_construct_sample(self, memory)
+    m_md5 = property(_MpGWrapper.MpGPubSubType_m_md5_get, _MpGWrapper.MpGPubSubType_m_md5_set)
+    m_keyBuffer = property(_MpGWrapper.MpGPubSubType_m_keyBuffer_get, _MpGWrapper.MpGPubSubType_m_keyBuffer_set)
 
-# Register FuelPubSubType in _FuelWrapper:
-_FuelWrapper.FuelPubSubType_swigregister(FuelPubSubType)
+# Register MpGPubSubType in _MpGWrapper:
+_MpGWrapper.MpGPubSubType_swigregister(MpGPubSubType)
 

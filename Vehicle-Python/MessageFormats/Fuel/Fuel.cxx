@@ -36,10 +36,12 @@ using namespace eprosima::fastcdr::exception;
 
 Fuel::Fuel()
 {
-    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5bc79255
+    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fac631b
     m_index = 0;
-    // m_message com.eprosima.idl.parser.typecode.StringTypeCode@47ef968d
-    m_message ="";
+    // m_litersRemaining com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b87ed94
+    m_litersRemaining = 0.0;
+    // m_litersSpent com.eprosima.idl.parser.typecode.PrimitiveTypeCode@6e0e048a
+    m_litersSpent = 0.0;
 
 }
 
@@ -47,20 +49,23 @@ Fuel::~Fuel()
 {
 
 
+
 }
 
 Fuel::Fuel(
         const Fuel& x)
 {
     m_index = x.m_index;
-    m_message = x.m_message;
+    m_litersRemaining = x.m_litersRemaining;
+    m_litersSpent = x.m_litersSpent;
 }
 
 Fuel::Fuel(
         Fuel&& x)
 {
     m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_litersRemaining = x.m_litersRemaining;
+    m_litersSpent = x.m_litersSpent;
 }
 
 Fuel& Fuel::operator =(
@@ -68,7 +73,8 @@ Fuel& Fuel::operator =(
 {
 
     m_index = x.m_index;
-    m_message = x.m_message;
+    m_litersRemaining = x.m_litersRemaining;
+    m_litersSpent = x.m_litersSpent;
 
     return *this;
 }
@@ -78,7 +84,8 @@ Fuel& Fuel::operator =(
 {
 
     m_index = x.m_index;
-    m_message = std::move(x.m_message);
+    m_litersRemaining = x.m_litersRemaining;
+    m_litersSpent = x.m_litersSpent;
 
     return *this;
 }
@@ -87,7 +94,7 @@ bool Fuel::operator ==(
         const Fuel& x) const
 {
 
-    return (m_index == x.m_index && m_message == x.m_message);
+    return (m_index == x.m_index && m_litersRemaining == x.m_litersRemaining && m_litersSpent == x.m_litersSpent);
 }
 
 bool Fuel::operator !=(
@@ -105,7 +112,11 @@ size_t Fuel::getMaxCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + 255 + 1;
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
 
 
     return current_alignment - initial_alignment;
@@ -122,7 +133,11 @@ size_t Fuel::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.message().size() + 1;
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
 
 
     return current_alignment - initial_alignment;
@@ -133,7 +148,8 @@ void Fuel::serialize(
 {
 
     scdr << m_index;
-    scdr << m_message;
+    scdr << m_litersRemaining;
+    scdr << m_litersSpent;
 
 }
 
@@ -142,7 +158,8 @@ void Fuel::deserialize(
 {
 
     dcdr >> m_index;
-    dcdr >> m_message;
+    dcdr >> m_litersRemaining;
+    dcdr >> m_litersSpent;
 }
 
 /*!
@@ -174,47 +191,67 @@ uint32_t& Fuel::index()
 }
 
 /*!
- * @brief This function copies the value in member message
- * @param _message New value to be copied in member message
+ * @brief This function sets a value in member litersRemaining
+ * @param _litersRemaining New value for member litersRemaining
  */
-void Fuel::message(
-        const std::string& _message)
+void Fuel::litersRemaining(
+        double _litersRemaining)
 {
-    m_message = _message;
+    m_litersRemaining = _litersRemaining;
 }
 
 /*!
- * @brief This function moves the value in member message
- * @param _message New value to be moved in member message
+ * @brief This function returns the value of member litersRemaining
+ * @return Value of member litersRemaining
  */
-void Fuel::message(
-        std::string&& _message)
+double Fuel::litersRemaining() const
 {
-    m_message = std::move(_message);
+    return m_litersRemaining;
 }
 
 /*!
- * @brief This function returns a constant reference to member message
- * @return Constant reference to member message
+ * @brief This function returns a reference to member litersRemaining
+ * @return Reference to member litersRemaining
  */
-const std::string& Fuel::message() const
+double& Fuel::litersRemaining()
 {
-    return m_message;
+    return m_litersRemaining;
 }
 
 /*!
- * @brief This function returns a reference to member message
- * @return Reference to member message
+ * @brief This function sets a value in member litersSpent
+ * @param _litersSpent New value for member litersSpent
  */
-std::string& Fuel::message()
+void Fuel::litersSpent(
+        double _litersSpent)
 {
-    return m_message;
+    m_litersSpent = _litersSpent;
 }
+
+/*!
+ * @brief This function returns the value of member litersSpent
+ * @return Value of member litersSpent
+ */
+double Fuel::litersSpent() const
+{
+    return m_litersSpent;
+}
+
+/*!
+ * @brief This function returns a reference to member litersSpent
+ * @return Reference to member litersSpent
+ */
+double& Fuel::litersSpent()
+{
+    return m_litersSpent;
+}
+
 
 size_t Fuel::getKeyMaxCdrSerializedSize(
         size_t current_alignment)
 {
     size_t current_align = current_alignment;
+
 
 
 
@@ -232,5 +269,5 @@ void Fuel::serializeKey(
         eprosima::fastcdr::Cdr& scdr) const
 {
     (void) scdr;
-      
+       
 }

@@ -15,23 +15,23 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
-# Library for types defined in LowFuel IDL
+# Library for types defined in MpG IDL
 ###############################################################################
 
-message(STATUS "Configuring python wrapper for types in LowFuel...")
+message(STATUS "Configuring python wrapper for types in MpG...")
 
 ###############################################################################
 # Type library on C++
 
-project(LowFuel)
+project(MpG)
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
-    LowFuel.cxx
-    LowFuelPubSubTypes.cxx
+    MpG.cxx
+    MpGPubSubTypes.cxx
     )
 
 include_directories()
@@ -60,7 +60,7 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
-    LowFuelWrapper
+    MpGWrapper
     )
 
 set(${PROJECT_NAME}_MODULE_FILES

@@ -1,5 +1,0 @@
-struct Miles
-{
-    unsigned long index;
-    string message;
-};
