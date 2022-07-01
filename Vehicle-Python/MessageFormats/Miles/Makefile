@@ -68,10 +68,10 @@ RM = /usr/bin/cmake3 -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/n13853/n13853/dev/sleipnir/Vehicle-Python/MessageFormats/Miles
+CMAKE_SOURCE_DIR = /home/n08066/git/sleipnir/Vehicle-Python/MessageFormats/Miles
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/n13853/n13853/dev/sleipnir/Vehicle-Python/MessageFormats/Miles
+CMAKE_BINARY_DIR = /home/n08066/git/sleipnir/Vehicle-Python/MessageFormats/Miles
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -146,9 +146,9 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/n13853/n13853/dev/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles /home/n13853/n13853/dev/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/n08066/git/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles /home/n08066/git/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/n13853/n13853/dev/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/n08066/git/sleipnir/Vehicle-Python/MessageFormats/Miles/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

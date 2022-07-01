@@ -15,13 +15,16 @@ from Calculators import *
 
 class FuelWriter(Entity.Writer):
     def __init__(self, ddsDataArray, CalculationClass):
+    #def __init__(self, ddsDataArray, FuelConsump):
 
         self.total_fuel = 100.0
         self.fuel_change_rate = 0
         super().__init__(ddsDataArray)
+        self.CalculationClass = CalculationClass
 
     def write(self):
         dataOutput = self.CalculationClass.consumeFuel(random.uniform(0.01, 0.2))
+        #dataOutput = self.FuelConsump.consumeFuel(random.uniform(0.01, 0.2))
         # UPDATING MESSAGE CONTENTS
         self.data.message(f"{dataOutput}")
         self.data.index(self.index)
@@ -44,12 +47,13 @@ class FuelWriter(Entity.Writer):
 
 
 class MilesWriter(Entity.Writer):
-    def __init__(self, ddsDataArray):
+    def __init__(self, ddsDataArray, CalculationClass):
         super().__init__(ddsDataArray)
+        self.CalculationClass = CalculationClass
 
     def write(self, stopMoving):
         # UPDATING MESSAGE CONTENTS
-        self.data.message(str(self.milesTraveled))
+        self.data.message(str(self.CalculationClass.milesTraveled))
         self.data.index(self.index)
         self.writer.write(self.data)
         print("{index}: {message}\n".format(index=self.data.index(), message=self.data.message()))
@@ -57,9 +61,9 @@ class MilesWriter(Entity.Writer):
 
         # WRITE STATE UPDATE
         if stopMoving.milesStopper:
-            self.milesTraveled += 0
+            self.CalculationClass.milesTraveled += 0
         else:
-            self.milesTraveled += random.uniform(1, 2)
+            self.CalculationClass.milesTraveled += random.uniform(1, 2)
 
     def run(self, stopMoving):
         self.wait_discovery()
