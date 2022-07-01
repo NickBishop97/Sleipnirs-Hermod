@@ -85,9 +85,9 @@ class MilesRemaining:
         self.milesRemaining = 0.0
 
     def getMilesRemaining(self):
-        if self.currentFuel == 0:
+        if self.currentFuel <= 0:
             self.milesRemaining = 0.0
-        elif self.mpg == -1.0:
+        elif self.mpg < 0:
             self.milesRemaining == -1.0 # display an error code, unable to determine miles remaining
         else:
             self.milesRemaining = self.mpg * self.currentFuel
