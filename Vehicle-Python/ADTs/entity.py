@@ -207,3 +207,4 @@ class Entity:
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
+    

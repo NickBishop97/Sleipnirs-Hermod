@@ -33,7 +33,7 @@ def runSensor():
 
     print('\nStarting publisher.')
     #FuelRemaining544645
-    fuelWriter = FuelWriter([Fuel, "Fuel", "FuelRemaining"], FuelConsump(100,100))  # noqa: F821
+    fuelWriter = FuelWriter([Fuel, "Fuel", "FuelRemaining544645"], FuelConsump(100,100))  # noqa: F821
     fuelWriter.run(test_flag.test_flag)
 
     # code is not unreachable, just a bug

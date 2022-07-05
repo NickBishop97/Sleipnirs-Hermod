@@ -117,7 +117,8 @@ class MpGWriter(Entity.Writer):
             self.data.index(self.index)
             self.data.mpg(temp)
             print(f"MpG: {self.index}, {temp} \n")
-        else:
+        
+        elif fuelDatum == 0:
             self.data.index(self.index)
             self.data.mpg(float(-1))
             print(f"MpG: {self.index}, {-1} \n")
@@ -129,5 +130,5 @@ class MpGWriter(Entity.Writer):
         #self.wait_discovery()
         while True:
             self.write(fuelQueue, milesQueue)
-            time.sleep(0.5)
+            time.sleep(0.3)
   
