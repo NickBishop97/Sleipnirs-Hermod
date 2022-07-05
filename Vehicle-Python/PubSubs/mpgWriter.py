@@ -2,6 +2,7 @@
 from threading import Thread
 import signal
 import time
+from time import sleep
 
 import sys
 
@@ -25,11 +26,17 @@ def controlSignal():
 
 def calc(fuelQueue, mileQueue):
     while True:
+        time.sleep(0.25)
+        CalculationClass = MPG(0,0,100)
         if not fuelQueue.empty():
-            print(f"Fuel Data: {fuelQueue.get()}")
+            #print(f"Fuel Data: {fuelQueue.get()}")
+            CalculationClass.setFuel(fuelQueue.get())
 
         if not mileQueue.empty():
-            print(f"Miles Data: {mileQueue.get()}\n")
+            #print(f"Miles Data: {mileQueue.get()}\n")
+            CalculationClass.setDist(mileQueue.get())
+
+        print(f"MPG: {CalculationClass.getMPG()}")
 
 
 def main():
