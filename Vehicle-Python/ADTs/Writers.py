@@ -19,14 +19,8 @@ class FuelWriter(Entity.Writer):
         super().__init__(ddsDataArray)
         self.CalculationClass = CalculationClass
 
-<<<<<<< HEAD
-    def write(self):
-        dataOutput = self.CalculationClass.consumeFuel(random.uniform(0.01, 0.2))
-        #dataOutput = self.FuelConsump.consumeFuel(random.uniform(0.01, 0.2))
-=======
     def write(self, test_flag):
         
->>>>>>> mpgWriter
         # UPDATING MESSAGE CONTENTS
         dataOutput = self.CalculationClass.consumeFuel(test_flag)
         self.data.litersRemaining(float(dataOutput[0]))
@@ -56,12 +50,8 @@ class MilesWriter(Entity.Writer):
 
     def write(self, startStopCondition):
         # UPDATING MESSAGE CONTENTS
-<<<<<<< HEAD
-        self.data.message(str(self.CalculationClass.milesTraveled))
-=======
         self.CalculationClass.addMiles(startStopCondition)
         self.data.milesTraveled(float(self.CalculationClass.milesTraveled))
->>>>>>> mpgWriter
         self.data.index(self.index)
         self.writer.write(self.data)
         

@@ -75,8 +75,7 @@ class LowFuel:
         if currentFuel < self.threshold:
             self.lowFuelAlertFlag = "Fuel Status: Low"
         else:
-<<<<<<< HEAD
-            self.milesTraveled += random.uniform(1, 2)
+            self.lowFuelAlertFlag = "Fuel Status: Good"
 
 
 class MPG:
@@ -131,7 +130,6 @@ class MilesRemaining:
         self.currentFuel = float(fuel)
 
     def setDist(self, dist):
-        self.distance = float(dist)    
-=======
-            self.lowFuelAlertFlag = "Fuel Status: Good"
->>>>>>> mpgWriter
+        self.distance = float(dist)
+        self.milesTraveled += random.uniform(1, 2)    
+            
