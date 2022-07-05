@@ -1,5 +1,0 @@
-struct LowFuel
-{
-    unsigned long index;
-    string message;
-};

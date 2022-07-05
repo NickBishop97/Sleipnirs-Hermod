@@ -26,7 +26,6 @@ import fastdds
 DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
 USAGE = ('python3 HelloWorldPublisher.py')
 
-
 class Entity:
 
     class ReaderListener(fastdds.DataReaderListener):
@@ -62,6 +61,7 @@ class Entity:
                 self.data = func()
             except AttributeError:
                 print(f"{self.MessageType_name}.{self.MessageType_name}() not found")
+                raise
 
             # use factory to make participant
             factory = fastdds.DomainParticipantFactory.get_instance()
@@ -77,6 +77,7 @@ class Entity:
                 print(f"Found: {self.MessageType_name}.{self.MessageType_name}PubSubType()")
             except AttributeError:
                 print(f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found")
+                raise
 
             self.topic_data_type.setName(f"{self.MessageType_name}")
             self.type_support = fastdds.TypeSupport(self.topic_data_type)
@@ -126,11 +127,13 @@ class Entity:
             super().__init__()
 
         def on_publication_matched(self, datawriter, info):
+            print("Sending...")
             if(0 < info.current_count_change):
                 print("Publisher matched subscriber {}".format(info.last_subscription_handle))
+                
                 self._writer._cvDiscovery.acquire()
-                self._writer._matched_reader += 1
                 self._writer._cvDiscovery.notify()
+                self._writer._matched_reader += 1
                 self._writer._cvDiscovery.release()
             else:
                 print("Publisher unmatched subscriber {}".format(info.last_subscription_handle))
@@ -138,7 +141,6 @@ class Entity:
                 self._writer._matched_reader -= 1
                 self._writer._cvDiscovery.notify()
                 self._writer._cvDiscovery.release()
-                exit()
 
     class Writer:
 
@@ -205,3 +207,4 @@ class Entity:
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
+    
