@@ -1,0 +1,5 @@
+struct MpG
+{
+    unsigned long index;
+    double mpg;
+};
