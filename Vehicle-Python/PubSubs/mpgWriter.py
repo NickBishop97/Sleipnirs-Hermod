@@ -2,7 +2,12 @@
 from threading import Thread
 import signal
 import time
+<<<<<<< HEAD
 from time import sleep
+=======
+import queue
+from queue import Queue
+>>>>>>> mpgWriter
 
 import sys
 
@@ -12,35 +17,18 @@ import Fuel as Fuel
 sys.path.insert(1, '../MessageFormats/Miles/')
 import Miles as Miles  
 
+sys.path.insert(2, '../MessageFormats/MpG/')
+import MpG as MpG  
+
 #ADT IMPORTS
-sys.path.insert(2, '../ADTs/')
+sys.path.insert(3, '../ADTs/')
 from Writers import *  
 from Readers import *
 from Calculators import *
 
 
-def controlSignal():
-    time.sleep(50)
-    return True
-
-
-def calc(fuelQueue, mileQueue):
-    while True:
-        time.sleep(0.25)
-        CalculationClass = MPG(0,0,100)
-        if not fuelQueue.empty():
-            #print(f"Fuel Data: {fuelQueue.get()}")
-            CalculationClass.setFuel(fuelQueue.get())
-
-        if not mileQueue.empty():
-            #print(f"Miles Data: {mileQueue.get()}\n")
-            CalculationClass.setDist(mileQueue.get())
-
-        print(f"MPG: {CalculationClass.getMPG()}")
-
-
 def main():
-    # writers = []
+    writers = []
     readers = []
     threads = []
     signal.signal(signal.SIGINT,
@@ -52,19 +40,24 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL]))  # noqa: F405
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
 
-    
+    writers.append(MpGWriter([MpG, "MpG", "MpGCumulative"]))
 
     # Add readers and start threads
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
-    threadCalc = Thread(target=(calc), args=(readers[0].dataQueue, readers[1].dataQueue), daemon=True)
+        
+    threadMpG = Thread(target=(writers[0].run), 
+                        args=(
+                            readers[0].dataQueue, 
+                            readers[1].dataQueue,), 
+                        daemon=True)
 
     for thread in threads:
         thread.start()
-    threadCalc.start()
+    threadMpG.start()
 
     signal.pause()
 
