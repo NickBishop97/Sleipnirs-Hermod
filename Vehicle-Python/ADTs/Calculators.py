@@ -78,23 +78,17 @@ class MPG:
     def setDist(self, dist):
         self.distance = float(dist)
 
-class MilesRemaining:
-    def __init__(self, fuel, mpg):
-        self.currentFuel = double(fuel)
-        self.mpg = double(mpg)
-        self.milesRemaining = 0.0
 
-    def getMilesRemaining(self):
-        if self.currentFuel <= 0:
-            self.milesRemaining = 0.0
-        elif self.mpg < 0:
-            self.milesRemaining == -1.0 # display an error code, unable to determine miles remaining
-        else:
-            self.milesRemaining = self.mpg * self.currentFuel
-        return self.milesRemaining
+class FuelGauge:
+    def __init__(self, fuel_remaining, max_capacity):
+        self.fuel_remaining = fuel_remaining
+        self.max_capacity = max_capacity
+    
+    def getRemainingFuel(self):
 
-    def setFuel(self, fuel):
-        self.currentFuel = float(fuel)
-
-    def setDist(self, dist):
-        self.distance = float(dist)
+        if self.max_capacity <= 0.0 or self.fuel_remaining <= 0.0:
+            return 0.0
+        elif self.fuel_remaining > self.max_capacity:
+            return 100.0
+        return (self.fuel_remaining/self.max_capacity) * 100
+        
