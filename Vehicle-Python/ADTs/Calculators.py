@@ -74,3 +74,18 @@ class MPG:
 
     def setDist(self, dist):
         self.distance = float(dist)
+
+
+class FuelGauge:
+    def __init__(self, fuel_remaining, max_capacity):
+        self.fuel_remaining = fuel_remaining
+        self.max_capacity = max_capacity
+    
+    def getRemainingFuel(self):
+
+        if self.max_capacity <= 0.0 or self.fuel_remaining <= 0.0:
+            return 0.0
+        elif self.fuel_remaining > self.max_capacity:
+            return 100.0
+        return (self.fuel_remaining/self.max_capacity) * 100
+        
