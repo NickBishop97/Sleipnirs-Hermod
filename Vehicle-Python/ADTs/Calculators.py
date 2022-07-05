@@ -79,7 +79,7 @@ class MPG:
         self.distance = float(dist)
 
 
-class FuelGauge:
+class Fuelgauge:
     def __init__(self, fuel_remaining, max_capacity):
         self.fuel_remaining = fuel_remaining
         self.max_capacity = max_capacity
