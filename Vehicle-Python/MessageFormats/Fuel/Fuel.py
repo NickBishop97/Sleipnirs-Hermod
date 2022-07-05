@@ -162,8 +162,11 @@ class Fuel(object):
     def index(self, *args):
         return _FuelWrapper.Fuel_index(self, *args)
 
-    def message(self, *args):
-        return _FuelWrapper.Fuel_message(self, *args)
+    def litersRemaining(self, *args):
+        return _FuelWrapper.Fuel_litersRemaining(self, *args)
+
+    def litersSpent(self, *args):
+        return _FuelWrapper.Fuel_litersSpent(self, *args)
 
     @staticmethod
     def getMaxCdrSerializedSize(current_alignment=0):

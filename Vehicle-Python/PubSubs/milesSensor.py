@@ -16,17 +16,26 @@ from Readers import *
 from Calculators import *
 
 
-def calc(fuelQueue, milesStopper):
+def fuelConnectionStatus(dataQueue, connected, startStopCondition):
     while True:
-        if not fuelQueue.empty():
-            print(f"Fuel Data: {fuelQueue.get()}")
-        if float(fuelQueue.get()) <= 0:
-            milesStopper.milesStopper = True
+        
+        #print(f"Connected? {str(connected.connected)}")
+        if not dataQueue.empty():
+            data = dataQueue.get()
+            print("[Miles Sensor - FUEL DATA REPORT]")
+            print(f"[FUEL DATA]: {data}")
+            startStopCondition.milesStarter = True
+        
+            if float(data[1]) <= 0:
+                startStopCondition.milesStopper = True
+                print("*****NO FUEL*****")
+                
+            print("\n")
+                    
 
-
-class MilesStopper:
+class StartStopCondition:
+    milesStarter = False
     milesStopper = False
-
 
 def main():
     writers = []
@@ -41,8 +50,15 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
+<<<<<<< HEAD
     milesStopper = MilesStopper()
     FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL])  # noqa: F405
+=======
+    startStopCondition = StartStopCondition()
+    
+    #MAKING THREADS TO RUN READER AND WRITER OBJECTS
+    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
+>>>>>>> mpgWriter
     DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
     readers.append(FuelReader)
@@ -50,11 +66,14 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    DistThread = Thread(target=(DistWriter.run), args=(milesStopper,), daemon=True)
-    CalcThread = Thread(target=(calc),
+    DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
+    
+    #REAL TIME READ FLAG DATA FROM FUEL IS HERE
+    CalcThread = Thread(target=(fuelConnectionStatus),
                         args=(
                             readers[0].dataQueue,
-                            milesStopper,),
+                            readers[0].connected,
+                            startStopCondition,),
                         daemon=True)
 
     threads.append(FuelThread)
