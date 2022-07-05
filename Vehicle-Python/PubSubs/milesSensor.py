@@ -31,8 +31,7 @@ def fuelConnectionStatus(dataQueue, connected, startStopCondition):
                 print("*****NO FUEL*****")
                 
             print("\n")
-            
-            
+                    
 
 class StartStopCondition:
     milesStarter = False
@@ -63,8 +62,6 @@ def main():
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
     DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
-    
-    
     
     #REAL TIME READ FLAG DATA FROM FUEL IS HERE
     CalcThread = Thread(target=(fuelConnectionStatus),

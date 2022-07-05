@@ -10,11 +10,11 @@ import sys
 # IDL DATA IMPORTS
 sys.path.insert(0, '../MessageFormats/Fuel/')
 import Fuel as Fuel
-sys.path.insert(1, '../MessageFormats/Miles/')
-import Miles as Miles  
-
-sys.path.insert(2, '../MessageFormats/MpG/')
+sys.path.insert(1, '../MessageFormats/MpG/')
 import MpG as MpG  
+
+sys.path.insert(2, '../MessageFormats/MilesToRefuel/')
+import MilesToRefuel as MilesToRefuel  
 
 #ADT IMPORTS
 sys.path.insert(3, '../ADTs/')
@@ -37,9 +37,9 @@ def main():
     print("Press Ctrl+C to stop")
 
     readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
+    readers.append(MpGReader([MpG, "MpG", "MpGTopic", MpGRL]))  # noqa: F405
 
-    writers.append(MpGWriter([MpG, "MpG", "MpGCumulative"]))
+    writers.append(MilesRemaining([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic"]))
 
     # Add readers and start threads
     for reader in readers:

@@ -21,7 +21,7 @@ from Calculators import *
 def calcLowFuel(fuelQueue, lowFuelWriter):
     while True:
         if not fuelQueue.empty():
-            lowFuel = LowFuel(50)
+            lowFuel = LowFuel(50) #this is the actual calculator
             alert = lowFuel.lowFuelAlert(fuelQueue.get())
             lowFuelWriter.run(alert)
 
