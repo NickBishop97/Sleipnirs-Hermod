@@ -12,3 +12,5 @@
 CMakeFiles/
 CMakeCache.txt
 */*/Makefile
+Vehicle-Python/MessageFormats/*/*.so
+Vehicle-Python/MessageFormats/*/Makefile
