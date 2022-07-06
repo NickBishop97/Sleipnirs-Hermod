@@ -30,30 +30,23 @@ def signal_handler(sig, frame):
 
 class ReaderListener(fastdds.DataReaderListener):
 
-    
-
     def __init__(self):
         super().__init__()
 
-
     def on_subscription_matched(self, datareader, info) :
         if (0 < info.current_count_change) :
-            settings.x.clear()
             print ("Subscriber matched publisher {}".format(info.last_publication_handle))
         else :
             print ("Subscriber unmatched publisher {}".format(info.last_publication_handle))
             
-
-
     def on_data_available(self, reader):
         info = fastdds.SampleInfo()
-        data = HelloWorld.HelloWorld()
+        data = HelloWorld.HelloWorld() #HelloWorld is the Python module that works with the HelloWorld IDL file
         reader.take_next_sample(data, info)
         print("Received {message} : {index}".format(message=data.message(), index=data.index()))
-        settings.x.append(data.index())  # used for testing purpouses 
+
 
 class Reader:
-
 
     def __init__(self):
         factory = fastdds.DomainParticipantFactory.get_instance()

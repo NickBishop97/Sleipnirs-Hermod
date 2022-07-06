@@ -11,32 +11,30 @@ from Calculators import *
 ############################################################################################
 ############################################################################################
 ############################################################################################
-
-
 class FuelWriter(Entity.Writer):
     def __init__(self, ddsDataArray, CalculationClass):
     #def __init__(self, ddsDataArray, FuelConsump):
 
-        self.total_fuel = 100.0
-        self.fuel_change_rate = 0
+        self.CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
         self.CalculationClass = CalculationClass
 
-    def write(self):
-        dataOutput = self.CalculationClass.consumeFuel(random.uniform(0.01, 0.2))
-        #dataOutput = self.FuelConsump.consumeFuel(random.uniform(0.01, 0.2))
+    def write(self, test_flag):
+        
         # UPDATING MESSAGE CONTENTS
-        self.data.message(f"{dataOutput}")
+        dataOutput = self.CalculationClass.consumeFuel(test_flag)
+        self.data.litersRemaining(float(dataOutput[0]))
+        self.data.litersSpent(float(dataOutput[1]))
         self.data.index(self.index)
 
         self.writer.write(self.data)
-        print("{index}, {message}\n".format(message=self.data.message(), index=self.data.index()))
+        print(f"{self.index}, {dataOutput[0]}, {dataOutput[1]} \n")
         self.index = self.index + 1
 
-    def run(self):
-        self.wait_discovery()
+    def run(self, test_flag) -> None: 
+        #self.wait_discovery()
         while True:
-            self.write()
+            self.write(test_flag)
             time.sleep(0.25)
 
 ############################################################################################
@@ -44,31 +42,26 @@ class FuelWriter(Entity.Writer):
 ############################################################################################
 ############################################################################################
 ############################################################################################
-
-
 class MilesWriter(Entity.Writer):
     def __init__(self, ddsDataArray, CalculationClass):
+        self.CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
         self.CalculationClass = CalculationClass
 
-    def write(self, stopMoving):
+    def write(self, startStopCondition):
         # UPDATING MESSAGE CONTENTS
-        self.data.message(str(self.CalculationClass.milesTraveled))
+        self.CalculationClass.addMiles(startStopCondition)
+        self.data.milesTraveled(float(self.CalculationClass.milesTraveled))
         self.data.index(self.index)
         self.writer.write(self.data)
-        print("{index}: {message}\n".format(index=self.data.index(), message=self.data.message()))
+        
+        print(f"MILES TRAVELED: {self.data.index()}, {self.data.milesTraveled()}\n")
         self.index += 1
 
-        # WRITE STATE UPDATE
-        if stopMoving.milesStopper:
-            self.CalculationClass.milesTraveled += 0
-        else:
-            self.CalculationClass.milesTraveled += random.uniform(1, 2)
-
-    def run(self, stopMoving):
-        self.wait_discovery()
+    def run(self, startStopCondition):
+        #self.wait_discovery()
         while True:
-            self.write(stopMoving)
+            self.write(startStopCondition)
             time.sleep(0.25)    # Report every 0.25 s
             # 25 MPH = 0.001 miles in 0.25 s
             # 85 MPH = 0.006 miles in 0.25 s
@@ -90,11 +83,55 @@ class LowFuelWriter(Entity.Writer):
         self.data.index(self.index)
 
         self.writer.write(self.data)
-        print("{index}, {message}\n".format(message=self.data.message(), index=self.data.index()))
+        #print("{index}, {message}\n".format(message=self.data.message(), index=self.data.index()))
         self.index = self.index + 1
 
     def run(self, alertStatus):
-        self.wait_discovery()
+        #self.wait_discovery()
         while True:
             self.write(alertStatus)
             time.sleep(0.25)
+            
+############################################################################################
+############################################################################################
+############################################################################################
+############################################################################################
+############################################################################################
+
+class MpGWriter(Entity.Writer):
+    def __init__(self, ddsDataArray): #, CalculationClass):
+
+        #self.CalculationClass = CalculationClass
+        super().__init__(ddsDataArray)
+
+    def write(self, fuelQueue, milesQueue):
+        fuelDatum = 0
+        milesDatum = 0
+
+        if not fuelQueue.empty():
+            fuelDatum  = fuelQueue.get()[2]
+            
+        if not milesQueue.empty():
+            milesDatum  = milesQueue.get()
+        
+        if not fuelDatum == 0:
+            temp = float(milesDatum)/float(fuelDatum)
+            
+            self.data.index(self.index)
+            self.data.mpg(temp)
+            print(f"MpG: {self.index}, {temp} \n")
+        
+        elif fuelDatum == 0:
+            self.data.index(self.index)
+            self.data.mpg(float(-1))
+            print(f"MpG: {self.index}, {-1} \n")
+
+        self.index = self.index + 1
+            
+            
+    def run(self, fuelQueue, milesQueue):
+        #self.wait_discovery()
+        while True:
+            self.write(fuelQueue, milesQueue)
+            time.sleep(0.3)
+  
