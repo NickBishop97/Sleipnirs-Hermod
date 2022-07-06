@@ -1,5 +1,7 @@
 *.pyc
 *.o
+*.a
+*.so
 *.swp
 *.html
 *.xml
