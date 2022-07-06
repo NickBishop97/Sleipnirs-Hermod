@@ -1,0 +1,5 @@
+struct Move
+{
+    unsigned long ismoving;
+    unsigned long index;
+};

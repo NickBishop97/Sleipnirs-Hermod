@@ -66,7 +66,7 @@ private:
                 if (info.valid_data)
                 {
                     samples_++;
-                    std::cout << fuel_.message() << fuel_.index()
+                    std::cout << "Fuel Remaining: " << fuel_.index()
                                 << std::endl;
                 }
             }

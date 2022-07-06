@@ -10,16 +10,29 @@ class FuelSenor
 {
 
 private:
-    std::vector<double> MPG;
-    double avgMPG;
+    unsigned long index = 0;
     double FuelSpent = 0.0;
     double FuelRemaining = 0.0;
 
 public:
     double fuelspent(double fuelR);
     double get_FuelRemaining();
+    unsigned long get_index();
     void set_FuelRemaining(double fuelR);
+    void set_index(unsigned long i);
 };
+
+class Moving
+{
+    private:
+        unsigned long index;
+    public:
+        unsigned long get_index();
+        void set_index(unsigned long i);
+};
+
+//std::vector<double> MPG;
+//double avgMPG;
 
 //double get_avgMPG();
 //double set_avgMPG(double MPG);
