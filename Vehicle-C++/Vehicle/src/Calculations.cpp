@@ -1,6 +1,62 @@
 #include "Calculations.h"
 
 
+double FuelSenor::fuelspent(double fuelR)
+{
+    static double oldFuel;
+    if(fuelR == 0)
+    {
+        FuelRemaining = fuelR;
+        oldFuel = fuelR;
+        FuelSpent = 0;
+    }
+    else if(oldFuel == 0)
+    {
+        oldFuel = fuelR;
+    }
+    else
+    {
+        FuelSpent = oldFuel - fuelR;
+        oldFuel = fuelR;
+    }
+    return FuelSpent;
+}
+
+void FuelSenor::set_FuelRemaining(double fuelR)
+{
+    FuelRemaining = fuelR;
+}
+
+double FuelSenor::get_FuelRemaining()
+{
+    return FuelRemaining;
+}
+
+unsigned long FuelSenor::get_index()
+{
+    return index;
+}
+
+void FuelSenor::set_index(unsigned long i)
+{
+    index = i;
+}
+
+/**
+ * @brief Gets the index of the car if it is moving or not
+ * 
+ * @return unsigned long 
+ */
+unsigned long Moving::get_index()
+{
+    return index;
+}
+
+void Moving::set_index(unsigned long i)
+{
+    index = i;
+}
+
 //double Calculations::mpg(double milesT, double fuelS)
 //{
 //    double temp;
@@ -29,27 +85,6 @@
 //    MPG.push_back(temp);
 //    return temp;
 //}
-
-double FuelSenor::fuelspent(double fuelR)
-{
-    static double oldFuel;
-    if(fuelR == 0)
-    {
-        FuelRemaining = fuelR;
-        oldFuel = fuelR;
-        FuelSpent = 0;
-    }
-    else if(oldFuel == 0)
-    {
-        oldFuel = fuelR;
-    }
-    else
-    {
-        FuelSpent = oldFuel - fuelR;
-        oldFuel = fuelR;
-    }
-    return FuelSpent;
-}
 
 //double Calculations::FuelRemainPercent(double fuelR)
 //{
@@ -85,13 +120,3 @@ double FuelSenor::fuelspent(double fuelR)
 //{
 //    return Calculations::avgMPG = (Calculations::avgMPG + MPG)/2 ; 
 //}
-
-void FuelSenor::set_FuelRemaining(double fuelR)
-{
-    FuelRemaining = fuelR;
-}
-
-double FuelSenor::get_FuelRemaining()
-{
-    return FuelRemaining;
-}

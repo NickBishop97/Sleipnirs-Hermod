@@ -32,3 +32,9 @@ add_executable(DDSFuelSensor Fuel/FuelSensor.cpp ${DDS_FUEL_SOURCES_CXX})
 target_link_libraries(DDSFuelSensor fastrtps fastcdr)
 add_executable(DDSFuelGauge Fuel/FuelGauge.cpp ${DDS_FUEL_SOURCES_CXX})
 target_link_libraries(DDSFuelGauge fastrtps fastcdr)
+
+message(STATUS "Configuring Moving publisher/subscriber...")
+file(GLOB DDS_MOVE_SOURCES_CXX "Moving/*.cxx")
+add_executable(DDSMoving Moving/Moving.cpp ${DDS_MOVE_SOURCES_CXX})
+target_link_libraries(DDSMoving fastrtps fastcdr)
+
