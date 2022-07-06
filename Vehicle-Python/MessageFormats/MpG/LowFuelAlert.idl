@@ -1,5 +1,0 @@
-struct LowFuelAlert
-{
-    unsigned long index;
-    long isFuelLow;
-};
