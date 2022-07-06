@@ -12,3 +12,5 @@
 CMakeFiles/
 CMakeCache.txt
 */*/Makefile
+Vehicle-Python/MessageFormats/Fuel/Makefile
+Vehicle-Python/MessageFormats/Fuel/*.so
