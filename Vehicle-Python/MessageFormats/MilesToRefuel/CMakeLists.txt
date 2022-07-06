@@ -15,39 +15,23 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
-<<<<<<< HEAD
-# Library for types defined in Miles IDL
-###############################################################################
-
-message(STATUS "Configuring python wrapper for types in Miles...")
-=======
 # Library for types defined in MilesToRefuel IDL
 ###############################################################################
 
 message(STATUS "Configuring python wrapper for types in MilesToRefuel...")
->>>>>>> mpgWriter
 
 ###############################################################################
 # Type library on C++
 
-<<<<<<< HEAD
-project(Miles)
-=======
 project(MilesToRefuel)
->>>>>>> mpgWriter
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
-<<<<<<< HEAD
-    Miles.cxx
-    MilesPubSubTypes.cxx
-=======
     MilesToRefuel.cxx
     MilesToRefuelPubSubTypes.cxx
->>>>>>> mpgWriter
     )
 
 include_directories()
@@ -76,11 +60,7 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
-<<<<<<< HEAD
-    MilesWrapper
-=======
     MilesToRefuelWrapper
->>>>>>> mpgWriter
     )
 
 set(${PROJECT_NAME}_MODULE_FILES
