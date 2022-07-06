@@ -42,13 +42,7 @@ class FuelConsump:
         else:
             self.currentFuelGallons = 0
         return (self.currentFuelGallons, self.capacityGallons - self.currentFuelGallons)
-        
-        
-        
-        
-        
-        
-    
+
     #KILL SENSOR WHEN CONDITION IS MET, THIS IS A BASIC SIGNAL
     def controlSignal(self):
         time.sleep(50)
@@ -66,16 +60,16 @@ class DistTrav:
         if not startStopCondition.milesStopper and startStopCondition.milesStarter:
             self.milesTraveled += random.uniform(1,2)
             
-class LowFuel:
-    def __init__(self, threshold):
-        self.threshold = threshold
-        self.lowFuelAlertFlag = "Fuel Status: Good"
-    
-    def lowFuelAlert(self, currentFuel):
-        if currentFuel < self.threshold:
-            self.lowFuelAlertFlag = "Fuel Status: Low"
-        else:
-            self.lowFuelAlertFlag = "Fuel Status: Good"
+# class LowFuel:
+#     def __init__(self, threshold):
+#         self.threshold = threshold
+#         self.lowFuelAlertFlag = "Fuel Status: Good"
+#     
+#     def lowFuelAlert(self, currentFuel):
+#         if currentFuel < self.threshold:
+#             self.lowFuelAlertFlag = "Fuel Status: Low"
+#         else:
+#             self.lowFuelAlertFlag = "Fuel Status: Good"
 
 
 class MPG:
