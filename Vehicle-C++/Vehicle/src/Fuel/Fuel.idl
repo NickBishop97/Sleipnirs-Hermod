@@ -1,5 +1,5 @@
-struct Fuel
-{
-    double index;
-    string message;
+struct Fuel{
+    unsigned long index;
+    double litersRemaining;
+    double litersSpent;
 };
