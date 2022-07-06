@@ -52,13 +52,57 @@ class DistTrav:
         if not startStopCondition.milesStopper and startStopCondition.milesStarter:
             self.milesTraveled += random.uniform(1,2)
             
-class LowFuel:
+class LowFuelCalc:
     def __init__(self, threshold):
         self.threshold = threshold
-        self.lowFuelAlertFlag = "Fuel Status: Good"
+        self.lowFuelAlertFlag = 0
     
     def lowFuelAlert(self, currentFuel):
         if currentFuel < self.threshold:
-            self.lowFuelAlertFlag = "Fuel Status: Low"
+            self.lowFuelAlertFlag = 1
+            return self.lowFuelAlertFlag
         else:
-            self.lowFuelAlertFlag = "Fuel Status: Good"
+            self.lowFuelAlertFlag = 0
+            return self.lowFuelAlertFlag
+
+class MpGCalc:
+    def __init__(self):
+        self.mpg = 0
+    
+    def calculateMpG(self, fuelQueue, milesQueue):
+        fuelDatum = 0
+        milesDatum = 0
+
+        if not fuelQueue.empty():
+            fuelDatum  = fuelQueue.get()[2]
+            
+        if not milesQueue.empty():
+            milesDatum  = milesQueue.get()[1]
+        
+        if not fuelDatum == 0:
+            self.mpg = float(milesDatum)/float(fuelDatum)
+        
+        elif fuelDatum == 0:
+            self.mpg = float(-1)
+            
+            
+        return self.mpg
+    
+    
+class MileRemainCalc:
+    def __init__(self):
+        self.mileRemain = 0
+    
+    def calculateMpG(self, fuelQueue, mpgQueue):
+        fuelDatum = 0
+        mpgDatum = 0
+
+        if not fuelQueue.empty():
+            fuelDatum = fuelQueue.get()[1]
+            
+        if not mpgQueue.empty():
+            mpgDatum = mpgQueue.get()[1]
+        
+        self.mileRemain = float(mpgDatum) * float(fuelDatum)
+        
+        return self.mileRemain

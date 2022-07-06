@@ -37,7 +37,7 @@ def main():
     print("Press Ctrl+C to stop")
 
     readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
-    readers.append(MpGReader([MpG, "MpG", "MpGTopic", MpGRL]))  # noqa: F405
+    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa: F405
 
     writers.append(MilesRemaining([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic"]))
 
