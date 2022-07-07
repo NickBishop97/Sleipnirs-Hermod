@@ -1,5 +1,4 @@
-struct Miles
-{
+struct Miles{
     unsigned long index;
     double milesTraveled;
 };

@@ -144,23 +144,24 @@ public:
     bool publish(FuelSenor *calc_)
     {
         double loss;
-        if (listener_.matched_ > 0)
+        loss = ((0.1)*rand()/RAND_MAX + 0.01);
+        if(calc_->get_check() == 1)
         {
-            loss = ((0.1)*rand()/RAND_MAX + 0.01);
-            if((fuel_.litersRemaining() - loss) < 0)
-            {
-                fuel_.litersRemaining(0);
-                writer_->write(&fuel_);
-                calc_->set_index(fuel_.index() + 1);
-                return true;
-            }
-            else
-            {
-                fuel_.litersRemaining(fuel_.litersRemaining() - loss);
-                writer_->write(&fuel_);
-                calc_->set_index(fuel_.index() + 1);
-                return true;
-            }
+            writer_->write(&fuel_);
+            calc_->set_check(0);
+            return true;
+        }
+        else if((fuel_.litersRemaining() - loss) < 0)
+        {
+            fuel_.litersRemaining(0);
+            writer_->write(&fuel_);
+            return true;
+        }
+        else
+        {
+            fuel_.litersRemaining(fuel_.litersRemaining() - loss);
+            writer_->write(&fuel_);
+            return true;
         }
         return false;
     }
@@ -173,8 +174,10 @@ public:
             if (publish(calc_))
             {
                 calc_->set_FuelRemaining(fuel_.litersRemaining());
-                std::cout << "Litters Remaining: " << fuel_.litersRemaining()
+                std::cout << "Index: " << fuel_.index() << " Litters Remaining: " << fuel_.litersRemaining()
                             <<  std::endl;
+                fuel_.index() = fuel_.index() + 1;
+                calc_->set_index(fuel_.index());
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
@@ -193,6 +196,7 @@ public:
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 fuel_.litersRemaining() = gain;
                 calc_->set_FuelRemaining(gain);
+                calc_->set_check(1);
                 std::cout << "Tank filled with " << fuel_.litersRemaining() << "L" << std::endl;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -332,7 +336,7 @@ public:
         double fuelR, fuelS;
         //if (listener_.matched_ > 0)
         //{
-        if(calc_->get_index() >= fuel_.index())
+        if(calc_->get_index() > fuel_.index())
         {
             fuelR = calc_->get_FuelRemaining();
             fuelS = calc_->fuelspent(fuelR);
@@ -343,8 +347,8 @@ public:
         }
         else
         {
-            fuel_.litersSpent(0);
-            return true;
+            //fuel_.litersSpent(0);
+            return false;
         }
         //}
         //return false;
@@ -357,10 +361,11 @@ public:
         {
             if (publish(calc_))
             {
-                std::cout << "Litters Spent: " << fuel_.litersSpent()
+                std::cout << "Index: " << fuel_.index() << " Litters Spent: " << fuel_.litersSpent()
                             <<  std::endl;
+                            std::this_thread::sleep_for(std::chrono::milliseconds(248));
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            //std::this_thread::sleep_for(std::chrono::milliseconds(248));
         }
     }
 };
