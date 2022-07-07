@@ -5,6 +5,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
 endif()
 
 project(DDSVehicle)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DDSVehicle_SOURCE_DIR}/Build)
 
 # Find requirements
 if(NOT fastcdr_FOUND)
@@ -27,14 +28,19 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG OR
     endif()
 endif()
 message(STATUS "Configuring Fuel publisher/subscriber...")
-file(GLOB DDS_FUEL_SOURCES_CXX "Fuel/*.cxx")
-add_executable(DDSFuelSensor Fuel/FuelSensor.cpp ${DDS_FUEL_SOURCES_CXX})
+file(GLOB DDS_FUEL_SOURCES_CXX "src/Fuel/*.cxx")
+add_executable(DDSFuelSensor src/Fuel/FuelSensor.cpp ${DDS_FUEL_SOURCES_CXX})
 target_link_libraries(DDSFuelSensor fastrtps fastcdr)
-add_executable(DDSFuelGauge Fuel/FuelGauge.cpp ${DDS_FUEL_SOURCES_CXX})
+add_executable(DDSFuelGauge src/Fuel/FuelGauge.cpp ${DDS_FUEL_SOURCES_CXX})
 target_link_libraries(DDSFuelGauge fastrtps fastcdr)
 
 message(STATUS "Configuring Moving publisher/subscriber...")
-file(GLOB DDS_MOVE_SOURCES_CXX "Moving/*.cxx")
-add_executable(DDSMoving Moving/Moving.cpp ${DDS_MOVE_SOURCES_CXX})
+file(GLOB DDS_MOVE_SOURCES_CXX "src/Moving/*.cxx")
+add_executable(DDSMoving src/Moving/Moving.cpp ${DDS_MOVE_SOURCES_CXX})
 target_link_libraries(DDSMoving fastrtps fastcdr)
+
+message(STATUS "Configuring Miles publisher/subscriber...")
+file(GLOB DDS_MILES_SOURCES_CXX "src/Miles/*.cxx")
+add_executable(DDSMilesTraveled src/Miles/MilesTraveled.cpp ${DDS_MILES_SOURCES_CXX})
+target_link_libraries(DDSMilesTraveled fastrtps fastcdr)
 

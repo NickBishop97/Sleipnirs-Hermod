@@ -14,3 +14,5 @@ CMakeCache.txt
 */*/Makefile
 Vehicle-Python/MessageFormats/*/*.so
 Vehicle-Python/MessageFormats/*/Makefile
+Vehicle-C++/Vehicle/*/Makefile
+Vehicle-C++/Vehicle/Build

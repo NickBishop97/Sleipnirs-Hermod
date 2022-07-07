@@ -1,6 +1,0 @@
-struct Fuel
-{
-    unsigned long index;
-    double litersRemaining;
-    double litersSpent;
-};

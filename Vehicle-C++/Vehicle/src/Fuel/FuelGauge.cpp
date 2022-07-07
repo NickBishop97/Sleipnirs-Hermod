@@ -66,8 +66,6 @@ private:
                 if (info.valid_data)
                 {
                     samples_++;
-                    std::cout << "Fuel Remaining: " << fuel_.index()
-                                << std::endl;
                 }
             }
         }
@@ -153,7 +151,9 @@ public:
     {
         while(1)
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::cout << "Fuel Remaining: " << listener_.fuel_.litersRemaining()
+                                << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
     }
 };

@@ -1,6 +1,11 @@
 #include "Calculations.h"
 
-
+/**
+ * @brief Calculates the full spent when given the current fuel Remaning, needs to be run twice to get the first fuel spent reading(only applies during first run)
+ * 
+ * @param fuelR 
+ * @return double 
+ */
 double FuelSenor::fuelspent(double fuelR)
 {
     static double oldFuel;
@@ -22,28 +27,68 @@ double FuelSenor::fuelspent(double fuelR)
     return FuelSpent;
 }
 
+/**
+ * @brief Sets the Fuel Remainging in the tank
+ * 
+ * @param fuelR 
+ */
 void FuelSenor::set_FuelRemaining(double fuelR)
 {
     FuelRemaining = fuelR;
 }
 
+/**
+ * @brief Gets the Fuel Remainging in the tank
+ * 
+ * @return double 
+ */
 double FuelSenor::get_FuelRemaining()
 {
     return FuelRemaining;
 }
 
+/**
+ * @brief Gets the current index count of the Fuel remaining sensor
+ * 
+ * @return unsigned long 
+ */
 unsigned long FuelSenor::get_index()
 {
     return index;
 }
 
+/**
+ * @brief Gets the current Check tank status, if its 1 it will indicate the tank has been refilled recently
+ * 
+ * @return unsigned long 
+ */
+unsigned long FuelSenor::get_check()
+{
+    return check;
+}
+
+/**
+ * @brief Sets the current index count of the Fuel remaining sensor
+ * 
+ * @param i 
+ */
 void FuelSenor::set_index(unsigned long i)
 {
     index = i;
 }
 
 /**
- * @brief Gets the index of the car if it is moving or not
+ * @brief Sets the current Check tank status, if its 1 it will indicate the tank has been refilled recently
+ * 
+ * @param c 
+ */
+void FuelSenor::set_check(unsigned long c)
+{
+    check = c;
+}
+
+/**
+ * @brief Gets the if the car if it is moving or not, 1 equals moving
  * 
  * @return unsigned long 
  */
@@ -52,7 +97,32 @@ unsigned long Moving::get_index()
     return index;
 }
 
+/**
+ * @brief Sets the if the car if it is moving or not, 1 equals moving
+ * 
+ * @param i 
+ */
 void Moving::set_index(unsigned long i)
+{
+    index = i;
+}
+
+/**
+ * @brief Returns 1 or 0 if car is moving or not
+ * 
+ * @return unsigned long 
+ */
+unsigned long MilesTraveled::get_index()
+{
+    return index;
+}
+
+/**
+ * @brief Sets index to 1 or 0 if car is moving or not
+ * 
+ * @param i 
+ */
+void MilesTraveled::set_index(unsigned long i)
 {
     index = i;
 }
