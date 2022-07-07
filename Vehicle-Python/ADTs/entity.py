@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-HelloWorld Publisher
+entity.py
 """
 from threading import Thread
 # from email.message import Message
@@ -23,8 +23,8 @@ from threading import Condition
 
 import fastdds
 
-DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
-USAGE = ('python3 HelloWorldPublisher.py')
+DESCRIPTION = """Writer and Reader ADTs for use"""
+USAGE = """TO BE INHERITED BY A USER DEFINED CLASS"""
 
 class Entity:
 
@@ -39,6 +39,7 @@ class Entity:
                 print("Subscriber matched publisher {}".format(info.last_publication_handle))
             else:
                 print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+                exit()
             
         def on_data_available(self, reader):
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
@@ -144,6 +145,7 @@ class Entity:
                 self._writer._matched_reader -= 1
                 self._writer._cvDiscovery.notify()
                 self._writer._cvDiscovery.release()
+                #exit() #kills flask
 
     class Writer:
 

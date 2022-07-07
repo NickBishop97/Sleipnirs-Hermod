@@ -21,6 +21,14 @@ from Writers import *
 from Readers import *
 from Calculators import *
 
+#####################################################
+#####################################################
+#####################################################
+
+#####################################################
+#####################################################
+#####################################################
+
 def printer(queueList):
     while True:
         #if not queueList[0].empty():
@@ -30,9 +38,7 @@ def printer(queueList):
         print(f"LOWFUEL     :{queueList[3].get()}")
         print(f"MILESREMAIN :{queueList[4].get()}")
         print("\n\n")
-        time.sleep(0.3)
-
-        
+        time.sleep(0.3)  
 
 def main():
     readers = []
@@ -45,27 +51,85 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
-    
-    #MAKING THREADS TO RUN READER AND WRITER OBJECTS
+
     readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))
     readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
     readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
     readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
-
-    # Add readers and start threads
+    
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
-        
-    printerThread = Thread(target=(printer),
-                           args=([reader.dataQueue for reader in readers],), 
-                           daemon=True)
+    threads.append(Thread(target=(printer),
+                          args=([reader.dataQueue for reader in readers],), 
+                          daemon=True))
     
     for thread in threads:
         thread.start()
-    printerThread.start()
     
     signal.pause()
 
 
-main()
+#main()
+
+
+import json
+import random
+import time
+from datetime import datetime
+
+from flask import Flask, Response, render_template, stream_with_context
+
+application = Flask(__name__)
+random.seed()  # Initialize the random number generator
+
+
+@application.route('/')
+def index():
+    return render_template('index.html')
+
+
+@application.route('/chart-data')
+def chart_data():
+    def generate_random_data():
+
+        while True:
+            json_data = json.dumps(
+                {
+                'index': readers[2].dataQueue.get()[0], 
+                'mpg': readers[2].dataQueue.get()[1],
+                 })
+            yield f"data:{json_data}\n\n"
+            time.sleep(0.25)
+
+    response = Response(stream_with_context(generate_random_data()), mimetype="text/event-stream")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+    return response
+
+
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT,
+                  lambda sig, frame: (
+                    print("\nStopped!"),
+                    #[reader.delete() for reader in readers],
+                    sys.exit(0),
+                  ))
+
+    print("Press Ctrl+C to stop")
+    
+    readers = []
+    threads = []
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
+    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))
+    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
+    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
+    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
+    for reader in readers:
+        threads.append(Thread(target=(reader.run), daemon=True))
+    
+    for thread in threads:
+        thread.start()
+        
+    application.run(debug=True, threaded=True)
+    signal.pause()

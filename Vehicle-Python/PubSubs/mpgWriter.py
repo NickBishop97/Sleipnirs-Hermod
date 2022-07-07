@@ -12,7 +12,6 @@ sys.path.insert(0, '../MessageFormats/Fuel/')
 import Fuel as Fuel
 sys.path.insert(1, '../MessageFormats/Miles/')
 import Miles as Miles  
-
 sys.path.insert(2, '../MessageFormats/MpG/')
 import MpG as MpG  
 

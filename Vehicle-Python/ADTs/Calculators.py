@@ -16,11 +16,11 @@ class FuelConsump:
         self.currentFuelGallons = currentFuel
         self.currentFuelLiters  = currentFuel * self.gallonToLiters
         
-    def consumeFuel(self, test_flag):
-        if test_flag:
+    def consumeFuel(self, stop_flag):
+        if stop_flag:
             return(-1, -1)
             
-        change = self.currentFuelGallons = self.currentFuelGallons - random.uniform(0.01, 0.1)
+        change = self.currentFuelGallons = self.currentFuelGallons - random.uniform(0.001, 0.01) #random.uniform(0.5, 1)#
         if change <= 0:
             self.currentFuelGallons = 0 
         elif change > 0:
@@ -29,12 +29,6 @@ class FuelConsump:
             self.currentFuelGallons = 0
         return (self.currentFuelGallons, self.capacityGallons - self.currentFuelGallons)
         
-        
-        
-        
-        
-        
-    
     #KILL SENSOR WHEN CONDITION IS MET, THIS IS A BASIC SIGNAL
     def controlSignal(self):
         time.sleep(50)
@@ -82,7 +76,7 @@ class MpGCalc:
         if not fuelDatum == 0:
             self.mpg = float(milesDatum)/float(fuelDatum)
         
-        elif fuelDatum == 0:
+        elif fuelDatum <= 0:
             self.mpg = float(-1)
             
             
@@ -99,6 +93,8 @@ class MileRemainCalc:
 
         if not fuelQueue.empty():
             fuelDatum = fuelQueue.get()[1]
+        else:
+            fuelDatum = -1
             
         if not mpgQueue.empty():
             mpgDatum = mpgQueue.get()[1]

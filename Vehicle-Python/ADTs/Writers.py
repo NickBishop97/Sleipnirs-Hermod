@@ -19,10 +19,10 @@ class FuelWriter(Entity.Writer):
         self.CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
 
-    def write(self, test_flag):
+    def write(self, stop_flag):
         
         # UPDATING MESSAGE CONTENTS
-        dataOutput = self.CalculationClass.consumeFuel(test_flag)
+        dataOutput = self.CalculationClass.consumeFuel(stop_flag)
         self.data.litersRemaining(float(dataOutput[0]))
         self.data.litersSpent(float(dataOutput[1]))
         self.data.index(self.index)
@@ -31,10 +31,10 @@ class FuelWriter(Entity.Writer):
         print(f"{self.index}, {dataOutput[0]}, {dataOutput[1]} \n")
         self.index = self.index + 1
 
-    def run(self, test_flag) -> None: 
+    def run(self, stop_flag) -> None: 
         #self.wait_discovery()
         while True:
-            self.write(test_flag)
+            self.write(stop_flag)
             time.sleep(global_sleep_time)
 
 ############################################################################################
@@ -81,12 +81,8 @@ class LowFuelWriter(Entity.Writer):
         # UPDATING MESSAGE CONTENTS
         self.data.isFuelLow(alert)
         self.data.index(self.index)
-
         self.writer.write(self.data)
-        if not fuelQueue.empty():
-            print(f"Low Fuel: {self.data.index()}, {bool(self.data.isFuelLow())}\n")
-        else:
-            print("Low Fuel: ")
+        print(f"Low Fuel: {self.data.index()}, {bool(self.data.isFuelLow())}\n")
             
         self.index = self.index + 1
 
