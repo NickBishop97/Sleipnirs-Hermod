@@ -2,12 +2,8 @@
 from threading import Thread
 import signal
 import time
-<<<<<<< HEAD
-from time import sleep
-=======
 import queue
 from queue import Queue
->>>>>>> mpgWriter
 
 import sys
 

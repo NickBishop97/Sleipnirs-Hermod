@@ -50,15 +50,10 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
-<<<<<<< HEAD
-    milesStopper = MilesStopper()
-    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining", FuelRL])  # noqa: F405
-=======
     startStopCondition = StartStopCondition()
     
     #MAKING THREADS TO RUN READER AND WRITER OBJECTS
     FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
->>>>>>> mpgWriter
     DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
     readers.append(FuelReader)

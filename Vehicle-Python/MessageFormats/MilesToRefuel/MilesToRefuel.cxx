@@ -36,15 +36,9 @@ using namespace eprosima::fastcdr::exception;
 
 MilesToRefuel::MilesToRefuel()
 {
-<<<<<<< HEAD
-    // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@67205a84
-    m_index = 0;
-    // m_milesToRefuel com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7d0587f1
-=======
     // m_index com.eprosima.idl.parser.typecode.PrimitiveTypeCode@7fac631b
     m_index = 0;
     // m_milesToRefuel com.eprosima.idl.parser.typecode.PrimitiveTypeCode@5b87ed94
->>>>>>> mpgWriter
     m_milesToRefuel = 0.0;
 
 }

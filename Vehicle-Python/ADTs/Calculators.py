@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 import time
 import random
 from numpy import double
@@ -11,7 +12,7 @@ class LowFuel:
         self.lowFuelAlertFlag = 1
     
     def lowFuelAlert(self, currentFuel):
-        if currentFuel == -1.0: 
+        if currentFuel < 0.0 or self.threshold < 0.0: 
             self.lowFuelAlertFlag = -1 # -1 for error code, fuel sensor not working or disconnected
         elif currentFuel < self.threshold:
             self.lowFuelAlertFlag = 1 # 1 for true (low fuel)
@@ -42,13 +43,7 @@ class FuelConsump:
         else:
             self.currentFuelGallons = 0
         return (self.currentFuelGallons, self.capacityGallons - self.currentFuelGallons)
-        
-        
-        
-        
-        
-        
-    
+
     #KILL SENSOR WHEN CONDITION IS MET, THIS IS A BASIC SIGNAL
     def controlSignal(self):
         time.sleep(50)
@@ -66,16 +61,16 @@ class DistTrav:
         if not startStopCondition.milesStopper and startStopCondition.milesStarter:
             self.milesTraveled += random.uniform(1,2)
             
-class LowFuel:
-    def __init__(self, threshold):
-        self.threshold = threshold
-        self.lowFuelAlertFlag = "Fuel Status: Good"
-    
-    def lowFuelAlert(self, currentFuel):
-        if currentFuel < self.threshold:
-            self.lowFuelAlertFlag = "Fuel Status: Low"
-        else:
-            self.lowFuelAlertFlag = "Fuel Status: Good"
+# class LowFuel:
+#     def __init__(self, threshold):
+#         self.threshold = threshold
+#         self.lowFuelAlertFlag = "Fuel Status: Good"
+#     
+#     def lowFuelAlert(self, currentFuel):
+#         if currentFuel < self.threshold:
+#             self.lowFuelAlertFlag = "Fuel Status: Low"
+#         else:
+#             self.lowFuelAlertFlag = "Fuel Status: Good"
 
 
 class MPG:
