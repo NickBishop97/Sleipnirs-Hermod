@@ -1,3 +1,4 @@
+from concurrent.futures import thread
 import time
 import random
 from numpy import double
@@ -11,7 +12,7 @@ class LowFuel:
         self.lowFuelAlertFlag = 1
     
     def lowFuelAlert(self, currentFuel):
-        if currentFuel == -1.0: 
+        if currentFuel < 0.0 or self.threshold < 0.0: 
             self.lowFuelAlertFlag = -1 # -1 for error code, fuel sensor not working or disconnected
         elif currentFuel < self.threshold:
             self.lowFuelAlertFlag = 1 # 1 for true (low fuel)
