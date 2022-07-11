@@ -7,7 +7,9 @@ echo "Starting unit tests for Vehicle-Python project..."
 echo "================================================"
 
 # Tests for Python Vehicle
-pytest Vehicle-Python/Pytests/*
+cd Vehicle-Python/Pytests
+pytest
+cd -
 
 # Tests for testing framework
 #cd message-broker/testing-framework
