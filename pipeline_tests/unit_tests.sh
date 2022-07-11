@@ -17,9 +17,9 @@ cd -
 #cd -
 
 # Test for pytest/robotframework example HelloWorld
-cd Examples/Python/HelloWorld
-robot *.robot
-cd -
+#cd Examples/Python/HelloWorld
+#robot *.robot
+#cd -
 
 #pytest message-broker/broker/test/
 #pytest message-broker/testing-framework/test/
