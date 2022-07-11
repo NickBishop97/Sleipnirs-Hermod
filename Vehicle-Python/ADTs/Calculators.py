@@ -102,3 +102,22 @@ class MileRemainCalc:
         self.mileRemain = float(mpgDatum) * float(fuelDatum)
         
         return self.mileRemain
+    
+    
+class TripCalc:
+    def __init__(self):
+        self.trips = []
+        self.currentTrip = 0 
+    
+    #def returnTrip(self, tripNumber):
+    
+    def reset(self, button, totalMilesObj):
+        if(button):
+            totalMilesObj.milesTraveled = 0
+    
+    def addTrip(self, totalMilesObj):
+        self.trips.append(totalMilesObj.milesTraveled)
+        #receive the total miles traveled and reset them
+        
+        
+        
