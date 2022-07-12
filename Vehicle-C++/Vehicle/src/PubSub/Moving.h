@@ -1,10 +1,11 @@
-#ifndef MILESTRAVELED_H
-#define MILESTRAVELED_H
+#ifndef MOVING_H
+#define MOVING_H
 
 #include "../Calculations.cpp"
-#include "MilesPubSubTypes.h"
-#include "../Moving/MovePubSubTypes.cxx"
-#include "../Moving/Move.cxx"
+#include "../Moving/MovePubSubTypes.h"
+#include "../Moving/Move.h"
+#include "../Fuel/FuelPubSubTypes.cxx"
+#include "../Fuel/Fuel.cxx"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
@@ -20,15 +21,11 @@
 
 using namespace eprosima::fastdds::dds;
 
-/**
- * @brief Miles Publisher that will publisher the Miles Traveled data onto the MilesTraveled topic
- * 
- */
-class MilesPublisher
+class MovePublisher
 {
 private:
 
-    Miles miles_;
+    Move move_;
 
     DomainParticipant* participant_;
 
@@ -80,16 +77,16 @@ private:
 
 public:
 
-    MilesPublisher()
+    MovePublisher()
         : participant_(nullptr)
         , publisher_(nullptr)
         , topic_(nullptr)
         , writer_(nullptr)
-        , type_(new MilesPubSubType())
+        , type_(new MovePubSubType())
     {
     }
 
-    virtual ~MilesPublisher()
+    virtual ~MovePublisher()
     {
         if (writer_ != nullptr)
         {
@@ -106,16 +103,11 @@ public:
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
     }
 
-    /**
-     * @brief Initializes the DDS Publisher with correct topic and initial starting data
-     * 
-     * @return true if system started without a problme
-     * @return false if system didn't start correctly
-     */
+    //!Initialize the publisher
     bool init()
     {
-        miles_.index(0);
-        miles_.milesTraveled(0);
+        move_.index(0);
+        move_.ismoving(0);
 
         DomainParticipantQos participantQos;
         participantQos.name("Participant_publisher");
@@ -130,7 +122,7 @@ public:
         type_.register_type(participant_);
 
         // Create the publications Topic
-        topic_ = participant_->create_topic("MilesTravled", "Miles", TOPIC_QOS_DEFAULT);
+        topic_ = participant_->create_topic("Moving", "Move", TOPIC_QOS_DEFAULT);
 
         if (topic_ == nullptr)
         {
@@ -155,62 +147,46 @@ public:
         return true;
     }
 
-    /**
-     * @brief Publishes Miles Traveled data onto the topic
-     * 
-     * @param calc_ 
-     * @return true if Moving sub recieved a 1/0
-     * @return false if Moving sub recieved a non 1/0 
-     */
-    bool publish(MilesTraveled *calc_)
+    //!Send a publication
+    bool publish(Moving *calc_)
     {
-        double traveled;
-        traveled = ((0.1)*rand()/RAND_MAX + 0.01);
         if(calc_->get_index() == 1)
         {
-            miles_.milesTraveled(traveled);
-            writer_->write(&miles_);
+            move_.ismoving(1);
+            writer_->write(&move_);
             return true;
         }
         else if(calc_->get_index() == 0)
         {
-            miles_.milesTraveled(0);
-            writer_->write(&miles_);
+            move_.ismoving(0);
+            writer_->write(&move_);
             return true;
         }
-        miles_.index(calc_->get_index());
         return false;
     }
 
-    /**
-     * @brief Will check to see if publish returns true or false and wait 0.25 secs
-     * 
-     * @param calc_ 
-     */
-    void run(MilesTraveled *calc_)
+    //!Run the Publisher
+    void run(Moving *calc_)
     {
         while (1)
         {
             if (publish(calc_))
             {
-                std::cout << "Miles Traveled: " << miles_.milesTraveled()
-                        << std::endl;
-            }
-            else
-            {
-                std::cout << "Moving Sub recieved a non 0/1 value: " << miles_.index()
-                        << std::endl;
+                if(move_.ismoving() == 1)
+                {
+                    std::cout << "Moving: True "  <<  std::endl;
+                }
+                else
+                {
+                    std::cout << "Moving: False" << std::endl;
+                }
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
     }
 };
 
-/**
- * @brief Will Subscribe to the Moving topic and grab the ismoving value 
- * 
- */
-class MoveSubscriber
+class fuelSubscriber
 {
 private:
 
@@ -260,11 +236,11 @@ private:
                 DataReader* reader) override
         {
             SampleInfo info;
-            if (reader->take_next_sample(&move_, &info) == ReturnCode_t::RETCODE_OK)
+            if (reader->take_next_sample(&fuel_, &info) == ReturnCode_t::RETCODE_OK)
             {
                 if (info.valid_data)
                 {
-                    if(move_.ismoving() != 0)
+                    if(fuel_.litersRemaining() != 0)
                     {
                         samples_++;
                     }
@@ -272,7 +248,7 @@ private:
             }
         }
 
-        Move move_;
+        Fuel fuel_;
 
         std::atomic_int samples_;
 
@@ -280,16 +256,16 @@ private:
 
 public:
 
-    MoveSubscriber()
+    fuelSubscriber()
         : participant_(nullptr)
         , subscriber_(nullptr)
         , topic_(nullptr)
         , reader_(nullptr)
-        , type_(new MovePubSubType())
+        , type_(new FuelPubSubType())
     {
     }
 
-    virtual ~MoveSubscriber()
+    virtual ~fuelSubscriber()
     {
         if (reader_ != nullptr)
         {
@@ -322,7 +298,7 @@ public:
         type_.register_type(participant_);
 
         // Create the subscriptions Topic
-        topic_ = participant_->create_topic("Moving", "Move", TOPIC_QOS_DEFAULT);
+        topic_ = participant_->create_topic("FuelRemain", "Fuel", TOPIC_QOS_DEFAULT);
 
         if (topic_ == nullptr)
         {
@@ -348,12 +324,8 @@ public:
         return true;
     }
 
-    /**
-     * @brief Will set the index to calc_ class to 1/0 if the car is moving or not every 0.25sec
-     * 
-     * @param calc_ 
-     */
-    void run(MilesTraveled *calc_)
+    //!Run the Subscriber
+    void run(Moving *calc_)
     {
         unsigned long old = 0;
         while(1)
