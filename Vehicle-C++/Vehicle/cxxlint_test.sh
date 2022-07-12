@@ -1,3 +1,5 @@
+#! /bin/bash
+
 #Fail if any command exit with error.
 set -e
 

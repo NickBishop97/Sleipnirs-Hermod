@@ -10,4 +10,5 @@ echo "=  Starting lint on Vehicle-C++  ="
 echo "=================================="
 cd Vehicle-C++/Vehicle
 sh cxxlint_test.sh ./src/
+doxygen Doxyfile
 cd -
