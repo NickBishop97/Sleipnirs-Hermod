@@ -1,4 +1,4 @@
-from threading import Thread    
+from threading import Thread
 from entity import Entity
 import fastdds
 from queue import Queue
@@ -15,10 +15,11 @@ from queue import Queue
 ############################################################################################
 ############################################################################################
 
+
 class FuelGauge(Entity.Reader):
     def __init__(self, ddsDataArray):
         super().__init__(ddsDataArray)
-        
+
         self.connected = self.listener.getConnectionStatus()
 
     def dataRunReturn(self):
@@ -26,7 +27,7 @@ class FuelGauge(Entity.Reader):
             if not self.dataQueue.empty():
                 self.dataQueue = self.listener.getDataReturn()
                 self.connected = self.listener.getConnectionStatus()
-                #return (self.dataQueue, self.connected)
+                # return (self.dataQueue, self.connected)
             else:
                 return None
 
@@ -34,17 +35,18 @@ class FuelGauge(Entity.Reader):
         dataThread = Thread(target=(self.dataRunReturn), daemon=True)
         dataThread.start()
 
+
 class FuelRL(Entity.ReaderListener):
     def __init__(self, data):
         self.data = data
         self.dataQueue = Queue()
-    
+
         class ConnectionStatus:
             def __init__(self):
                 self.connected = False
-            
+
         self.connectionStatus = ConnectionStatus()
-        
+
         super().__init__()
 
     def on_subscription_matched(self, datareader, info):
@@ -54,20 +56,20 @@ class FuelRL(Entity.ReaderListener):
             print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
 
     def on_data_available(self, reader):
-        
+
         self.connectionStatus.connected = True
-        
+
         info = fastdds.SampleInfo()
         data = self.data
         reader.take_next_sample(data, info)
 
-        self.dataQueue.put([data.index(), 
+        self.dataQueue.put([data.index(),
                             data.litersRemaining(),
                             data.litersSpent()])
 
     def getConnectionStatus(self):
         return self.connectionStatus
-    
+
     def getDataReturn(self):
         return self.dataQueue
 
@@ -77,10 +79,11 @@ class FuelRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 
+
 class DistanceDisplay(Entity.Reader):
     def __init__(self, ddsDataArray):
         super().__init__(ddsDataArray)
-    
+
     def dataRunReturn(self):
         while True:
             if not self.dataQueue.empty():
@@ -91,6 +94,7 @@ class DistanceDisplay(Entity.Reader):
     def run(self):
         dataThread = Thread(target=(self.dataRunReturn), daemon=True)
         dataThread.start()
+
 
 class DistanceRL(Entity.ReaderListener):
     def __init__(self, data):
