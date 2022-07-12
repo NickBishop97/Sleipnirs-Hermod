@@ -17,8 +17,7 @@ build:
 test-syntax:
   stage: static-testing
   script:
-    - echo "Temporarily disabled"
-    #- pipeline_tests/lint_tests.sh
+    - pipeline_tests/lint_tests.sh
 
 test-unit:
   stage: unit-testing
