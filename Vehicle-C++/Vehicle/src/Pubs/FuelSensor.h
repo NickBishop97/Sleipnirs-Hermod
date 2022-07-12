@@ -2,7 +2,7 @@
 #define FUELSENSOR_H
 
 #include "../Calculations.cpp"
-#include "FuelPubSubTypes.h"
+#include "../Fuel/FuelPubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
@@ -174,7 +174,7 @@ public:
             if (publish(calc_))
             {
                 calc_->set_FuelRemaining(fuel_.litersRemaining());
-                std::cout << "Index: " << fuel_.index() << " Litters Remaining: " << fuel_.litersRemaining()
+                std::cout << "Litters Remaining: " << fuel_.litersRemaining()
                             <<  std::endl;
                 fuel_.index() = fuel_.index() + 1;
                 calc_->set_index(fuel_.index());
@@ -333,11 +333,11 @@ public:
     //!Send a publication
     bool publish(FuelSenor *calc_)
     {
-        double fuelR, fuelS;
         //if (listener_.matched_ > 0)
         //{
         if(calc_->get_index() > fuel_.index())
         {
+            double fuelR, fuelS;
             fuelR = calc_->get_FuelRemaining();
             fuelS = calc_->fuelspent(fuelR);
             fuel_.litersSpent(fuelS);
@@ -361,7 +361,7 @@ public:
         {
             if (publish(calc_))
             {
-                std::cout << "Index: " << fuel_.index() << " Litters Spent: " << fuel_.litersSpent()
+                std::cout << "Litters Spent: " << fuel_.litersSpent()
                             <<  std::endl;
                             std::this_thread::sleep_for(std::chrono::milliseconds(248));
             }
