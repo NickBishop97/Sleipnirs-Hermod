@@ -22,8 +22,6 @@ def fuelConnectionStatus(dataQueue, connected, startStopCondition):
         #print(f"Connected? {str(connected.connected)}")
         if not dataQueue.empty():
             data = dataQueue.get()
-            print("[Miles Sensor - FUEL DATA REPORT]")
-            print(f"[FUEL DATA]: {data}")
             startStopCondition.milesStarter = True
         
             if float(data[1]) <= 0:
@@ -82,3 +80,4 @@ def main():
 
 
 main()
+

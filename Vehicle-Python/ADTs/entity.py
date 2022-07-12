@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-HelloWorld Publisher
+entity.py
 """
 from threading import Thread
 # from email.message import Message
@@ -23,9 +23,8 @@ from threading import Condition
 
 import fastdds
 
-DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
-USAGE = ('python3 HelloWorldPublisher.py')
-
+DESCRIPTION = """Writer and Reader ADTs for use"""
+USAGE = """TO BE INHERITED BY A USER DEFINED CLASS"""
 
 class Entity:
 
@@ -36,8 +35,12 @@ class Entity:
             super().__init__()
 
         def on_subscription_matched(self, datareader, info):
-            raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
-
+            if(0 < info.current_count_change):
+                print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            else:
+                print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+                exit()
+            
         def on_data_available(self, reader):
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
@@ -47,15 +50,12 @@ class Entity:
     class Reader:
         def __init__(self,
                      ddsDataArray,):
-
+            
             # SAVING INPUT VARIABLES
             self.MessageType = ddsDataArray[0]
             self.MessageType_name = ddsDataArray[1]
             self.Topic_name = ddsDataArray[2]
-            # self.controlSignal = myControlSignal
-
-            # SAVING THE DATA TYPE OF THE MESSAGE
-
+            
             try:
                 # data = HelloWorld.HelloWorld()
                 func = getattr(self.MessageType, f"{self.MessageType_name}")  # inputting the idl special datatype
@@ -80,6 +80,7 @@ class Entity:
                 print(f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found")
                 raise
 
+            #creation of a topic name and registering data type and topic with fastdds
             self.topic_data_type.setName(f"{self.MessageType_name}")
             self.type_support = fastdds.TypeSupport(self.topic_data_type)
             self.participant.register_type(self.type_support)
@@ -102,6 +103,8 @@ class Entity:
             self.dataQueue = self.listener.getDataReturn()
 
             #####################################################################################################
+           
+            #creation of the data reader
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
             self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
@@ -131,7 +134,7 @@ class Entity:
             print("Sending...")
             if(0 < info.current_count_change):
                 print("Publisher matched subscriber {}".format(info.last_subscription_handle))
-
+                
                 self._writer._cvDiscovery.acquire()
                 self._writer._cvDiscovery.notify()
                 self._writer._matched_reader += 1
@@ -142,14 +145,15 @@ class Entity:
                 self._writer._matched_reader -= 1
                 self._writer._cvDiscovery.notify()
                 self._writer._cvDiscovery.release()
+                #exit() #kills flask
 
     class Writer:
 
         def __init__(self, ddsDataArray):
             # SAVING INPUT VARIABLES
-            self.MessageType = ddsDataArray[0]
+            self.MessageType      = ddsDataArray[0]
             self.MessageType_name = ddsDataArray[1]
-            self.Topic_name = ddsDataArray[2]
+            self.Topic_name       = ddsDataArray[2]
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
@@ -208,3 +212,4 @@ class Entity:
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
+    

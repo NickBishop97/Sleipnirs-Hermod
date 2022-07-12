@@ -12,7 +12,7 @@ sys.path.insert(2, '../MessageFormats/LowFuelAlert/')
 import LowFuelAlert as LowFuelAlert  
 
 #ADT IMPORTS
-sys.path.insert(3, '../ADTs/')
+sys.path.insert(2, '../ADTs/')
 from Writers import *  
 from Readers import *
 from Calculators import *
