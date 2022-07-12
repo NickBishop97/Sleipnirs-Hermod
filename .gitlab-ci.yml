@@ -20,7 +20,7 @@ test-syntax:
     - pipeline_tests/lint_tests.sh
   artifacts:
     paths:
-      - Vehicle-C++/Vehicle/Build
+      - Vehicle-C++/Vehicle/Build/html
     expire_in: 7 days
 
 test-unit:
