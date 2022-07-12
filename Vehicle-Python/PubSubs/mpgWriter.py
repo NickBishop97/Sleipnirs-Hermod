@@ -12,7 +12,6 @@ sys.path.insert(0, '../MessageFormats/Fuel/')
 import Fuel as Fuel
 sys.path.insert(1, '../MessageFormats/Miles/')
 import Miles as Miles  
-
 sys.path.insert(2, '../MessageFormats/MpG/')
 import MpG as MpG  
 
@@ -31,6 +30,7 @@ def main():
                   lambda sig, frame: (
                     print("\nStopped!"),
                     [reader.delete() for reader in readers],
+                    [writer.delete() for writer in writers],
                     sys.exit(0),
                   ))
 
@@ -45,6 +45,7 @@ def main():
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
         
+    #writer
     threadMpG = Thread(target=(writers[0].run), 
                         args=(
                             readers[0].dataQueue, 
@@ -59,3 +60,4 @@ def main():
 
 
 main()
+
