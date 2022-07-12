@@ -26,6 +26,7 @@ import fastdds
 DESCRIPTION = """HelloWorld Publisher example for Fast DDS python bindings"""
 USAGE = ('python3 HelloWorldPublisher.py')
 
+
 class Entity:
 
     class ReaderListener(fastdds.DataReaderListener):
@@ -46,12 +47,12 @@ class Entity:
     class Reader:
         def __init__(self,
                      ddsDataArray,):
-            
+
             # SAVING INPUT VARIABLES
             self.MessageType = ddsDataArray[0]
             self.MessageType_name = ddsDataArray[1]
             self.Topic_name = ddsDataArray[2]
-            #self.controlSignal = myControlSignal
+            # self.controlSignal = myControlSignal
 
             # SAVING THE DATA TYPE OF THE MESSAGE
 
@@ -130,7 +131,7 @@ class Entity:
             print("Sending...")
             if(0 < info.current_count_change):
                 print("Publisher matched subscriber {}".format(info.last_subscription_handle))
-                
+
                 self._writer._cvDiscovery.acquire()
                 self._writer._cvDiscovery.notify()
                 self._writer._matched_reader += 1
@@ -146,9 +147,9 @@ class Entity:
 
         def __init__(self, ddsDataArray):
             # SAVING INPUT VARIABLES
-            self.MessageType      = ddsDataArray[0]
+            self.MessageType = ddsDataArray[0]
             self.MessageType_name = ddsDataArray[1]
-            self.Topic_name       = ddsDataArray[2]
+            self.Topic_name = ddsDataArray[2]
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
@@ -207,4 +208,3 @@ class Entity:
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
-    
