@@ -32,7 +32,7 @@ class TripMeter:
     def __init__(self):
         self.trip1 = TripData(0.0, 0.0, 0.0, 0.0)
         self.trip2 = TripData(0.0, 0.0, 0.0, 0.0)
-        self.currentTrip = 0
+        self.currentTrip = self.trip1
         self.button = Button(False, False)
 
     def setCurrentTrip(self, tripSelected):
@@ -43,6 +43,12 @@ class TripMeter:
             self.setCurrentTrip(currentTrip)
         elif (button.longPress == True):
             self.reset(currentTrip)
+
+    def isTime(self, currentTrip):
+        if (currentTrip.tripTime >= 2.0):
+            return True
+        else:
+            return False
 
     def reset(self, trip):
         trip.reset()
