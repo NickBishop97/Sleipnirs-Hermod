@@ -4,8 +4,11 @@ echo ""
 echo "====================================="
 echo "=  Starting lint on Vehicle-Python  ="
 echo "====================================="
-echo ""
-#flake8 Vehicle-Python --max-line-length 130
+flake8 Vehicle-Python/ADTs --max-line-length 130
+flake8 Vehicle-Python/Publishers --max-line-length 130
+flake8 Vehicle-Python/PubSubs --max-line-length 130
+flake8 Vehicle-Python/Pytests --max-line-length 130
+flake8 Vehicle-Python/Subscribers --max-line-length 130
 
 echo ""
 echo "====================================="
