@@ -55,6 +55,9 @@ class LowFuelCalc:
         self.lowFuelAlertFlag = 0
 
     def lowFuelAlert(self, currentFuel):
+        if self.threshold < 0:
+            self.lowFuelAlertFlag = -1
+            return self.lowFuelAlertFlag
         if currentFuel < self.threshold:
             self.lowFuelAlertFlag = 1
             return self.lowFuelAlertFlag

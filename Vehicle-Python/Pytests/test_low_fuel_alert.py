@@ -32,11 +32,11 @@ def test_zero_fuel():
     assert f.lowFuelAlertFlag == 1
 
 
-# Fuel is negative should result an error code of -1
+# Fuel is negative should result in low fuel alert
 def test_negative_fuel():
     f = LowFuelCalc(5)
     f.lowFuelAlert(-1.0)
-    assert f.lowFuelAlertFlag == -1
+    assert f.lowFuelAlertFlag == 1
 
 
 # Fuel capacity is negative, then send an error
