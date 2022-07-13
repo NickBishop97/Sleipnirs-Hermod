@@ -57,25 +57,22 @@ class TripMeter():
     
 class Button():
 
+    def __init__(self, tm):
+        self.tm = tm
+
     def short_press():
-        return 1
+        self.tm.change_trip()
+        self.tm.display_data_for_current_trip()
     
     def long_press():
-        return 0
+        self.tm.change_trip()
+        self.tm.display_data_for_current_trip()
 
 class Dashboard():
 
     def __init__(self, trip_meter):
         self.trip_meter = trip_meter
-        self.button = Button()
-    
-    def push_button(self):
-        if self.button.short_press():
-            self.trip_meter.change_trip()
-            self.trip_meter.display_data_for_current_trip()
-        elif self.button.long_press():
-            self.trip_meter.reset_data_for_current_trip()
-            self.trip_meter.display_data_for_current_trip()
+        self.button = Button(self.trip_meter)
 
 
 
@@ -85,3 +82,4 @@ testTD1 = TripData(25.0, 100.0, millisec_start, 35.0)
 testTD2 = TripData(30.0, 90.0, millisec_start, 20.0)
 testTM = TripMeter(testTD1, testTD2)
 testDash = Dashboard(testTM)
+testDash.button.short_press()
