@@ -33,17 +33,26 @@ class TripMeter:
         self.trip1 = TripData(0.0, 0.0, 0.0, 0.0)
         self.trip2 = TripData(0.0, 0.0, 0.0, 0.0)
         self.currentTrip = 0
+        self.button = Button(False, False)
 
     def setCurrentTrip(self, tripSelected):
         self.currentTrip = tripSelected
 
+    def isPressed(self, button, currentTrip):
+        if (button.shortPress == True):
+            self.setCurrentTrip(currentTrip)
+        elif (button.longPress == True):
+            self.reset(currentTrip)
+
     def reset(self, trip):
         trip.reset()
 
+
 class Button:
-    def __init__(self, shortPress, longPress, ):
+    def __init__(self, shortPress, longPress):
         self.shortPress = shortPress
         self.longPress = longPress
+
 
 class DashBoard:
     def __init__(self):
