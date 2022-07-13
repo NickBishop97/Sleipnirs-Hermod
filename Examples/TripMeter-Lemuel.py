@@ -2,11 +2,14 @@ import time
 
 class TripData():
 
+    current_time = 3600.0
+
     def __init__(self, mileage, mpg, start_time, avg_speed):
         self.mileage = mileage
         self.mpg = mpg
         self.start_time = start_time
         self.avg_speed = avg_speed
+        self.return_time = 0.0
     
     def get_miles_traveled(self):
         return self.mileage
@@ -15,17 +18,41 @@ class TripData():
         return self.mpg
     
     def get_time(self):
-        current_time = round(round(int(round(time.time() * 1000)))/1000)
-        return current_time - self.start_time
+        self.return_time = self.current_time - self.start_time
+        return self.return_time
     
     def get_avg_speed(self):
-        return round((self.mileage/self.get_time()), 2) 
+        a = self.mileage
+        b = self.return_time
+        if self.return_time == 0:
+            return 0.0
+        else:
+            self.avg_speed = round(a/b, 2)
+            return self.avg_speed
     
-    def reset_data():
-        self.start_mileage = 0.0
+    def set_miles_traveled(self, miles_traveled):
+        self.mileage = miles_traveled
+
+    def set_mpg(self, mpg):
+        self.mpg = mpg
+
+    def set_avg_speed(self, avg_speed):
+        self.avg_speed = avg_speed
+    
+    def check_for_alarm(self):
+        if self.current_time < 7200:
+            print("Everything good.")
+        elif self.current_time >= 7200:
+            print("Alert! Alert!")
+    
+    def reset_data(self):
+        self.mileage = 0.0
         self.mpg = 0.0
-        self.start_time = 0
+        self.return_time = 0.0
+        #self.current_time = 0.0
         self.avg_speed = 0.0
+
+
 
 class TripMeter():
 
@@ -41,32 +68,50 @@ class TripMeter():
         self.current_trip += 1
         if self.current_trip >= len(self.trip_data_list):
             self.current_trip = 0
-    
-    def display_data_for_current_trip(self):
-        print("Data for Trip Container #" + str(self.current_trip))
-        print(self.trip_data_list[self.current_trip].get_miles_traveled())
-        print(self.trip_data_list[self.current_trip].get_mpg())
-        print(self.trip_data_list[self.current_trip].get_time())
-        print(self.trip_data_list[self.current_trip].get_avg_speed())
-    
+
     def add_trip(self, trip_i):
         self.trip_data_list.append(trip_i)
     
+    def display_miles_traveled(self):
+        return self.trip_data_list[self.current_trip].get_miles_traveled()
+    
+    def display_mpg(self):
+        return self.trip_data_list[self.current_trip].get_mpg()
+    
+    def display_time(self):
+        return self.trip_data_list[self.current_trip].get_time()
+    
+    def display_avg_speed(self):
+        return self.trip_data_list[self.current_trip].get_avg_speed()
+    
+    def check_for_alarm_for_current_trip(self):
+        self.trip_data_list[self.current_trip].check_for_alarm()
+
     def reset_data_for_current_trip(self):
         self.trip_data_list[self.current_trip].reset_data()
-    
+
+
+
 class Button():
 
     def __init__(self, tm):
         self.tm = tm
-
-    def short_press():
-        self.tm.change_trip()
-        self.tm.display_data_for_current_trip()
     
-    def long_press():
+    def display(self):
+        print(self.tm.display_miles_traveled())
+        print(self.tm.display_mpg())
+        print(self.tm.display_time())
+        print(self.tm.display_avg_speed())
+
+    def short_press(self):
         self.tm.change_trip()
-        self.tm.display_data_for_current_trip()
+        self.display()
+    
+    def long_press(self):
+        self.tm.reset_data_for_current_trip()
+        self.display()
+
+
 
 class Dashboard():
 
@@ -77,9 +122,14 @@ class Dashboard():
 
 
 # TESTING AREA
-millisec_start = 0.0
-testTD1 = TripData(25.0, 100.0, millisec_start, 35.0)
-testTD2 = TripData(30.0, 90.0, millisec_start, 20.0)
+testTD1 = TripData(25.0, 100.0, 0.0, 35.0)
+testTD2 = TripData(30.0, 90.0, 0.0, 20.0)
 testTM = TripMeter(testTD1, testTD2)
 testDash = Dashboard(testTM)
 testDash.button.short_press()
+print('----')
+testDash.button.short_press()
+print('----')
+testDash.button.long_press()
+print('----')
+testDash.button.tm.check_for_alarm_for_current_trip()
