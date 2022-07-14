@@ -81,8 +81,8 @@ class TripMeter:
         else:
             return True
 
-    def reset(self, trip):
-        trip.reset()
+    def reset(self):
+        self.currentTrip.reset()
 
 
 class Button:
