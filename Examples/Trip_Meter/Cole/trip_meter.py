@@ -29,5 +29,8 @@ class TripMeter:
         self.tripPtr.setInitialFuel(fuel)
         self.tripPtr.setInitialTime(0)
 
-    def clear(self):
+    def clearMiles(self, newInitialMiles):
+        self.tripPtr.setInitialMiles(newInitialMiles)
+
+    def clearAll(self):
         self.tripPtr.clear()
