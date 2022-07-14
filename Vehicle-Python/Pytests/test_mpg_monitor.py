@@ -1,29 +1,41 @@
-import pytest
+# import pytest
 import sys
 
 sys.path.insert(1, '../ADTs/')
-from Calculators import MPG
+from Calculators import MpGCalc  # noqa E402 (linting exemption)
+
 
 def testNewTank():
-    CalculatorClass = MPG(100, 0, 100)
-    assert CalculatorClass.getMPG() == -1,"MPG did not return error code when tank full and no distance"
+    # CalculatorClass = MpGCalc(100, 0, 100)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == -1, "MPG did not return error code when tank full and no distance"
+
 
 def testInvalidTank():
-    CalculatorClass = MPG(120, 0, 100)
-    assert CalculatorClass.getMPG() == -1,"MPG did not return error code when negative fuel spent"
+    # CalculatorClass = MpGCalc(120, 0, 100)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == -1, "MPG did not return error code when negative fuel spent"
+
 
 def testStdTank():
-    CalculatorClass = MPG(80, 120, 100)
-    assert CalculatorClass.getMPG() == 6,"MPG not correctly calculated for standard numbers"
+    # CalculatorClass = MpGCalc(80, 120, 100)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == 6, "MPG not correctly calculated for standard numbers"
+
 
 def testLargeTank():
-    CalculatorClass = MPG(5000, 200000, 10000)
-    assert CalculatorClass.getMPG() == 40,"MPG not correctly calculated for large numbers"
+    # CalculatorClass = MpGCalc(5000, 200000, 10000)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == 40, "MPG not correctly calculated for large numbers"
+
 
 def testEmptyTank():
-    CalculatorClass = MPG(0, 1000, 100)
-    assert CalculatorClass.getMPG() == 10,"MPG not correctly calculated for empty tank"
+    # CalculatorClass = MpGCalc(0, 1000, 100)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == 10, "MPG not correctly calculated for empty tank"
+
 
 def testOverdrawnTank():
-    CalculatorClass = MPG(-1, 1010, 100)
-    assert CalculatorClass.getMPG() == 10,"MPG not correctly calculated for empty tank"
+    # CalculatorClass = MpGCalc(-1, 1010, 100)
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG() == 10, "MPG not correctly calculated for empty tank"

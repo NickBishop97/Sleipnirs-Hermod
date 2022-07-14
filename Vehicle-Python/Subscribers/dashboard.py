@@ -15,15 +15,31 @@ import signal
 import time
 import sys
 
+# Flask Imports
+import json
+import random
+# from datetime import datetime
+
+from flask import Flask, Response, render_template, stream_with_context
+
 # IDL DATA IMPORTS
 sys.path.insert(0, '../MessageFormats/Fuel/')
+import Fuel as Fuel  # noqa E402 (linting exemption)
 sys.path.insert(1, '../MessageFormats/Miles/')
+import Miles as Miles  # noqa E402 (linting exemption)
 sys.path.insert(2, '../MessageFormats/MpG/')
+import MpG as MpG  # noqa E402 (linting exemption)
 sys.path.insert(3, '../MessageFormats/LowFuelAlert/')
+import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
 sys.path.insert(4, '../MessageFormats/MilesToRefuel/')
+import MilesToRefuel as MilesToRefuel  # noqa E402 (linting exemption)
 
 # ADT IMPORTS
 sys.path.insert(5, '../ADTs/')
+from Writers import *  # noqa E402,F403 (linting exemptions)
+from Readers import *  # noqa E402,F403 (linting exemptions)
+from Calculators import *  # noqa E402,F403 (linting exemptions)
+
 
 #####################################################
 #####################################################
@@ -58,14 +74,11 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
-    readers.append(DistanceDisplay(
-        [Miles, "Miles", "MilesTraveled", DistanceRL]))
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
-    readers.append(LowFuelAlertDisplay(
-        [LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
-    readers.append(MilesRemainDisplay(
-        [MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa F405 (linting exemption)
+    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405 (linting exemption)
+    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
+    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405
+    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL])) # noqa F405
 
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
@@ -80,7 +93,6 @@ def main():
 
 
 # main()
-
 
 application = Flask(__name__)
 random.seed()  # Initialize the random number generator
@@ -114,23 +126,20 @@ def chart_data():
 if __name__ == '__main__':
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                      print("\nStopped!"),
-                      #[reader.delete() for reader in readers],
-                      sys.exit(0),
+                    print("\nStopped!"),
+                    # [reader.delete() for reader in readers],
+                    sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
 
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
-    readers.append(DistanceDisplay(
-        [Miles, "Miles", "MilesTraveled", DistanceRL]))
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
-    readers.append(LowFuelAlertDisplay(
-        [LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
-    readers.append(MilesRemainDisplay(
-        [MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])) # noqa F405 (linting exemption)
+    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405
+    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
+    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405
+    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))  # noqa F405
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
 

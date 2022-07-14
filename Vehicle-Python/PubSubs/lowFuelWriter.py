@@ -1,21 +1,21 @@
 from threading import Thread
 import signal
-import time
+# import time
 import sys
 
 # IDL DATA IMPORTS
 sys.path.insert(0, '../MessageFormats/Fuel/')
-import Fuel as Fuel
+import Fuel as Fuel  # noqa E402 (linting exemption)
 sys.path.insert(1, '../MessageFormats/Miles/')
-import Miles as Miles  
+# import Miles as Miles
 sys.path.insert(2, '../MessageFormats/LowFuelAlert/')
-import LowFuelAlert as LowFuelAlert  
+import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
 
-#ADT IMPORTS
+# ADT IMPORTS
 sys.path.insert(2, '../ADTs/')
-from Writers import *  
-from Readers import *
-from Calculators import *
+from Writers import *  # noqa E402,F403 (linting exemptions)
+from Readers import *  # noqa E402,F403 (linting exemptions)
+from Calculators import *  # noqa E402,F403 (linting exemptions)
 
 
 def main():
@@ -30,9 +30,9 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
-    FuelReader    = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
-    lowFuelWriter = LowFuelWriter([LowFuelAlert, "LowFuelAlert", "LowFuelAlert"])
-    
+    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
+    lowFuelWriter = LowFuelWriter([LowFuelAlert, "LowFuelAlert", "LowFuelAlert"])  # noqa F405 (linting exemption)
+
     readers.append(FuelReader)
     writers.append(lowFuelWriter)
 

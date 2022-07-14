@@ -156,7 +156,10 @@ double MPG::mpg(double milesT, double fuelS)
             temp = 99.9;
         }
    }
-   MpG.push_back(temp);
+   if(temp > 0)
+   {
+        MpG.push_back(temp);
+   }
    return temp;
 }
 
@@ -186,7 +189,7 @@ double MPG::get_avgMPG()
    }
    else
    {
-       return 0;
+       return -1;
    }
 }
 
