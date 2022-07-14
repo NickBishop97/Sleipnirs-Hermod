@@ -5,6 +5,8 @@
 *.swp
 *.html
 *.xml
+#ignoring pytest coverage files
+*.coverage
 ./.vscode
 ./.pytest_cache
 .vscode
