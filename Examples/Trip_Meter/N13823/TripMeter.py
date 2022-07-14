@@ -63,10 +63,14 @@ class TripMeter:
             self.setTripNumber(1)
             self.currentTrip = self.trip1
 
-    def isPressed(self, button):
-        if (button.shortPress == True):
+    def isPressed(self):
+        if (self.button.shortPress == True):
+            # Reset button after pressing
+            self.button.setShortPress(False)
             self.setCurrentTrip()
-        elif (button.longPress == True):
+        elif (self.button.longPress == True):
+            # Reset button after pressing
+            self.button.setLongPress(False)
             self.reset()
 
     def isTime(self, currentTrip):
@@ -74,7 +78,6 @@ class TripMeter:
             return False
         else:
             return True
-
 
     def reset(self, trip):
         trip.reset()
@@ -86,10 +89,10 @@ class Button:
         self.longPress = longPress
 
     def getShortPress(self):
-            return self.shortPress
+        return self.shortPress
 
     def getLongPress(self):
-            return self.longPress
+        return self.longPress
 
     def setShortPress(self, shortPress):
         self.shortPress = shortPress
@@ -97,10 +100,10 @@ class Button:
     def setLongPress(self, longPress):
         self.longPress = longPress
 
+
 class DashBoard:
     def __init__(self):
         self.tripMeter = TripMeter(TripData(0.0, 0.0, 0.0, 0.0))
-
 
 
 def main():
@@ -109,7 +112,6 @@ def main():
     print(d.tripMeter.currentTrip.getTripMPG())
     d.tripMeter.currentTrip.reset()
     print(d.tripMeter.currentTrip.getTripMPG())
-
 
 
 if __name__ == "__main__":
