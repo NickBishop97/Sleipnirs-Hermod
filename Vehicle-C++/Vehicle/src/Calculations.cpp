@@ -1,4 +1,5 @@
 #include "Calculations.h"
+//#include <iomanip>
 
 /**
  * @brief Calculates the full spent when given the current fuel Remaning, needs to be run twice to get the first fuel spent reading(only applies during first run)
@@ -136,7 +137,7 @@ double MPG::mpg(double milesT, double fuelS)
        //sets mpg to 0 when either milesT or fuelS have a negative value
        temp = 0.0;
    }
-   else if(milesT == 0 || Gal == 0)
+   else if(milesT == 0.0 || Gal == 0.0)
    {
        if(milesT > 0)
        {
@@ -153,6 +154,7 @@ double MPG::mpg(double milesT, double fuelS)
        temp = milesT/Gal;
        if(temp > 99.99)
         {
+            //std::cout << "99.9" << std::endl;
             temp = 99.9;
         }
    }
@@ -175,17 +177,17 @@ double MPG::get_MPG()
 
 double MPG::get_avgMPG()
 {
-   if(MPG::MpG.size() >= 10)
+   if(MpG.size() >= 10)
    {
        double temp = 0;
-       int MAX = MPG::MpG.size();
+       int MAX = MpG.size();
        for(int i = 0; i < MAX; ++i)
        {
-           temp += get_MPG();
+           temp += MpG[i];
        }
-       MPG::set_avgMPG(temp/MAX);
-       MPG::MpG.clear();
-       return MPG::avgMPG;
+       set_avgMPG(temp/MAX);
+       MpG.clear();
+       return avgMPG;
    }
    else
    {
@@ -195,46 +197,83 @@ double MPG::get_avgMPG()
 
 double MPG::set_avgMPG(double MPG)
 {
-   return MPG::avgMPG = (MPG::avgMPG + MPG)/2 ; 
+    if(avgMPG == 0.0)
+    {
+        avgMPG = MPG;
+        return avgMPG;
+    }
+    else
+    {
+        avgMPG = (avgMPG + MPG)/2;
+        return avgMPG;
+    } 
 }
 
 double MPG::get_MT()
 {
     return MT;
 }
+
 double MPG::get_FS()
 {
     return FS;
 }
+
 void MPG::set_MT(double mt)
 {
     MT = mt;
 }
+
 void MPG::set_FS(double fs)
 {
     FS = fs;
 }
+
 unsigned long MPG::get_MTindex()
 {
     return MTindex;
 }
+
 unsigned long MPG::get_FSindex()
 {
     return FSindex;
 }
+
 void MPG::set_MTindex(unsigned long i)
 {
     MTindex = i;
 }
+
 void MPG::set_FSindex(unsigned long i)
 {
     FSindex = i;
 }
+
 void MPG::set_MPGindex(unsigned long i)
 {
     MPGindex = i;
 }
+
 unsigned long MPG::get_MPGindex()
 {
     return MPGindex;
 }
+
+/**
+ * @brief Calculates the Miles Left till the tank is empty
+ * 
+ * @param MPG Miles per Gallon
+ * @param FR Fuel Remaining
+ * @return double 
+ */
+double ML::get_MilesLeft(double MPG, double FR)
+    {
+        double Gal = FR * 0.264172;
+        double ML;
+        if(MPG == 0 || MPG == -1 || FR == 0)
+        {
+            return -1;
+        }
+        ML = MPG * Gal;
+        return ML;
+    }

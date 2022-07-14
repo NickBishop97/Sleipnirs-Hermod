@@ -79,11 +79,16 @@ class MilesTraveled
         void set_index(unsigned long i);
 };
 
+/**
+ * @brief Enables communication between pub/sub in MPG.h, and computes MPG
+ * 
+ */
 class MPG
 {
     private:
         std::vector<double> MpG{0};
-        double avgMPG;
+        double avgMPG = 0.0;
+        long avgMPGcount = 0;
         double MT = 0.0;
         double FS = 0.0;
         unsigned long MTindex = 0, FSindex = 0, MPGindex = 0;
@@ -106,14 +111,24 @@ class MPG
         double mpg(double milesT, double fuelS);
         double get_MT();
         double get_FS();
-        void set_MT(double mt);
-        void set_FS(double fs);
         unsigned long get_MPGindex();
         unsigned long get_MTindex();
         unsigned long get_FSindex();
+        void set_MT(double mt);
+        void set_FS(double fs);
         void set_MTindex(unsigned long i);
         void set_FSindex(unsigned long i);
         void set_MPGindex(unsigned long i);
+};
+
+/**
+ * @brief Calculates Miles Left using MPG and Fuel Remaining
+ * 
+ */
+class ML
+{
+    public:
+        double get_MilesLeft(double MPG, double FR);
 };
 
 #endif

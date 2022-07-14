@@ -1,0 +1,4 @@
+struct MilesToRefuel{
+    unsigned long index;
+    double milesToRefuel;
+};
