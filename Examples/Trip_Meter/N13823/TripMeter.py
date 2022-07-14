@@ -85,6 +85,17 @@ class Button:
         self.shortPress = shortPress
         self.longPress = longPress
 
+    def getShortPress(self):
+            return self.shortPress
+
+    def getLongPress(self):
+            return self.longPress
+
+    def setShortPress(self, shortPress):
+        self.shortPress = shortPress
+
+    def setLongPress(self, longPress):
+        self.longPress = longPress
 
 class DashBoard:
     def __init__(self):
