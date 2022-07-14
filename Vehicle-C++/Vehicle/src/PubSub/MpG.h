@@ -522,10 +522,20 @@ public:
             {
                 std::cout << "MPG: -.-" << std::endl;
             }
-            std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << 
-            calc_->get_FSindex() << std::endl;
+            //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << 
+            //calc_->get_FSindex() << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
+    }
+    void AvgMPG(MPG *calc_)
+    {
+        double temp;
+        temp = calc_->get_avgMPG();
+        if(temp > 0)
+        {
+            std::cout << "Avg MPG: " << calc_->get_avgMPG() << std::endl;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     }
 };
 
