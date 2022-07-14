@@ -1,3 +1,15 @@
+from Writers import *
+import MilesToRefuel as MilesToRefuel
+import LowFuelAlert as LowFuelAlert
+import MpG as MpG
+import Miles as Miles
+from flask import Flask, Response, render_template, stream_with_context
+from datetime import datetime
+import random
+import json
+from Calculators import *
+from Readers import *
+import Fuel as Fuel
 from threading import Thread
 import signal
 import time
@@ -55,9 +67,9 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nStopped!"),
-                    [reader.delete() for reader in readers],
-                    sys.exit(0),
+                      print("\nStopped!"),
+                      [reader.delete() for reader in readers],
+                      sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
@@ -104,7 +116,8 @@ def chart_data():
             yield f"data:{json_data}\n\n"
             time.sleep(0.25)
 
-    response = Response(stream_with_context(generate_random_data()), mimetype="text/event-stream")
+    response = Response(stream_with_context(
+        generate_random_data()), mimetype="text/event-stream")
     response.headers["Cache-Control"] = "no-cache"
     response.headers["X-Accel-Buffering"] = "no"
     return response
