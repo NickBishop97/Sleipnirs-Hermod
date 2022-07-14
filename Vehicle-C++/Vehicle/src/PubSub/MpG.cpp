@@ -4,7 +4,7 @@ int main(
         int argc,
         char** argv)
 {
-    std::cout << "Publishing Fuel Status." << std::endl;
+    std::cout << "Publishing MPG Status." << std::endl;
     srand(time(0));
 
     MPG calc_;
@@ -18,11 +18,11 @@ int main(
         std::thread milesT (&MTSubscriber::run, myMTsub, &calc_);
         std::thread fuelR (&FRSubscriber::run, myFRsub, &calc_);
         std::thread MPG (&MPGPublisher::run, myMPGpub, &calc_);
-        std::thread AvgMPG (&MPGPublisher::AvgMPG, myMPGpub, &calc_);
+        //std::thread AvgMPG (&MPGPublisher::AvgMPG, myMPGpub, &calc_);
         milesT.join();
         fuelR.join();
         MPG.join();
-        AvgMPG.join();
+        //AvgMPG.join();
     }
 
     delete myMTsub;

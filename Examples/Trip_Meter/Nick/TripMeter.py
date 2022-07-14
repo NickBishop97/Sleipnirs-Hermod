@@ -48,7 +48,6 @@ class TripMeter:
 class Button:
 
     def __init__(self, TM):
-        self.button = 0
         self.TripMeter = TM
 
     def click(self):
