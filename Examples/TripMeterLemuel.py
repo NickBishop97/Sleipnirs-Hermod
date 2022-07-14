@@ -41,15 +41,14 @@ class TripData():
     
     def check_for_alarm(self):
         if self.current_time < 7200:
-            print("Everything good.")
+            return "Everything good."
         elif self.current_time >= 7200:
-            print("Alert! Alert!")
+            return "Alert! Alert!"
     
     def reset_data(self):
         self.mileage = 0.0
         self.mpg = 0.0
         self.return_time = 0.0
-        #self.current_time = 0.0
         self.avg_speed = 0.0
 
 
@@ -85,7 +84,7 @@ class TripMeter():
         return self.trip_data_list[self.current_trip].get_avg_speed()
     
     def check_for_alarm_for_current_trip(self):
-        self.trip_data_list[self.current_trip].check_for_alarm()
+        return self.trip_data_list[self.current_trip].check_for_alarm()
 
     def reset_data_for_current_trip(self):
         self.trip_data_list[self.current_trip].reset_data()
@@ -118,18 +117,3 @@ class Dashboard():
     def __init__(self, trip_meter):
         self.trip_meter = trip_meter
         self.button = Button(self.trip_meter)
-
-
-
-# TESTING AREA
-testTD1 = TripData(25.0, 100.0, 0.0, 35.0)
-testTD2 = TripData(30.0, 90.0, 0.0, 20.0)
-testTM = TripMeter(testTD1, testTD2)
-testDash = Dashboard(testTM)
-testDash.button.short_press()
-print('----')
-testDash.button.short_press()
-print('----')
-testDash.button.long_press()
-print('----')
-testDash.button.tm.check_for_alarm_for_current_trip()
