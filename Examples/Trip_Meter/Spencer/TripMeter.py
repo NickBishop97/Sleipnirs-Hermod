@@ -38,7 +38,7 @@ class TripData:
         return self.tripSpeed
 
     def getTripTime(self):
-        return self.trip
+        return self.tripTime
 
     def reset(self):
         self.tripMileage = 0.0
@@ -73,14 +73,14 @@ class TripMeter:
             self.button.setLongPress(False)
             self.reset()
 
-    def isTime(self):
-        if (self.tripTime < 2.0):
+    def isTime(self, trip):
+        if (trip.getTripTime() < 2.0):
             return False
         else:
             return True
 
     def reset(self):
-        self.getCurrentTrip.reset()
+        self.getCurrentTrip().reset()
 
 
 class Button:
