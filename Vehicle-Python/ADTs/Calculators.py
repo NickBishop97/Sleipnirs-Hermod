@@ -30,6 +30,17 @@ class FuelConsump:
             self.currentFuelGallons = 0
         return (self.currentFuelGallons, self.capacityGallons - self.currentFuelGallons)
 
+    def calculateFuelPercentage(self):
+        if self.capacityGallons <= 0:
+            return 0.0
+        if self.currentFuelGallons < 0:
+            return 0.0
+        if self.currentFuelGallons > self.capacityGallons:
+            return 100.0
+        
+        return ((self.currentFuelGallons / self.capacityGallons) * 100)
+
+
     # KILL SENSOR WHEN CONDITION IS MET, THIS IS A BASIC SIGNAL
     def controlSignal(self):
         time.sleep(50)
