@@ -472,26 +472,23 @@ public:
      */
     bool publish(MPG *calc_)
     {
-        
+        //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
         if((calc_->get_MPGindex() < calc_->get_MTindex()) && (calc_->get_MPGindex() < calc_->get_FSindex()))
         {
-            calc_->mpg(calc_->get_MT(), calc_->get_FS());
-            mpg_.mpg(calc_->get_MPG());
+            mpg_.mpg(calc_->mpg(calc_->get_MT(), calc_->get_FS()));
             writer_->write(&mpg_);
             calc_->set_MPGindex(calc_->get_MPGindex()+1);
             return true;
         }
         else if(calc_->get_MTindex() > calc_->get_FSindex())
         {
-            calc_->mpg(calc_->get_MT(), 0);
-            mpg_.mpg(calc_->get_MPG());
+            mpg_.mpg(calc_->mpg(0, 0));
             writer_->write(&mpg_);
             return true;
         }
         else if(calc_->get_MTindex() < calc_->get_FSindex())
         {
-            calc_->mpg(0, calc_->get_FS());
-            mpg_.mpg(calc_->get_MPG());
+            mpg_.mpg(calc_->mpg(0, 0));
             writer_->write(&mpg_);
             return true;
         }
@@ -510,7 +507,7 @@ public:
         {
             if (publish(calc_))
             {
-                if(mpg_.mpg() == -1){
+                if(mpg_.mpg() == -1.0){
                     std::cout << std::fixed << std::setprecision(1) << "MPG: -.-"  << std::endl;
                 }
                 else
@@ -522,20 +519,23 @@ public:
             {
                 std::cout << "MPG: -.-" << std::endl;
             }
-            //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << 
-            //calc_->get_FSindex() << std::endl;
+            //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
     }
     void AvgMPG(MPG *calc_)
     {
-        double temp;
-        temp = calc_->get_avgMPG();
-        if(temp > 0)
+        while(1)
         {
-            std::cout << "Avg MPG: " << calc_->get_avgMPG() << std::endl;
+            double temp;
+            temp = calc_->get_avgMPG();
+            if(temp > 0)
+            {
+                std::cout << "Avg MPG: " << temp << std::endl;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            //std::cout << "test" << std::endl;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     }
 };
 

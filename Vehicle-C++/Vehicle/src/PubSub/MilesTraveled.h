@@ -368,7 +368,7 @@ public:
                 calc_->set_index(1);
             }
             old = listener_.samples_;
-            std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            std::this_thread::sleep_for(std::chrono::milliseconds(251));
         }
     }
 };

@@ -51,3 +51,7 @@ file(GLOB DDS_MPG_SOURCES_CXX "src/MPG/*.cxx")
 add_executable(DDSMPG src/PubSub/MpG.cpp ${DDS_MPG_SOURCES_CXX})
 target_link_libraries(DDSMPG fastrtps fastcdr)
 
+message(STATUS "Configuring MilesLeft publisher/subscriber...")
+file(GLOB DDS_ML_SOURCES_CXX "src/MilesLeft/*.cxx")
+add_executable(DDSMilesLeft src/PubSub/MilesLeft.cpp ${DDS_ML_SOURCES_CXX})
+target_link_libraries(DDSMilesLeft fastrtps fastcdr)
