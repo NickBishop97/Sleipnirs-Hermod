@@ -12,16 +12,21 @@ class TripData:
         self.tripTime = tripTime
 
     def setTripMileage(self, tripMileage):
-        self.tripMileage = tripMileage
+        # Update only if the value is non-negative
+        if (tripMileage >= 0):
+            self.tripMileage = tripMileage
 
     def setTripMPG(self, tripMPG):
-        self.tripMPG = tripMPG
+        if (tripMPG >= 0):
+            self.tripMPG = tripMPG
 
     def setTripSpeed(self, tripSpeed):
-        self.tripSpeed = tripSpeed
+        if (tripSpeed >= 0):
+            self.tripSpeed = tripSpeed
 
     def setTripTime(self, tripTime):
-        self.tripTime = tripTime
+        if (tripTime >= 0):
+            self.tripTime = tripTime
 
     def getTripMileage(self):
         return self.tripMileage
@@ -43,46 +48,39 @@ class TripData:
 
 
 class TripMeter:
-    def __init__(self, currentTrip):
+    def __init__(self):
         self.trip1 = TripData(0.0, 0.0, 0.0, 0.0)
         self.trip2 = TripData(0.0, 0.0, 0.0, 0.0)
-        self.currentTrip = currentTrip
-        self.tripNumber = 1
-        currentTrip = self.trip1
+        self.currentTrip = 1
         self.button = Button(False, False)
 
-    def getTripNumber(self):
-        return self.tripNumber
-
-    def setTripNumber(self, tripNumber):
-        self.tripNumber = tripNumber
-
-    def setCurrentTrip(self):
-        if (self.getTripNumber() == 1):
-            self.setTripNumber(2)
-            self.currentTrip = self.trip2
-        elif (self.getTripNumber() == 2):
-            self.setTripNumber(1)
-            self.currentTrip = self.trip1
+    def getCurrentTrip(self):
+        if (self.currentTrip == 1):
+            return self.trip1   
+        elif (self.currentTrip == 2):
+            return self.trip2   
 
     def isPressed(self):
         if (self.button.shortPress == True):
             # Reset button after pressing
             self.button.setShortPress(False)
-            self.setCurrentTrip()
+            if (self.currentTrip == 1):
+                self.currentTrip = 2
+            elif (self.currentTrip == 2):
+                self.currentTrip = 1    
         elif (self.button.longPress == True):
             # Reset button after pressing
             self.button.setLongPress(False)
             self.reset()
 
-    def isTime(self, currentTrip):
-        if (currentTrip.tripTime < 2.0):
+    def isTime(self):
+        if (self.tripTime < 2.0):
             return False
         else:
             return True
 
     def reset(self):
-        self.currentTrip.reset()
+        self.getCurrentTrip.reset()
 
 
 class Button:
@@ -105,15 +103,11 @@ class Button:
 
 class DashBoard:
     def __init__(self):
-        self.tripMeter = TripMeter(TripData(0.0, 0.0, 0.0, 0.0))
+        self.tripMeter = TripMeter()
 
 
 def main():
     d = DashBoard()
-    d.tripMeter.currentTrip.setTripMPG(1)
-    print(d.tripMeter.currentTrip.getTripMPG())
-    d.tripMeter.currentTrip.reset()
-    print(d.tripMeter.currentTrip.getTripMPG())
 
 
 if __name__ == "__main__":
