@@ -1,0 +1,6 @@
+struct Button{
+
+	unsigned long index;
+	unsigned long button;
+
+};

@@ -18,7 +18,7 @@ from Readers import *
 from Calculators import *
 
 
-def main():
+def main() -> None:
     writers = []
     readers = []
     threads = []
@@ -38,13 +38,13 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    CalcThread = Thread(target=(writers[0].run),
+    lowFThread = Thread(target=(writers[0].run),
                         args=(
                             readers[0].dataQueue,),
                         daemon=True)
 
     threads.append(FuelThread)
-    threads.append(CalcThread)
+    threads.append(lowFThread)
 
     for thread in threads:
         thread.start()

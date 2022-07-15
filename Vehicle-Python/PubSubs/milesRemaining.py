@@ -23,7 +23,7 @@ from Readers import *
 from Calculators import *
 
 
-def main():
+def main() -> None:
     writers = []
     readers = []
     threads = []

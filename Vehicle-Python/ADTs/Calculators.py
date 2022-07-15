@@ -1,6 +1,6 @@
 import time
 import random
-import pytest
+from xmlrpc.client import Boolean
 
 # NOTE THAT THESE ARE SELF DEFINED CLASSES, EACH TYPE OF CLASS WILL BE DIFFERENT AND WILL HAVE DIFFERENT UNITS
 
@@ -16,11 +16,11 @@ class FuelConsump:
         self.currentFuelGallons = currentFuel
         self.currentFuelLiters  = currentFuel * self.gallonToLiters
         
-    def consumeFuel(self, stop_flag):
+    def consumeFuel(self, stop_flag, delta = random.uniform(0.001, 0.01)):
         if stop_flag:
             return(-1, -1)
             
-        change = self.currentFuelGallons = self.currentFuelGallons - random.uniform(0.001, 0.01) #random.uniform(0.5, 1)#
+        change = self.currentFuelGallons = self.currentFuelGallons - delta#random.uniform(0.5, 1)#
         if change <= 0:
             self.currentFuelGallons = 0 
         elif change > 0:
@@ -36,15 +36,25 @@ class FuelConsump:
 
 class DistTrav:
     def __init__(self, displacement):
-        self.milesTraveled = displacement
+        self.__milesTraveled = displacement
+        self.__delta         = random.uniform(1,2)
         
-    def addMiles(self, startStopCondition):
+    def addMiles(self, fuelQueue):
         #Fuel has not send data
         #if not startStopCondition.milesStarter:
         #    self.milesTraveled = -1
-        
-        if not startStopCondition.milesStopper and startStopCondition.milesStarter:
-            self.milesTraveled += random.uniform(1,2)
+        if not fuelQueue.empty():
+            data = fuelQueue.get()
+
+            #If the fuel guage is sending values <= 0, it is likely that the fuel tank is out
+            #For an odometer, the state would be kept and a displacement would be calculated
+            if float(data[1]) <= 0:
+                print("*****NO FUEL*****")
+            else:
+                self.__milesTraveled +=  self.__delta
+    
+    def setDelta(self, delta) -> None:
+        self.__delta = delta
             
 class LowFuelCalc:
     def __init__(self, threshold):
@@ -103,21 +113,83 @@ class MileRemainCalc:
         
         return self.mileRemain
     
+class TimeCalc:
+    #net time elapsed
+    def timedButton(self, timeElapsed = random.randint(0,3)):
+        #Implement time stuff here
+        return timeElapsed    
+               
+class ButtonCalc:
+    def timedButton(self, timePressed = random.randint(0,3)):
+        #Implement button stuff here
+        return timePressed
     
+class AverageSpeedCalc:
+    def averageSpeed(self, distance, time):
+        return float(distance / time)
+    
+ 
 class TripCalc:
     def __init__(self):
-        self.trips = []
-        self.currentTrip = 0 
+        self.currentTripNum = 0
+        self.trip_dict = {
+            "averageSpeed"     : 0,
+            "distance"         : 0,
+            "time"             : 0,
+            "MpG"              : 0,
+            "twoHours"         : False,
+            "resetCounterDist" : 0,
+            "resetCounterTime" : 0
+            
+        }
+        self.trips = [dict(self.trip_dict), dict(self.trip_dict)]
     
-    #def returnTrip(self, tripNumber):
+    def update(self, dataArray):
+        data = []
+        
+        for i in range(len(dataArray)):
+            data.append(dataArray[i].get()[1])
+            
+        for i in range(len(self.trips)):
+            #don't update resetcounter here    
+            self.trips[i]["averageSpeed"] = data[0]
+            self.trips[i]["distance"]     = data[1] - self.trips[i]["resetCounterDist"]
+            self.trips[i]["time"]         = data[2] - self.trips[i]["resetCounterTime"]
+            self.trips[i]["MpG"]          = data[3]
+            
+            if self.trips[i]["time"] >= float(2):
+                self.trips[i]["twoHours"] = True
+
+    def reset(self, resetButton):
+        #deep copy
+        currentTrip = self.trips[self.currentTripNum]
+        
+        #if long reset, reset all of the values
+        if resetButton >= 3:
+            data = self.trip_dict
+            
+            #write a comment of the equation for this block
+            data["resetCounterDist"] += currentTrip["distance"]
+            data["resetCounterTime"] += currentTrip["time"]
+            
+            #making the trip dict all zeros
+            self.trips[self.currentTripNum] = data
+        
+        #if a short reset, switch trips
+        elif resetButton >=0 and resetButton < 3:
+            self.currentTripNum = (self.currentTripNum + 1) % 2
+        else:
+            pass
+         
+        
+    def calculateTripData(self, resetButton, dataArray):
+        self.reset(resetButton)
+        self.update(dataArray)
+        return self.trips[self.currentTripNum]
     
-    def reset(self, button, totalMilesObj):
-        if(button):
-            totalMilesObj.milesTraveled = 0
-    
-    def addTrip(self, totalMilesObj):
-        self.trips.append(totalMilesObj.milesTraveled)
-        #receive the total miles traveled and reset them
+    def printDashData(self):
+        currentTrip = self.trips[self.currentTripNum]
         
-        
-        
+        print(f"Current Trip Num: {self.currentTripNum}")
+        for key in currentTrip:
+            print(f"{str(key)}: {currentTrip[str(key)]}")
