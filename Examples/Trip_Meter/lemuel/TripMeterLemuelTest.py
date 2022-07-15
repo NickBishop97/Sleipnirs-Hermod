@@ -7,7 +7,7 @@
 from TripMeterLemuel import *
 
 
-def test_to_display_stuff(inputDash, parm1, parm2, parm3, parm4):
+def get_test_to_display_stuff(inputDash, parm1, parm2, parm3, parm4):
     assert inputDash.button.tm.display_miles_traveled() == parm1
     assert inputDash.button.tm.display_mpg() == parm2
     assert inputDash.button.tm.display_time() == parm3
@@ -24,20 +24,13 @@ def test_data_switch():
     testDash = Dashboard(testTM)
 
     # test to make sure that the function calls return the correct data
-    test_to_display_stuff(testDash, 25.0, 100.0, 3600.0, 0.01)
-    #assert testDash.button.tm.display_miles_traveled() == 25.0
-    #assert testDash.button.tm.display_mpg() == 100.0
-    #assert testDash.button.tm.display_time() == 3600
-    #assert testDash.button.tm.display_avg_speed() == 0.01
+    get_test_to_display_stuff(testDash, 25.0, 100.0, 3600.0, 0.01)
 
     # simulate short button press to change current trip data
     testDash.button.short_press()
 
     # test to make sure that the function calls return the correct data
-    assert testDash.button.tm.display_miles_traveled() == 30.0
-    assert testDash.button.tm.display_mpg() == 90.0
-    assert testDash.button.tm.display_time() == 3600
-    assert testDash.button.tm.display_avg_speed() == 0.01
+    get_test_to_display_stuff(testDash, 30.0, 90.0, 3600.0, 0.01)
     testDash.button.short_press()
 
 
@@ -54,24 +47,15 @@ def test_data_reset():
 
     # test the simulated long press to make sure that the data has been reset to zero
     testDash.button.long_press()
-    assert testDash.button.tm.display_miles_traveled() == 0.0
-    assert testDash.button.tm.display_mpg() == 0.0
-    assert testDash.button.tm.display_time() == 3600
-    assert testDash.button.tm.display_avg_speed() == 0.0
+    get_test_to_display_stuff(testDash, 0.0, 0.0, 3600.0, 0.0)
 
     # change between trip data objects to prepare to reset
     testDash.button.short_press()
-    assert testDash.button.tm.display_miles_traveled() == 30.0
-    assert testDash.button.tm.display_mpg() == 90.0
-    assert testDash.button.tm.display_time() == 3600
-    assert testDash.button.tm.display_avg_speed() == 0.01
+    get_test_to_display_stuff(testDash, 30.0, 90.0, 3600.0, 0.01)
 
     # simulate long press to test the reset of data
     testDash.button.long_press()
-    assert testDash.button.tm.display_miles_traveled() == 0.0
-    assert testDash.button.tm.display_mpg() == 0.0
-    assert testDash.button.tm.display_time() == 3600
-    assert testDash.button.tm.display_avg_speed() == 0.0
+    get_test_to_display_stuff(testDash, 0.0, 0.0, 3600.0, 0.0)
 
 
 
