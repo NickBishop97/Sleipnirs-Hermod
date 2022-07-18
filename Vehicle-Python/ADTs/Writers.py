@@ -58,7 +58,8 @@ class MilesWriter(Entity.Writer):
         self.data.index(self.index)
         self.writer.write(self.data)
 
-        print(f"MILES TRAVELED: {self.data.index()}, {self.data.milesTraveled()}\n")
+        print(
+            f"MILES TRAVELED: {self.data.index()}, {self.data.milesTraveled()}\n")
         self.index += 1
 
     def run(self, startStopCondition):
@@ -87,7 +88,8 @@ class LowFuelWriter(Entity.Writer):
         self.data.isFuelLow(alert)
         self.data.index(self.index)
         self.writer.write(self.data)
-        print(f"Low Fuel: {self.data.index()}, {bool(self.data.isFuelLow())}\n")
+        print(
+            f"Low Fuel: {self.data.index()}, {bool(self.data.isFuelLow())}\n")
 
         self.index = self.index + 1
 
@@ -145,11 +147,13 @@ class MilesRemaining(Entity.Writer):
         milesRemainCalc = MileRemainCalc()  # noqa F405 (linting exemption)
 
         self.data.index(self.index)
-        self.data.milesToRefuel(milesRemainCalc.calculateMpG(fuelQueue, mpgQueue))
+        self.data.milesToRefuel(
+            milesRemainCalc.calculateMpG(fuelQueue, mpgQueue))
         self.writer.write(self.data)
 
         if not fuelQueue.empty() or not mpgQueue.empty():
-            print(f"MilesToRefuel: {self.data.index()}, {self.data.milesToRefuel()} \n")
+            print(
+                f"MilesToRefuel: {self.data.index()}, {self.data.milesToRefuel()} \n")
         else:
             print("MilesToRefuel:")
 

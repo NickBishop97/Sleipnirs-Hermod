@@ -42,10 +42,10 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nStopped!"),
-                    [reader.delete() for reader in readers],
-                    [writer.delete() for writer in writers],
-                    sys.exit(0),
+                      print("\nStopped!"),
+                      [reader.delete() for reader in readers],
+                      [writer.delete() for writer in writers],
+                      sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
@@ -60,7 +60,8 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
+    DistThread = Thread(target=(DistWriter.run), args=(
+        startStopCondition,), daemon=True)
 
     # REAL TIME READ FLAG DATA FROM FUEL IS HERE
     CalcThread = Thread(target=(fuelConnectionStatus),
