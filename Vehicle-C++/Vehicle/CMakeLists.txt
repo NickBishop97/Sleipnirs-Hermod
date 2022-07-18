@@ -55,3 +55,8 @@ message(STATUS "Configuring MilesLeft publisher/subscriber...")
 file(GLOB DDS_ML_SOURCES_CXX "src/MilesLeft/*.cxx")
 add_executable(DDSMilesLeft src/PubSub/MilesLeft.cpp ${DDS_ML_SOURCES_CXX})
 target_link_libraries(DDSMilesLeft fastrtps fastcdr)
+
+message(STATUS "Configuring TripMeter publisher/subscriber...")
+file(GLOB DDS_TM_SOURCES_CXX "src/TripMeter/*.cxx")
+add_executable(DDSTrip src/PubSub/TripMeter.cpp ${DDS_TM_SOURCES_CXX})
+target_link_libraries(DDSTrip fastrtps fastcdr)
