@@ -66,23 +66,25 @@ def test_alarm():
     # initialize the test objects
     testTD1 = TripData(25.0, 100.0, 0.0, 35.0)
     testTD2 = TripData(30.0, 90.0, 0.0, 20.0)
-    testTM = TripMeter(testTD1, testTD2)
-    testDash = Dashboard(testTM)
+
+    good_alarm = 'Everything good.'
+    bad_alarm = 'Alert! Alert!'
+
+    
 
     # test alarm function when the amount of time is one hour
-    assert testDash.button.tm.check_for_alarm_for_current_trip() == 'Everything good.'
+    assert testTD1.check_for_alarm() == good_alarm
     
     # set the time to the very boundary of the alarm threshold to test
-    testDash.button.tm.trip_data_list[0].current_time = 7199
-    assert testDash.button.tm.check_for_alarm_for_current_trip() == 'Everything good.'
+    testTD1.current_time = 7199
+    assert testTD1.check_for_alarm() == good_alarm
 
     # set time to exactly two hours to trigger the alarm
-    testDash.button.tm.trip_data_list[0].current_time = 7200
-    assert testDash.button.tm.check_for_alarm_for_current_trip() == 'Alert! Alert!'
+    testTD1.current_time = 7200
+    assert testTD1.check_for_alarm() == bad_alarm
 
     # change from one trip data object to another to test if the time changed as well
-    testDash.button.short_press()
-    assert testDash.button.tm.check_for_alarm_for_current_trip() == 'Everything good.'
+    assert testTD2.check_for_alarm() == good_alarm
 
 
 
