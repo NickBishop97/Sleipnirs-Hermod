@@ -5,8 +5,10 @@
 *.swp
 *.html
 *.xml
+
 #ignoring pytest coverage files
 *.coverage
+
 ./.vscode
 ./.pytest_cache
 .vscode
@@ -18,4 +20,5 @@ Vehicle-Python/MessageFormats/*/*.so
 Vehicle-Python/MessageFormats/*/Makefile
 Vehicle-C++/Vehicle/*/Makefile
 Vehicle-C++/Vehicle/Build/*
+Vehicle-Python/Build/*
 Makefile

@@ -540,5 +540,4 @@ class TripMeter
             };
 };
 
-
 #endif

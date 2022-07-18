@@ -26,11 +26,11 @@ def runSensor():
 
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nInterrupted!\n"),
-                    test_flag.makeTrue(),
-                    fuelWriter.write(test_flag.test_flag),
-                    fuelWriter.delete(),
-                    exit(),
+                      print("\nInterrupted!\n"),
+                      test_flag.makeTrue(),
+                      fuelWriter.write(test_flag.test_flag),
+                      fuelWriter.delete(),
+                      exit(),
                   ))
 
     print('\nStarting publisher.')

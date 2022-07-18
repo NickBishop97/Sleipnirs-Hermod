@@ -4,6 +4,7 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
+import fastdds
 from sys import version_info as _swig_python_version_info
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
@@ -15,6 +16,7 @@ try:
     import builtins as __builtin__
 except ImportError:
     import __builtin__
+
 
 def _swig_repr(self):
     try:
@@ -33,7 +35,8 @@ def _swig_setattr_nondynamic_instance_variable(set):
         elif hasattr(self, name) and isinstance(getattr(type(self), name), property):
             set(self, name, value)
         else:
-            raise AttributeError("You cannot add instance attributes to %s" % self)
+            raise AttributeError(
+                "You cannot add instance attributes to %s" % self)
     return set_instance_attr
 
 
@@ -59,7 +62,8 @@ class _SwigNonDynamicMeta(type):
 
 
 class SwigPyIterator(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
@@ -113,24 +117,32 @@ class SwigPyIterator(object):
 
     def __sub__(self, *args):
         return _MpGWrapper.SwigPyIterator___sub__(self, *args)
+
     def __iter__(self):
         return self
 
+
 # Register SwigPyIterator in _MpGWrapper:
 _MpGWrapper.SwigPyIterator_swigregister(SwigPyIterator)
-import fastdds
+
+
 class _MpGSeq(fastdds.LoanableCollection):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
     __swig_destroy__ = _MpGWrapper.delete__MpGSeq
 
+
 # Register _MpGSeq in _MpGWrapper:
 _MpGWrapper._MpGSeq_swigregister(_MpGSeq)
+
+
 class MpGSeq(_MpGSeq):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MpGWrapper.delete_MpGSeq
 
@@ -143,10 +155,14 @@ class MpGSeq(_MpGSeq):
     def __getitem__(self, i):
         return _MpGWrapper.MpGSeq___getitem__(self, i)
 
+
 # Register MpGSeq in _MpGWrapper:
 _MpGWrapper.MpGSeq_swigregister(MpGSeq)
+
+
 class MpG(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MpGWrapper.delete_MpG
 
@@ -190,15 +206,20 @@ class MpG(object):
     def serializeKey(self, cdr):
         return _MpGWrapper.MpG_serializeKey(self, cdr)
 
+
 # Register MpG in _MpGWrapper:
 _MpGWrapper.MpG_swigregister(MpG)
 GEN_API_VER = _MpGWrapper.GEN_API_VER
+
+
 class MpGPubSubType(fastdds.TopicDataType):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x,
+                       v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
-        _MpGWrapper.MpGPubSubType_swiginit(self, _MpGWrapper.new_MpGPubSubType())
+        _MpGWrapper.MpGPubSubType_swiginit(
+            self, _MpGWrapper.new_MpGPubSubType())
     __swig_destroy__ = _MpGWrapper.delete_MpGPubSubType
 
     def serialize(self, data, payload):
@@ -227,9 +248,11 @@ class MpGPubSubType(fastdds.TopicDataType):
 
     def construct_sample(self, memory):
         return _MpGWrapper.MpGPubSubType_construct_sample(self, memory)
-    m_md5 = property(_MpGWrapper.MpGPubSubType_m_md5_get, _MpGWrapper.MpGPubSubType_m_md5_set)
-    m_keyBuffer = property(_MpGWrapper.MpGPubSubType_m_keyBuffer_get, _MpGWrapper.MpGPubSubType_m_keyBuffer_set)
+    m_md5 = property(_MpGWrapper.MpGPubSubType_m_md5_get,
+                     _MpGWrapper.MpGPubSubType_m_md5_set)
+    m_keyBuffer = property(_MpGWrapper.MpGPubSubType_m_keyBuffer_get,
+                           _MpGWrapper.MpGPubSubType_m_keyBuffer_set)
+
 
 # Register MpGPubSubType in _MpGWrapper:
 _MpGWrapper.MpGPubSubType_swigregister(MpGPubSubType)
-

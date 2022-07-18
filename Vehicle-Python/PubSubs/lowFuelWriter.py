@@ -24,9 +24,9 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nStopped!"),
-                    [reader.delete() for reader in readers],
-                    sys.exit(0),
+                      print("\nStopped!"),
+                      [reader.delete() for reader in readers],
+                      sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")

@@ -78,7 +78,7 @@ def main():
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405 (linting exemption)
     readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
     readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405
-    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL])) # noqa F405
+    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))  # noqa F405
 
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
@@ -126,16 +126,16 @@ def chart_data():
 if __name__ == '__main__':
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nStopped!"),
-                    # [reader.delete() for reader in readers],
-                    sys.exit(0),
+                      print("\nStopped!"),
+                      # [reader.delete() for reader in readers],
+                      sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
 
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])) # noqa F405 (linting exemption)
+    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa F405 (linting exemption)
     readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405
     readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
     readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405

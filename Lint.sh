@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #Fail if any command exit with error.
-set -e
+#set -e
 
 #exits if no directory is given as an arg
 #string=$1
@@ -24,6 +24,5 @@ echo -e "${LPUR}C++ LINTING COMPLETE${NC}"
 echo
 echo "############ Linting Python Dir ##############"
 echo
-flake8 --ignore=E501,F401,E402 ./Vehicle-Python/
-echo
+flake8 --ignore=E501,F401,E402,F403,F811 ./Vehicle-Python/
 echo -e "${LPUR}Python LINTING COMPLETE${NC}"

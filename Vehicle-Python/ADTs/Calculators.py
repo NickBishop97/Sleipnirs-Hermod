@@ -21,7 +21,8 @@ class FuelConsump:
         if stop_flag:
             return(-1, -1)
 
-        change = self.currentFuelGallons = self.currentFuelGallons - random.uniform(0.001, 0.01)  # random.uniform(0.5, 1)#
+        change = self.currentFuelGallons = self.currentFuelGallons - \
+            random.uniform(0.001, 0.01)  # random.uniform(0.5, 1)#
         if change <= 0:
             self.currentFuelGallons = 0
         elif change > 0:
@@ -37,11 +38,11 @@ class FuelConsump:
             return 0.0
         if self.currentFuelGallons > self.capacityGallons:
             return 100.0
-        
+
         return ((self.currentFuelGallons / self.capacityGallons) * 100)
 
-
     # KILL SENSOR WHEN CONDITION IS MET, THIS IS A BASIC SIGNAL
+
     def controlSignal(self):
         time.sleep(50)
         return True
@@ -92,7 +93,7 @@ class MpGCalc:
             milesDatum = milesQueue.get()[1]
 
         if not fuelDatum == 0:
-            self.mpg = float(milesDatum)/float(fuelDatum)
+            self.mpg = float(milesDatum) / float(fuelDatum)
 
         elif fuelDatum <= 0:
             self.mpg = float(-1)
