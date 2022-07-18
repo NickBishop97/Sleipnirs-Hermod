@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, "../ADTs")
 from Calculators import FuelConsump  # noqa E402 (linting exemption)
 
@@ -67,19 +68,19 @@ def test_full_over_negative():
 
 
 test_base_case()
-print('')
+print("")
 test_zero_over_full()
-print('')
+print("")
 test_zero_over_zero()
-print('')
+print("")
 test_negative_over_full()
-print('')
+print("")
 test_side_case()
-print('')
+print("")
 test_half_over_zero()
-print('')
+print("")
 test_extra_over_full()
-print('')
+print("")
 test_full_over_full()
-print('')
+print("")
 test_full_over_negative()

@@ -15,10 +15,12 @@
 entity.py
 """
 from threading import Thread
+
 # from email.message import Message
 # from logging.config import listen
 # from multiprocessing.connection import Listener
 from threading import Condition
+
 # import time
 
 import fastdds
@@ -28,18 +30,24 @@ USAGE = """TO BE INHERITED BY A USER DEFINED CLASS"""
 
 
 class Entity:
-
     class ReaderListener(fastdds.DataReaderListener):
-
         def __init__(self):
             # self.data = data
             super().__init__()
 
         def on_subscription_matched(self, datareader, info):
-            if(0 < info.current_count_change):
-                print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            if 0 < info.current_count_change:
+                print(
+                    "Subscriber matched publisher {}".format(
+                        info.last_publication_handle
+                    )
+                )
             else:
-                print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+                print(
+                    "Subscriber unmatched publisher {}".format(
+                        info.last_publication_handle
+                    )
+                )
                 exit()
 
         def on_data_available(self, reader):
@@ -49,8 +57,10 @@ class Entity:
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
     class Reader:
-        def __init__(self,
-                     ddsDataArray,):
+        def __init__(
+            self,
+            ddsDataArray,
+        ):
 
             # SAVING INPUT VARIABLES
             self.MessageType = ddsDataArray[0]
@@ -59,7 +69,9 @@ class Entity:
 
             try:
                 # data = HelloWorld.HelloWorld()
-                func = getattr(self.MessageType, f"{self.MessageType_name}")  # inputting the idl special datatype
+                func = getattr(
+                    self.MessageType, f"{self.MessageType_name}"
+                )  # inputting the idl special datatype
                 self.data = func()
             except AttributeError:
                 print(f"{self.MessageType_name}.{self.MessageType_name}() not found")
@@ -74,11 +86,17 @@ class Entity:
             # create name and initialize the data type for the topic
             # myPubSubType() is the message type being defined
             try:
-                funcOne = getattr(self.MessageType, f"{self.MessageType_name}PubSubType")  # inputting the idl special datatype
+                funcOne = getattr(
+                    self.MessageType, f"{self.MessageType_name}PubSubType"
+                )  # inputting the idl special datatype
                 self.topic_data_type = funcOne()
-                print(f"Found: {self.MessageType_name}.{self.MessageType_name}PubSubType()")
+                print(
+                    f"Found: {self.MessageType_name}.{self.MessageType_name}PubSubType()"
+                )
             except AttributeError:
-                print(f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found")
+                print(
+                    f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found"
+                )
                 raise
 
             # creation of a topic name and registering data type and topic with fastdds
@@ -89,7 +107,9 @@ class Entity:
             # create the topic itself and name it
             self.topic_qos = fastdds.TopicQos()
             self.participant.get_default_topic_qos(self.topic_qos)
-            self.topic = self.participant.create_topic(f"{self.Topic_name}", self.topic_data_type.getName(), self.topic_qos)
+            self.topic = self.participant.create_topic(
+                f"{self.Topic_name}", self.topic_data_type.getName(), self.topic_qos
+            )
 
             # create the particular subscriber
             self.subscriber_qos = fastdds.SubscriberQos()
@@ -108,7 +128,9 @@ class Entity:
             # creation of the data reader
             self.reader_qos = fastdds.DataReaderQos()
             self.subscriber.get_default_datareader_qos(self.reader_qos)
-            self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
+            self.reader = self.subscriber.create_datareader(
+                self.topic, self.reader_qos, self.listener
+            )
 
         def dataRunReturn(self):
             while True:
@@ -126,22 +148,30 @@ class Entity:
             self.participant.delete_contained_entities()
             factory.delete_participant(self.participant)
 
-    class WriterListener (fastdds.DataWriterListener):
+    class WriterListener(fastdds.DataWriterListener):
         def __init__(self, writer):
             self._writer = writer
             super().__init__()
 
         def on_publication_matched(self, datawriter, info):
             print("Sending...")
-            if(0 < info.current_count_change):
-                print("Publisher matched subscriber {}".format(info.last_subscription_handle))
+            if 0 < info.current_count_change:
+                print(
+                    "Publisher matched subscriber {}".format(
+                        info.last_subscription_handle
+                    )
+                )
 
                 self._writer._cvDiscovery.acquire()
                 self._writer._cvDiscovery.notify()
                 self._writer._matched_reader += 1
                 self._writer._cvDiscovery.release()
             else:
-                print("Publisher unmatched subscriber {}".format(info.last_subscription_handle))
+                print(
+                    "Publisher unmatched subscriber {}".format(
+                        info.last_subscription_handle
+                    )
+                )
                 self._writer._cvDiscovery.acquire()
                 self._writer._matched_reader -= 1
                 self._writer._cvDiscovery.notify()
@@ -149,7 +179,6 @@ class Entity:
                 # exit()  # kills flask
 
     class Writer:
-
         def __init__(self, ddsDataArray):
             # SAVING INPUT VARIABLES
             self.MessageType = ddsDataArray[0]
@@ -159,7 +188,9 @@ class Entity:
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
                 # data = HelloWorld.HelloWorld()
-                func = getattr(self.MessageType, f"{self.MessageType_name}")  # inputting the idl special datatype
+                func = getattr(
+                    self.MessageType, f"{self.MessageType_name}"
+                )  # inputting the idl special datatype
                 self.data = func()
             except AttributeError:
                 print(f"{self.MessageType_name}.{self.MessageType_name}() not found")
@@ -176,20 +207,30 @@ class Entity:
 
             # myPubSubType() is the message type being defined
             try:
-                funcOne = getattr(self.MessageType, f"{self.MessageType_name}PubSubType")  # inputting the idl special datatype
+                funcOne = getattr(
+                    self.MessageType, f"{self.MessageType_name}PubSubType"
+                )  # inputting the idl special datatype
                 self.topic_data_type = funcOne()
-                print(f"Found: {self.MessageType_name}.{self.MessageType_name}PubSubType()")
+                print(
+                    f"Found: {self.MessageType_name}.{self.MessageType_name}PubSubType()"
+                )
             except AttributeError:
-                print(f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found")
+                print(
+                    f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found"
+                )
 
-            self.topic_data_type.setName(f"{self.MessageType_name}")  # setting name of topic to myPubSubType_name, <idl-name>
+            self.topic_data_type.setName(
+                f"{self.MessageType_name}"
+            )  # setting name of topic to myPubSubType_name, <idl-name>
             self.type_support = fastdds.TypeSupport(self.topic_data_type)
             self.participant.register_type(self.type_support)
 
             # creating a topic using the topic name and idl file name
             self.topic_qos = fastdds.TopicQos()
             self.participant.get_default_topic_qos(self.topic_qos)
-            self.topic = self.participant.create_topic(ddsDataArray[2], self.topic_data_type.getName(), self.topic_qos)
+            self.topic = self.participant.create_topic(
+                ddsDataArray[2], self.topic_data_type.getName(), self.topic_qos
+            )
 
             # making the participant a publisher
             self.publisher_qos = fastdds.PublisherQos()
@@ -200,7 +241,9 @@ class Entity:
             self.listener = Entity.WriterListener(self)
             self.writer_qos = fastdds.DataWriterQos()
             self.publisher.get_default_datawriter_qos(self.writer_qos)
-            self.writer = self.publisher.create_datawriter(self.topic, self.writer_qos, self.listener)
+            self.writer = self.publisher.create_datawriter(
+                self.topic, self.writer_qos, self.listener
+            )
 
         def wait_discovery(self):
             self._cvDiscovery.acquire()
