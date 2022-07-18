@@ -50,10 +50,14 @@ class FuelRL(Entity.ReaderListener):
         super().__init__()
 
     def on_subscription_matched(self, datareader, info):
-        if (0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+        if 0 < info.current_count_change:
+            print(
+                "Subscriber matched publisher {}".format(info.last_publication_handle)
+            )
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print(
+                "Subscriber unmatched publisher {}".format(info.last_publication_handle)
+            )
 
     def on_data_available(self, reader):
 
@@ -63,15 +67,14 @@ class FuelRL(Entity.ReaderListener):
         data = self.data
         reader.take_next_sample(data, info)
         # print(f"[FUEL: REMAINING, SPENT]: {data.index()}, {data.litersRemaining()}, {data.litersSpent()}")
-        self.dataQueue.put([data.index(),
-                            data.litersRemaining(),
-                            data.litersSpent()])
+        self.dataQueue.put([data.index(), data.litersRemaining(), data.litersSpent()])
 
     def getConnectionStatus(self):
         return self.connectionStatus
 
     def getDataReturn(self):
         return self.dataQueue
+
 
 ############################################################################################
 ############################################################################################
@@ -103,10 +106,14 @@ class DistanceRL(Entity.ReaderListener):
         super().__init__()
 
     def on_subscription_matched(self, datareader, info):
-        if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+        if 0 < info.current_count_change:
+            print(
+                "Subscriber matched publisher {}".format(info.last_publication_handle)
+            )
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print(
+                "Subscriber unmatched publisher {}".format(info.last_publication_handle)
+            )
             # exit()
 
     def on_data_available(self, reader):
@@ -115,11 +122,11 @@ class DistanceRL(Entity.ReaderListener):
         reader.take_next_sample(data, info)
         # milesTraveled = float(data.milesTraveled())
         # print(f"[DISTANCE TRAVELED]: {data.index()}, {milesTraveled}")
-        self.dataQueue.put([data.index(),
-                            data.milesTraveled()])
+        self.dataQueue.put([data.index(), data.milesTraveled()])
 
     def getDataReturn(self):
         return self.dataQueue
+
 
 ############################################################################################
 ############################################################################################
@@ -151,10 +158,14 @@ class MpGRL(Entity.ReaderListener):
         super().__init__()
 
     def on_subscription_matched(self, datareader, info):
-        if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+        if 0 < info.current_count_change:
+            print(
+                "Subscriber matched publisher {}".format(info.last_publication_handle)
+            )
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print(
+                "Subscriber unmatched publisher {}".format(info.last_publication_handle)
+            )
             # exit()
 
     def on_data_available(self, reader):
@@ -162,11 +173,11 @@ class MpGRL(Entity.ReaderListener):
         data = self.data
         reader.take_next_sample(data, info)
         # print(f"[MPG]: {data.index()}, {float(data.mpg())}")
-        self.dataQueue.put([data.index(),
-                            float(data.mpg())])
+        self.dataQueue.put([data.index(), float(data.mpg())])
 
     def getDataReturn(self):
         return self.dataQueue
+
 
 ############################################################################################
 ############################################################################################
@@ -198,10 +209,14 @@ class LowFuelAlertRL(Entity.ReaderListener):
         super().__init__()
 
     def on_subscription_matched(self, datareader, info):
-        if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+        if 0 < info.current_count_change:
+            print(
+                "Subscriber matched publisher {}".format(info.last_publication_handle)
+            )
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print(
+                "Subscriber unmatched publisher {}".format(info.last_publication_handle)
+            )
             # exit()
 
     def on_data_available(self, reader):
@@ -210,11 +225,11 @@ class LowFuelAlertRL(Entity.ReaderListener):
         reader.take_next_sample(data, info)
 
         # print(f"[LOW FUEL]: {data.index()}, {bool(data.isFuelLow())}")
-        self.dataQueue.put([data.index(),
-                            bool(data.isFuelLow())])
+        self.dataQueue.put([data.index(), bool(data.isFuelLow())])
 
     def getDataReturn(self):
         return self.dataQueue
+
 
 ############################################################################################
 ############################################################################################
@@ -251,8 +266,7 @@ class MilesRemainRL(Entity.ReaderListener):
         reader.take_next_sample(data, info)
 
         # print(f"[MILES REMAIN]: {data.index()}, {data.milesToRefuel()}")
-        self.dataQueue.put([data.index(),
-                            data.milesToRefuel()])
+        self.dataQueue.put([data.index(), data.milesToRefuel()])
 
     def getDataReturn(self):
         return self.dataQueue

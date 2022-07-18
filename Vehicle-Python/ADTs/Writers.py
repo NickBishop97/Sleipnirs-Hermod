@@ -1,5 +1,6 @@
 # from threading import Condition
 import time
+
 # import random
 
 # ADT IMPORTS
@@ -39,6 +40,7 @@ class FuelWriter(Entity.Writer):
             self.write(stop_flag)
             time.sleep(global_sleep_time)
 
+
 ############################################################################################
 ############################################################################################
 ############################################################################################
@@ -65,9 +67,10 @@ class MilesWriter(Entity.Writer):
         # self.wait_discovery()
         while True:
             self.write(startStopCondition)
-            time.sleep(global_sleep_time)    # Report every 0.25 s
+            time.sleep(global_sleep_time)  # Report every 0.25 s
             # 25 MPH = 0.001 miles in 0.25 s
             # 85 MPH = 0.006 miles in 0.25 s
+
 
 ############################################################################################
 ############################################################################################
@@ -81,7 +84,9 @@ class LowFuelWriter(Entity.Writer):
         super().__init__(ddsDataArray)
 
     def write(self, fuelQueue):
-        lowFuel = LowFuelCalc(50)  # noqa F405 (linting exemption from Calculators import)
+        lowFuel = LowFuelCalc(
+            50
+        )  # noqa F405 (linting exemption from Calculators import)
         alert = lowFuel.lowFuelAlert(fuelQueue.get()[1])
         # UPDATING MESSAGE CONTENTS
         self.data.isFuelLow(alert)
@@ -96,6 +101,7 @@ class LowFuelWriter(Entity.Writer):
         while True:
             self.write(fuelQueue)
             time.sleep(global_sleep_time)
+
 
 ############################################################################################
 ############################################################################################
@@ -126,6 +132,7 @@ class MpGWriter(Entity.Writer):
         while True:
             self.write(fuelQueue, milesQueue)
             time.sleep(global_sleep_time_buffered)
+
 
 ############################################################################################
 ############################################################################################
