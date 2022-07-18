@@ -10,6 +10,16 @@ sys.path.insert(1, '../ADTs/')
 from Writers import FuelWriter  # noqa E402 (linting exemption)
 from Calculators import FuelConsump  # noqa E402 (linting exemption)
 
+<<<<<<< HEAD
+    
+#MAIN
+def runSensor() -> None:
+    signal.signal(signal.SIGINT,
+                  lambda sig, frame: (
+                    print("\nInterrupted!\n"),
+                    fuelWriter.stopSignalReceived(True),
+                    fuelWriter.write(),
+=======
 
 class TestFlag:
     def __init__(self):
@@ -29,14 +39,21 @@ def runSensor():
                     print("\nInterrupted!\n"),
                     test_flag.makeTrue(),
                     fuelWriter.write(test_flag.test_flag),
+>>>>>>> master
                     fuelWriter.delete(),
                     exit(),
                   ))
 
     print('\nStarting publisher.')
+<<<<<<< HEAD
+    #FuelRemaining544645
+    fuelWriter = FuelWriter([Fuel, "Fuel", "FuelRemaining544645"], FuelConsump(100,100))  # noqa: F821
+    fuelWriter.run()
+=======
     # FuelRemaining544645
     fuelWriter = FuelWriter([Fuel, "Fuel", "FuelRemaining544645"], FuelConsump(100, 100))  # noqa: F821
     fuelWriter.run(test_flag.test_flag)
+>>>>>>> master
 
     # code is not unreachable, just a bug
     signal.pause()
