@@ -15,23 +15,54 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:Vehicle-Python/MessageFormats/Button/CMakeLists.txt
+# Library for types defined in Button IDL
+###############################################################################
+
+message(STATUS "Configuring python wrapper for types in Button...")
+=======
+>>>>>>> master
 # Library for types defined in MpG IDL
 ###############################################################################
 
 message(STATUS "Configuring python wrapper for types in MpG...")
+<<<<<<< HEAD
+=======
+>>>>>>> master:Vehicle-Python/MessageFormats/MpG/CMakeLists.txt
+>>>>>>> master
 
 ###############################################################################
 # Type library on C++
 
+<<<<<<< HEAD
 project(MpG)
+=======
+<<<<<<< HEAD:Vehicle-Python/MessageFormats/Button/CMakeLists.txt
+project(Button)
+=======
+project(MpG)
+>>>>>>> master:Vehicle-Python/MessageFormats/MpG/CMakeLists.txt
+>>>>>>> master
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
+<<<<<<< HEAD
     MpG.cxx
     MpGPubSubTypes.cxx
+=======
+<<<<<<< HEAD:Vehicle-Python/MessageFormats/Button/CMakeLists.txt
+    Button.cxx
+    ButtonPubSubTypes.cxx
+=======
+    MpG.cxx
+    MpGPubSubTypes.cxx
+>>>>>>> master:Vehicle-Python/MessageFormats/MpG/CMakeLists.txt
+>>>>>>> master
     )
 
 include_directories()
@@ -60,7 +91,15 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
+<<<<<<< HEAD
     MpGWrapper
+=======
+<<<<<<< HEAD:Vehicle-Python/MessageFormats/Button/CMakeLists.txt
+    ButtonWrapper
+=======
+    MpGWrapper
+>>>>>>> master:Vehicle-Python/MessageFormats/MpG/CMakeLists.txt
+>>>>>>> master
     )
 
 set(${PROJECT_NAME}_MODULE_FILES

@@ -2,6 +2,7 @@ from threading import Thread
 import signal
 # import time
 import sys
+from queue import Queue
 
 # IDL DATA IMPORTS
 sys.path.insert(0, '../MessageFormats/Fuel/')
@@ -16,6 +17,9 @@ from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
 
 
+<<<<<<< HEAD
+def main() -> None:
+=======
 def fuelConnectionStatus(dataQueue, connected, startStopCondition):
     while True:
 
@@ -37,6 +41,7 @@ class StartStopCondition:
 
 
 def main():
+>>>>>>> master
     writers = []
     readers = []
     threads = []
@@ -49,9 +54,14 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
+<<<<<<< HEAD
+    
+    #MAKING THREADS TO RUN READER AND WRITER OBJECTS
+=======
     startStopCondition = StartStopCondition()
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
+>>>>>>> master
     FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
     DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
 
@@ -60,6 +70,10 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
+<<<<<<< HEAD
+    DistThread = Thread(target=(DistWriter.run), 
+                        args=(readers[0].getDataQueue(),),
+=======
     DistThread = Thread(target=(DistWriter.run), args=(startStopCondition,), daemon=True)
 
     # REAL TIME READ FLAG DATA FROM FUEL IS HERE
@@ -68,11 +82,13 @@ def main():
                             readers[0].dataQueue,
                             readers[0].connected,
                             startStopCondition,),
+>>>>>>> master
                         daemon=True)
+    
 
     threads.append(FuelThread)
     threads.append(DistThread)
-    threads.append(CalcThread)
+    
 
     for thread in threads:
         thread.start()
