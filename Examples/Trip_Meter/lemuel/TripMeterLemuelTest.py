@@ -104,8 +104,11 @@ def test_add_trip_data():
     testDash.button.short_press()
     testDash.button.short_press()
 
+    get_test_to_display_stuff(testDash, 10.0, 50.0, 3540.0, 0.0)
+
 
 
 test_data_switch()
 test_data_reset()
 test_alarm()
+test_add_trip_data()
