@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 struct MilesToRefuel{
 
+=======
+struct MilesToRefuel
+{
+>>>>>>> master
     unsigned long index;
     double milesToRefuel;
 };

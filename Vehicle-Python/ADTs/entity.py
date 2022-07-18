@@ -26,6 +26,10 @@ import fastdds
 
 DESCRIPTION = """Writer and Reader ADTs for use"""
 USAGE = """TO BE INHERITED BY A USER DEFINED CLASS"""
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 
 class Entity:
 
@@ -41,7 +45,11 @@ class Entity:
             else:
                 print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
                 exit()
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> master
         def on_data_available(self, reader):
             raise NotImplementedError(self.____class__.__name__ + " was not implemented!")
 
@@ -51,18 +59,29 @@ class Entity:
     class Reader:
         def __init__(self,
                      ddsDataArray,):
-            
+
             # SAVING INPUT VARIABLES
+<<<<<<< HEAD
             self.__MessageType = ddsDataArray[0]
             self.__MessageType_name = ddsDataArray[1]
             self.__Topic_name = ddsDataArray[2]
             
+=======
+            self.MessageType = ddsDataArray[0]
+            self.MessageType_name = ddsDataArray[1]
+            self.Topic_name = ddsDataArray[2]
+
+>>>>>>> master
             try:
                 # __data = HelloWorld.HelloWorld()
                 func = getattr(self.__MessageType, f"{self.__MessageType_name}")  # inputting the idl special datatype
                 self.__data = func()
             except AttributeError:
+<<<<<<< HEAD
                 print(f"{self.__MessageType_name}.{self.__MessageType_name}() not found")
+=======
+                print(f"{self.MessageType_name}.{self.MessageType_name}() not found")
+>>>>>>> master
                 raise
 
             # use factory to make participant
@@ -78,6 +97,7 @@ class Entity:
                 self.__topic_data_type = funcOne()
                 print(f"Found: {self.__MessageType_name}.{self.__MessageType_name}PubSubType()")
             except AttributeError:
+<<<<<<< HEAD
                 print(f"{self.__MessageType_name}.{self.__MessageType_name}PubSubType() not found")
                 raise
 
@@ -85,6 +105,15 @@ class Entity:
             self.__topic_data_type.setName(f"{self.__MessageType_name}")
             self.__type_support = fastdds.TypeSupport(self.__topic_data_type)
             self.__participant.register_type(self.__type_support)
+=======
+                print(f"{self.MessageType_name}.{self.MessageType_name}PubSubType() not found")
+                raise
+
+            # creation of a topic name and registering data type and topic with fastdds
+            self.topic_data_type.setName(f"{self.MessageType_name}")
+            self.type_support = fastdds.TypeSupport(self.topic_data_type)
+            self.participant.register_type(self.type_support)
+>>>>>>> master
 
             # create the topic itself and name it
             self.__topic_qos = fastdds.TopicQos()
@@ -105,6 +134,7 @@ class Entity:
             self.__dataQueue = self.__listener.getDataReturn() 
 
             #####################################################################################################
+<<<<<<< HEAD
            
             #creation of the __data reader
             self.__reader_qos = fastdds.DataReaderQos()
@@ -113,6 +143,13 @@ class Entity:
 
         def getDataQueue(self) -> Queue:
             return self.__dataQueue
+=======
+
+            # creation of the data reader
+            self.reader_qos = fastdds.DataReaderQos()
+            self.subscriber.get_default_datareader_qos(self.reader_qos)
+            self.reader = self.subscriber.create_datareader(self.topic, self.reader_qos, self.listener)
+>>>>>>> master
 
         def dataRunReturn(self) -> Queue:
             while True:
@@ -135,6 +172,7 @@ class Entity:
             self.__writer = writer
             super().__init__()
 
+<<<<<<< HEAD
         def on_publication_matched(self, datawriter, info) -> None:
             print("Sending...")
             if(0 < info.current_count_change):
@@ -151,14 +189,38 @@ class Entity:
                 self.__writer._cvDiscovery.notify()
                 self.__writer._cvDiscovery.release()
                 #exit() #kills flask
+=======
+        def on_publication_matched(self, datawriter, info):
+            print("Sending...")
+            if(0 < info.current_count_change):
+                print("Publisher matched subscriber {}".format(info.last_subscription_handle))
+
+                self._writer._cvDiscovery.acquire()
+                self._writer._cvDiscovery.notify()
+                self._writer._matched_reader += 1
+                self._writer._cvDiscovery.release()
+            else:
+                print("Publisher unmatched subscriber {}".format(info.last_subscription_handle))
+                self._writer._cvDiscovery.acquire()
+                self._writer._matched_reader -= 1
+                self._writer._cvDiscovery.notify()
+                self._writer._cvDiscovery.release()
+                # exit()  # kills flask
+>>>>>>> master
 
     class Writer:
 
         def __init__(self, ddsDataArray):
             # SAVING INPUT VARIABLES
+<<<<<<< HEAD
             self.__MessageType      = ddsDataArray[0]
             self.__MessageType_name = ddsDataArray[1]
             self.__Topic_name       = ddsDataArray[2]
+=======
+            self.MessageType = ddsDataArray[0]
+            self.MessageType_name = ddsDataArray[1]
+            self.Topic_name = ddsDataArray[2]
+>>>>>>> master
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:

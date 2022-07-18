@@ -1,8 +1,12 @@
 *.pyc
 *.o
+*.a
+*.so
 *.swp
 *.html
 *.xml
+#ignoring pytest coverage files
+*.coverage
 ./.vscode
 ./.pytest_cache
 .vscode
@@ -10,3 +14,7 @@
 CMakeFiles/
 CMakeCache.txt
 */*/Makefile
+Vehicle-Python/MessageFormats/*/*.so
+Vehicle-Python/MessageFormats/*/Makefile
+Vehicle-C++/Vehicle/*/Makefile
+Vehicle-C++/Vehicle/Build/*

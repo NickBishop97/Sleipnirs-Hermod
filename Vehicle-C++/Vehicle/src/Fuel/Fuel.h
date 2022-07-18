@@ -126,45 +126,58 @@ public:
      * @param _index New value for member index
      */
     eProsima_user_DllExport void index(
-            double _index);
+            uint32_t _index);
 
     /*!
      * @brief This function returns the value of member index
      * @return Value of member index
      */
-    eProsima_user_DllExport double index() const;
+    eProsima_user_DllExport uint32_t index() const;
 
     /*!
      * @brief This function returns a reference to member index
      * @return Reference to member index
      */
-    eProsima_user_DllExport double& index();
+    eProsima_user_DllExport uint32_t& index();
 
     /*!
-     * @brief This function copies the value in member message
-     * @param _message New value to be copied in member message
+     * @brief This function sets a value in member litersRemaining
+     * @param _litersRemaining New value for member litersRemaining
      */
-    eProsima_user_DllExport void message(
-            const std::string& _message);
+    eProsima_user_DllExport void litersRemaining(
+            double _litersRemaining);
 
     /*!
-     * @brief This function moves the value in member message
-     * @param _message New value to be moved in member message
+     * @brief This function returns the value of member litersRemaining
+     * @return Value of member litersRemaining
      */
-    eProsima_user_DllExport void message(
-            std::string&& _message);
+    eProsima_user_DllExport double litersRemaining() const;
 
     /*!
-     * @brief This function returns a constant reference to member message
-     * @return Constant reference to member message
+     * @brief This function returns a reference to member litersRemaining
+     * @return Reference to member litersRemaining
      */
-    eProsima_user_DllExport const std::string& message() const;
+    eProsima_user_DllExport double& litersRemaining();
 
     /*!
-     * @brief This function returns a reference to member message
-     * @return Reference to member message
+     * @brief This function sets a value in member litersSpent
+     * @param _litersSpent New value for member litersSpent
      */
-    eProsima_user_DllExport std::string& message();
+    eProsima_user_DllExport void litersSpent(
+            double _litersSpent);
+
+    /*!
+     * @brief This function returns the value of member litersSpent
+     * @return Value of member litersSpent
+     */
+    eProsima_user_DllExport double litersSpent() const;
+
+    /*!
+     * @brief This function returns a reference to member litersSpent
+     * @return Reference to member litersSpent
+     */
+    eProsima_user_DllExport double& litersSpent();
+
 
     /*!
      * @brief This function returns the maximum serialized size of an object
@@ -225,8 +238,9 @@ public:
 
 private:
 
-    double m_index;
-    std::string m_message;
+    uint32_t m_index;
+    double m_litersRemaining;
+    double m_litersSpent;
 };
 
 #endif // _FAST_DDS_GENERATED_FUEL_H_
