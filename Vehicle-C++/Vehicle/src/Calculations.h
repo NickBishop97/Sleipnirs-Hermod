@@ -155,6 +155,8 @@ class TD
             MPG = iMPG;
             MPGcount = 0;
             total = 0;
+            SPcount = 0;
+            SPtotal = 0;
         }
         ~TD()
         {
@@ -170,6 +172,10 @@ class TD
 
 };
 
+/**
+ * @brief Sets the current trip and calls TD to update the data on that specific trip
+ * 
+ */
 class TM
 {
     private:
@@ -177,11 +183,9 @@ class TM
         TD trip2;
         TD* tripPtr;
     public:
-        TM()
+        TM() 
+            : trip1(TD(0,0,0,0)), trip2(TD(0,0,0,0)), tripPtr(&trip1)
         {
-            trip1 = TD(0,0,0,0);
-            trip2 = TD(0,0,0,0);
-            tripPtr = &trip1;
         }
         ~TM()
         {

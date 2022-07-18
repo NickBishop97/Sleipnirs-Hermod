@@ -28,10 +28,10 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                    print("\nStopped!"),
-                    [reader.delete() for reader in readers],
-                    [writer.delete() for writer in writers],
-                    sys.exit(0),
+                      print("\nStopped!"),
+                      [reader.delete() for reader in readers],
+                      [writer.delete() for writer in writers],
+                      sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
@@ -48,9 +48,9 @@ def main():
     # writer
     threadMpG = Thread(target=(writers[0].run),
                        args=(
-                            readers[0].dataQueue,
-                            readers[1].dataQueue,),
-                       daemon=True)
+        readers[0].dataQueue,
+        readers[1].dataQueue,),
+        daemon=True)
 
     for thread in threads:
         thread.start()

@@ -51,9 +51,11 @@ class FuelRL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info):
         if (0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            print("Subscriber matched publisher {}".format(
+                info.last_publication_handle))
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print("Subscriber unmatched publisher {}".format(
+                info.last_publication_handle))
 
     def on_data_available(self, reader):
 
@@ -104,9 +106,11 @@ class DistanceRL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info):
         if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            print("Subscriber matched publisher {}".format(
+                info.last_publication_handle))
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print("Subscriber unmatched publisher {}".format(
+                info.last_publication_handle))
             # exit()
 
     def on_data_available(self, reader):
@@ -152,9 +156,11 @@ class MpGRL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info):
         if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            print("Subscriber matched publisher {}".format(
+                info.last_publication_handle))
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print("Subscriber unmatched publisher {}".format(
+                info.last_publication_handle))
             # exit()
 
     def on_data_available(self, reader):
@@ -199,9 +205,11 @@ class LowFuelAlertRL(Entity.ReaderListener):
 
     def on_subscription_matched(self, datareader, info):
         if(0 < info.current_count_change):
-            print("Subscriber matched publisher {}".format(info.last_publication_handle))
+            print("Subscriber matched publisher {}".format(
+                info.last_publication_handle))
         else:
-            print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
+            print("Subscriber unmatched publisher {}".format(
+                info.last_publication_handle))
             # exit()
 
     def on_data_available(self, reader):
