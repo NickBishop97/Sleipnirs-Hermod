@@ -17,9 +17,10 @@ import MilesToRefuel as MilesToRefuel
 
 #ADT IMPORTS
 sys.path.insert(5, '../ADTs/')
-from Writers import *  
+#from Writers import *  
 from Readers import *
-from Calculators import *
+#from Calculators import *
+from TopicNames import TopicNames
 
 #####################################################
 #####################################################
@@ -39,40 +40,7 @@ def printer(queueList):
         print(f"MILESREMAIN :{queueList[4].get()}")
         print("\n\n")
         time.sleep(0.3)  
-
-def main():
-    readers = []
-    threads = []
-    signal.signal(signal.SIGINT,
-                  lambda sig, frame: (
-                    print("\nStopped!"),
-                    [reader.delete() for reader in readers],
-                    sys.exit(0),
-                  ))
-
-    print("Press Ctrl+C to stop")
-
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
-    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
-    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
-    
-    for reader in readers:
-        threads.append(Thread(target=(reader.run), daemon=True))
-    threads.append(Thread(target=(printer),
-                          args=([reader.dataQueue for reader in readers],), 
-                          daemon=True))
-    
-    for thread in threads:
-        thread.start()
-    
-    signal.pause()
-
-
-#main()
-
-
+        
 import json
 import random
 import time
@@ -96,8 +64,8 @@ def chart_data():
         while True:
             json_data = json.dumps(
                 {
-                'index': readers[2].dataQueue.get()[0], 
-                'mpg': readers[2].dataQueue.get()[1],
+                'index': readers[2].getDataQueue().get()[0], 
+                'mpg': readers[2].getDataQueue().get()[1],
                  })
             yield f"data:{json_data}\n\n"
             time.sleep(0.25)
@@ -120,16 +88,33 @@ if __name__ == '__main__':
     
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))
-    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))
-    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))
+    readers.append(FuelGauge([Fuel, 
+                              "Fuel", 
+                              TopicNames.getTopicName("Fuel"), 
+                              FuelRL]))
+    readers.append(DistanceDisplay([Miles, 
+                                    "Miles", 
+                                    TopicNames.getTopicName("Miles"), 
+                                    DistanceRL]))
+    readers.append(MpGDisplay([MpG, 
+                               "MpG", 
+                               TopicNames.getTopicName("MpG"), 
+                               MpGRL]))
+    readers.append(LowFuelAlertDisplay([LowFuelAlert, 
+                                        "LowFuelAlert", 
+                                        TopicNames.getTopicName("LowFuelAlert"), 
+                                        LowFuelAlertRL]))
+    readers.append(MilesRemainDisplay([MilesToRefuel, 
+                                       "MilesToRefuel", 
+                                       TopicNames.getTopicName("MilesToRefuel"), 
+                                       MilesRemainRL]))
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
     
     for thread in threads:
         thread.start()
         
-    application.run(debug=True, threaded=True)
+    application.run(host="localhost", port=8000, debug=True, threaded=True)
     signal.pause()
+
+
