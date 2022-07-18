@@ -6,19 +6,22 @@ set -e
 LPUR='\033[1;35m'
 NC='\033[0m' # No Color
 
+# Builds and Makes the C++ files
 echo
 echo "############ Buiding Vehicle C++ ##############"
 echo
-cmake Vehicle-C++/Vehicle/.
+cd ./Vehicle-C++/Vehicle
+cmake .
 echo
 echo "############ Making Vehicle C++ ##############"
 echo
-cd ./Vehicle-C++/Vehicle/ && make
+make
 cd ..
 cd ..
 echo
 echo -e "${LPUR}Binary Files For C++ can be found in ./Vehicle-C++/Vehicle/Build/ ${NC}"
 
+# Builds and Makes the Python files
 echo
 echo "############ Buiding/Making Vehicle Python ##############"
 echo
