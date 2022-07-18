@@ -1,5 +1,5 @@
 #include "Calculations.h"
-//#include <iomanip>
+#include <tuple>
 
 /**
  * @brief Calculates the full spent when given the current fuel Remaning, needs to be run twice to get the first fuel spent reading(only applies during first run)
@@ -128,6 +128,13 @@ void MilesTraveled::set_index(unsigned long i)
     index = i;
 }
 
+/**
+ * @brief Calculates the MPG using miles traveled and fuel spent
+ * 
+ * @param milesT 
+ * @param fuelS 
+ * @return double 
+ */
 double MPG::mpg(double milesT, double fuelS)
 {
    double temp;
@@ -165,49 +172,73 @@ double MPG::mpg(double milesT, double fuelS)
    return temp;
 }
 
-double MPG::FuelRemainPercent(double fuelR)
-{
-   return (fuelR/TANK_CAP)*100;
-}
+///**
+// * @brief Calculates the Fuel Remaining percentage
+// * 
+// * @param fuelR 
+// * @return double 
+// */
+//double MPG::FuelRemainPercent(double fuelR)
+//{
+//   return (fuelR/TANK_CAP)*100;
+//}
 
+/**
+ * @brief Return current MPG 
+ * 
+ * @return double 
+ */
 double MPG::get_MPG()
 {
    return MpG.back();
 }
 
-double MPG::get_avgMPG()
-{
-   if(MpG.size() >= 10)
-   {
-       double temp = 0;
-       int MAX = MpG.size();
-       for(int i = 0; i < MAX; ++i)
-       {
-           temp += MpG[i];
-       }
-       set_avgMPG(temp/MAX);
-       MpG.clear();
-       return avgMPG;
-   }
-   else
-   {
-       return -1;
-   }
-}
-
-double MPG::set_avgMPG(double MPG)
-{
-    if(avgMPG == 0.0)
-    {
-        avgMPG = MPG;
-        return avgMPG;
-    }
-    else
-    {
-        avgMPG = (avgMPG + MPG)/2;
-        return avgMPG;
-    } 
-}
+///**
+// * @brief Get avg MPG
+// * 
+// * Note use running avg to fix the avg problem https://sciencing.com/calculate-running-average-6949441.html
+// * 
+// * @return double 
+// */
+//double MPG::get_avgMPG()
+//{
+//   if(MpG.size() >= 10)
+//   {
+//       double temp = 0;
+//       int MAX = MpG.size();
+//       for(int i = 0; i < MAX; ++i)
+//       {
+//           temp += MpG[i];
+//       }
+//       set_avgMPG(temp/MAX);
+//       MpG.clear();
+//       return avgMPG;
+//   }
+//   else
+//   {
+//       return -1;
+//   }
+//}
+//
+///**
+// * @brief Save current avg MPG
+// * 
+// * @param MPG 
+// * @return double 
+// */
+//double MPG::set_avgMPG(double MPG)
+//{
+//    if(avgMPG == 0.0)
+//    {
+//        avgMPG = MPG;
+//        return avgMPG;
+//    }
+//    else
+//    {
+//        avgMPG = (avgMPG + MPG)/2;
+//        return avgMPG;
+//    } 
+//}
 
 double MPG::get_MT()
 {
@@ -277,3 +308,174 @@ double ML::get_MilesLeft(double MPG, double FR)
         ML = MPG * Gal;
         return ML;
     }
+
+/**
+ * @brief Updates the Trip data for the current selected trip
+ * 
+ * @param newMiles Newly recieved Miles Traveled data
+ * @param newMPG Newly recieved MPG data
+ * @param newtime Newly recieved Time data
+ */
+void TD::updateData(double newMiles, double newMPG, double newtime)
+{
+    miles = miles + newMiles;
+    time = time + newtime;
+    if(newMPG != 0 && newMPG != -1)
+    {
+        MPG = getAvMpg(newMPG);
+    }
+    if(newMiles != 0 && newtime != 0)
+    {
+        speed = getAvSpeed(newMiles, newtime);
+    }
+}
+
+/**
+ * @brief Calculates the Avg speed
+ * 
+ * @param newMiles current miles traveled
+ * @param newTime time that pasted during the distance traveled
+ * @return double Returns avg speed of the car
+ */
+double TD::getAvSpeed(double newMiles, double newTime)
+{
+    SPtotal = SPtotal + (newMiles/newTime);
+    SPcount++;
+    return (SPtotal/SPcount);
+}
+
+/**
+ * @brief Calculates the Avg MPG
+ * 
+ * @param MPG 
+ * @return double 
+ */
+double TD::getAvMpg(double MPG)
+{
+    total = total + MPG;
+    MPGcount++;
+    return (total/MPGcount);
+}
+
+/**
+ * @brief Sets all the values in the tripdata to zero
+ * 
+ */
+void TD::clear()
+{
+    miles = 0;
+    speed = 0;
+    time = 0;
+    MPG = 0;
+    MPGcount = 0;
+    total = 0;
+}
+
+/**
+ * @brief returns Miles stored in the current trip
+ * 
+ * @return double 
+ */
+double TD::getmiles()
+{
+    return miles;
+}
+
+/**
+ * @brief returns speed data in the current trip
+ * 
+ * @return double 
+ */
+double TD::getspeed()
+{
+    return speed;
+}
+
+/**
+ * @brief returns time data in the current trip
+ * 
+ * @return double 
+ */
+double TD::gettime()
+{
+    return time;
+}
+
+/**
+ * @brief returns MPG data in the current trip
+ * 
+ * @return double 
+ */
+double TD::getMPG()
+{
+    return MPG;
+}
+
+/**
+ * @brief Toggles between the two trips and saves the currently selected
+ * trip in a pointer.
+ * 
+ */
+void TM::toggleTrip()
+{
+    if(tripPtr == &trip1)
+    {
+        tripPtr = &trip2;
+    }
+    else
+    {
+        tripPtr = &trip1;
+    }
+}
+
+/**
+ * @brief Updates the trip Data that is stored in the tripPtr
+ * 
+ * @param newMiles 
+ * @param newMPG 
+ * @param newtime 
+ */
+void TM::updateTrip(double newMiles, double newMPG, double newtime)
+{
+    tripPtr->updateData(newMiles, newMPG, newtime);
+}
+
+/**
+ * @brief Clears the trip Data that is stored in the tripPtr
+ * 
+ */
+void TM::clear()
+{
+    tripPtr->clear();
+}
+
+/**
+ * @brief calculates the avg speed of the car based on miles and time traveled
+ * 
+ * @param newMiles 
+ * @param newTime 
+ */
+void TM::AvSpeed(double newMiles, double newTime)
+{
+    tripPtr->getAvSpeed(newMiles, newTime);
+}
+
+/**
+ * @brief calculates the avg MPG
+ * 
+ * @param MPG 
+ */
+void TM::AvMpg(double MPG)
+{
+    tripPtr->getAvMpg(MPG);
+}
+
+/**
+ * @brief returns trip data info of the current trip
+ * 
+ * @return std::tuple<double, double, double, double> 
+ */
+std::tuple<double, double, double, double> TM::GetTripData()
+{
+    return std::make_tuple(tripPtr->getmiles(), tripPtr->getspeed(), tripPtr->gettime(), tripPtr->getMPG());
+}

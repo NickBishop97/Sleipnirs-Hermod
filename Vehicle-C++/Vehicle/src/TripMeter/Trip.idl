@@ -1,0 +1,7 @@
+struct Trip{
+    unsigned long index;
+    double miles;
+    double speed;
+    double time;
+    double MPG;
+};
