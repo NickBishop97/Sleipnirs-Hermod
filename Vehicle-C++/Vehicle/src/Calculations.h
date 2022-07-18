@@ -131,4 +131,67 @@ class ML
         double get_MilesLeft(double MPG, double FR);
 };
 
+/**
+ * @brief Calculates the Trip data to get the required values for the dashboard
+ * 
+ */
+class TD
+{
+    private:
+        double miles;
+        double speed;
+        double time;
+        double MPG;
+        double MPGcount, total, SPcount, SPtotal;
+    public:
+        TD()
+        {
+        }
+        TD(double iMiles, double ispeed, double itime, double iMPG)
+        {
+            miles = iMiles;
+            speed = ispeed;
+            time = itime;
+            MPG = iMPG;
+            MPGcount = 0;
+            total = 0;
+        }
+        ~TD()
+        {
+        }
+        void updateData(double newMiles, double newMPG, double newtime);
+        double getAvSpeed(double newMiles, double newTime);
+        double getAvMpg(double MPG);
+        double getmiles();
+        double getspeed();
+        double gettime();
+        double getMPG();
+        void clear();
+
+};
+
+class TM
+{
+    private:
+        TD trip1;
+        TD trip2;
+        TD* tripPtr;
+    public:
+        TM()
+        {
+            trip1 = TD(0,0,0,0);
+            trip2 = TD(0,0,0,0);
+            tripPtr = &trip1;
+        }
+        ~TM()
+        {
+        }
+        void toggleTrip();
+        void AvSpeed(double newMiles, double newTime);
+        void AvMpg(double MPG);
+        void updateTrip(double newMiles, double newMPG, double newtime);
+        std::tuple<double, double, double, double> GetTripData();
+        void clear();
+};
+
 #endif

@@ -18,11 +18,9 @@ int main(
         std::thread milesT (&MTSubscriber::run, myMTsub, &calc_);
         std::thread fuelR (&FRSubscriber::run, myFRsub, &calc_);
         std::thread MPG (&MPGPublisher::run, myMPGpub, &calc_);
-        //std::thread AvgMPG (&MPGPublisher::AvgMPG, myMPGpub, &calc_);
         milesT.join();
         fuelR.join();
         MPG.join();
-        //AvgMPG.join();
     }
 
     delete myMTsub;
