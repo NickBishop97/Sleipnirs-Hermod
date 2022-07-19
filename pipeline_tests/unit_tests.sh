@@ -46,7 +46,7 @@ echo "========================================"
 echo "Starting unit tests for Cole Example..."
 echo "========================================"
 echo ""
-cd Examples/Trip_Meter/Cole
+cd Examples/Trip_Meter/Cole/Pytests
 pytest
 cd -
 
