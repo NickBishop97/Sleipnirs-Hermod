@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 # Runs pytest to unit test code in directory
 echo
-echo "############ Pytesting Code ##############"
+echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
 pytest
