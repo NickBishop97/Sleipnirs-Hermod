@@ -7,8 +7,10 @@ echo "================================================"
 echo "Starting unit tests for Vehicle-Python project..."
 echo "================================================"
 echo ""
-cd Vehicle-Python/Pytests
-pytest
+cp Vehicle-Python/Pytests/* Vehicle-Python ADTs
+cd Vehicle-Python/ADTs
+mkdir coverage
+pytest --cov=./ > coverage/ADT_cov_report.txt
 cd -
 
 echo ""
