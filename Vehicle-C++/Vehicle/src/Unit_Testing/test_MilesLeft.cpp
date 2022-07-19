@@ -96,3 +96,4 @@ BOOST_AUTO_TEST_CASE(overflow)
 {
     //ML ml;
     //BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
+}
