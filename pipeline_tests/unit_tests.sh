@@ -41,14 +41,14 @@ cd Examples/Trip_Meter/Nick
 pytest
 cd -
 
-echo ""
-echo "========================================"
-echo "Starting unit tests for Cole Example..."
-echo "========================================"
-echo ""
-cd Examples/Trip_Meter/Cole
-pytest
-cd -
+# echo ""
+# echo "========================================"
+# echo "Starting unit tests for Cole Example..."
+# echo "========================================"
+# echo ""
+# cd Examples/Trip_Meter/Cole
+# pytest
+# cd -
 
 echo ""
 echo "==========================================="
