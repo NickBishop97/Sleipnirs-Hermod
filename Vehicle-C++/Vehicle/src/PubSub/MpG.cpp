@@ -1,8 +1,8 @@
 #include "MpG.h"
 
 int main(
-        int argc,
-        char** argv)
+    int argc,
+    char** argv)
 {
     std::cout << "Publishing MPG Status." << std::endl;
     srand(time(0));
@@ -12,12 +12,11 @@ int main(
     MTSubscriber* myMTsub = new MTSubscriber();
     FRSubscriber* myFRsub = new FRSubscriber();
     MPGPublisher* myMPGpub = new MPGPublisher();
-    if(myMTsub->init() && myFRsub->init() && myMPGpub->init())
-    {
+    if (myMTsub->init() && myFRsub->init() && myMPGpub->init()) {
         //starts up two threads send fuel info and check tank
-        std::thread milesT (&MTSubscriber::run, myMTsub, &calc_);
-        std::thread fuelR (&FRSubscriber::run, myFRsub, &calc_);
-        std::thread MPG (&MPGPublisher::run, myMPGpub, &calc_);
+        std::thread milesT(&MTSubscriber::run, myMTsub, &calc_);
+        std::thread fuelR(&FRSubscriber::run, myFRsub, &calc_);
+        std::thread MPG(&MPGPublisher::run, myMPGpub, &calc_);
         milesT.join();
         fuelR.join();
         MPG.join();

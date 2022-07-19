@@ -25,10 +25,8 @@ using namespace eprosima::fastdds::dds;
  * @brief Miles Publisher that will publisher the Miles Traveled data onto the MilesTraveled topic
  * 
  */
-class MilesPublisher
-{
+class MilesPublisher {
 private:
-
     Miles miles_;
 
     DomainParticipant* participant_;
@@ -41,10 +39,8 @@ private:
 
     TypeSupport type_;
 
-    class PubListener : public DataWriterListener
-    {
+    class PubListener : public DataWriterListener {
     public:
-
         PubListener()
             : matched_(0)
         {
@@ -55,23 +51,18 @@ private:
         }
 
         void on_publication_matched(
-                DataWriter*,
-                const PublicationMatchedStatus& info) override
+            DataWriter*,
+            const PublicationMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 matched_ = info.total_count;
                 std::cout << "Subscriber matched. " << matched_ << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 matched_ = info.current_count;
                 std::cout << "Subscriber unmatched. " << matched_ << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
+                          << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
             }
         }
 
@@ -80,7 +71,6 @@ private:
     } listener_;
 
 public:
-
     MilesPublisher()
         : participant_(nullptr)
         , publisher_(nullptr)
@@ -92,16 +82,13 @@ public:
 
     virtual ~MilesPublisher()
     {
-        if (writer_ != nullptr)
-        {
+        if (writer_ != nullptr) {
             publisher_->delete_datawriter(writer_);
         }
-        if (publisher_ != nullptr)
-        {
+        if (publisher_ != nullptr) {
             participant_->delete_publisher(publisher_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -122,8 +109,7 @@ public:
         participantQos.name("Participant_publisher");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -133,24 +119,21 @@ public:
         // Create the publications Topic
         topic_ = participant_->create_topic("MilesTravled", "Miles", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Publisher
         publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
 
-        if (publisher_ == nullptr)
-        {
+        if (publisher_ == nullptr) {
             return false;
         }
 
         // Create the DataWriter
         writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
 
-        if (writer_ == nullptr)
-        {
+        if (writer_ == nullptr) {
             return false;
         }
         return true;
@@ -163,18 +146,15 @@ public:
      * @return true if Moving sub recieved a 1/0
      * @return false if Moving sub recieved a non 1/0 
      */
-    bool publish(MilesTraveled *calc_)
+    bool publish(MilesTraveled* calc_)
     {
         double traveled;
-        traveled = ((1.2)*rand()/RAND_MAX + 0.05);
-        if(calc_->get_index() == 1)
-        {
+        traveled = ((1.2) * rand() / RAND_MAX + 0.05);
+        if (calc_->get_index() == 1) {
             miles_.milesTraveled(traveled);
             writer_->write(&miles_);
             return true;
-        }
-        else if(calc_->get_index() == 0)
-        {
+        } else if (calc_->get_index() == 0) {
             miles_.milesTraveled(0);
             writer_->write(&miles_);
             return true;
@@ -188,19 +168,15 @@ public:
      * 
      * @param calc_ 
      */
-    void run(MilesTraveled *calc_)
+    void run(MilesTraveled* calc_)
     {
-        while (1)
-        {
-            if (publish(calc_))
-            {
+        while (1) {
+            if (publish(calc_)) {
                 std::cout << "Miles Traveled: " << miles_.milesTraveled()
-                        << std::endl;
-            }
-            else
-            {
+                          << std::endl;
+            } else {
                 std::cout << "Moving Sub recieved a non 0/1 value: " << miles_.index()
-                        << std::endl;
+                          << std::endl;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(250));
         }
@@ -211,10 +187,8 @@ public:
  * @brief Will Subscribe to the Moving topic and grab the ismoving value 
  * 
  */
-class MoveSubscriber
-{
+class MoveSubscriber {
 private:
-
     DomainParticipant* participant_;
 
     Subscriber* subscriber_;
@@ -225,10 +199,8 @@ private:
 
     TypeSupport type_;
 
-    class SubListener : public DataReaderListener
-    {
+    class SubListener : public DataReaderListener {
     public:
-
         SubListener()
             : samples_(0)
         {
@@ -239,34 +211,26 @@ private:
         }
 
         void on_subscription_matched(
-                DataReader*,
-                const SubscriptionMatchedStatus& info) override
+            DataReader*,
+            const SubscriptionMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 std::cout << "Publisher matched." << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 std::cout << "Publisher unmatched." << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+                          << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
             }
         }
 
         void on_data_available(
-                DataReader* reader) override
+            DataReader* reader) override
         {
             SampleInfo info;
-            if (reader->take_next_sample(&move_, &info) == ReturnCode_t::RETCODE_OK)
-            {
-                if (info.valid_data)
-                {
-                    if(move_.ismoving() != 0)
-                    {
+            if (reader->take_next_sample(&move_, &info) == ReturnCode_t::RETCODE_OK) {
+                if (info.valid_data) {
+                    if (move_.ismoving() != 0) {
                         samples_++;
                     }
                 }
@@ -280,7 +244,6 @@ private:
     } listener_;
 
 public:
-
     MoveSubscriber()
         : participant_(nullptr)
         , subscriber_(nullptr)
@@ -292,16 +255,13 @@ public:
 
     virtual ~MoveSubscriber()
     {
-        if (reader_ != nullptr)
-        {
+        if (reader_ != nullptr) {
             subscriber_->delete_datareader(reader_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
-        if (subscriber_ != nullptr)
-        {
+        if (subscriber_ != nullptr) {
             participant_->delete_subscriber(subscriber_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -314,8 +274,7 @@ public:
         participantQos.name("Participant_subscriber");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -325,24 +284,21 @@ public:
         // Create the subscriptions Topic
         topic_ = participant_->create_topic("Moving", "Move", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Subscriber
         subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 
-        if (subscriber_ == nullptr)
-        {
+        if (subscriber_ == nullptr) {
             return false;
         }
 
         // Create the DataReader
         reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
 
-        if (reader_ == nullptr)
-        {
+        if (reader_ == nullptr) {
             return false;
         }
 
@@ -354,17 +310,13 @@ public:
      * 
      * @param calc_ 
      */
-    void run(MilesTraveled *calc_)
+    void run(MilesTraveled* calc_)
     {
         unsigned long old = 0;
-        while(1)
-        {
-            if(listener_.samples_ == old)
-            {
+        while (1) {
+            if (listener_.samples_ == old) {
                 calc_->set_index(0);
-            }
-            else
-            {
+            } else {
                 calc_->set_index(1);
             }
             old = listener_.samples_;

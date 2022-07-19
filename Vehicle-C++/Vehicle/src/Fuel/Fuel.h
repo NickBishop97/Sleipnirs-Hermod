@@ -22,7 +22,6 @@
 #ifndef _FAST_DDS_GENERATED_FUEL_H_
 #define _FAST_DDS_GENERATED_FUEL_H_
 
-
 #include <stdint.h>
 #include <array>
 #include <string>
@@ -32,43 +31,40 @@
 
 #if defined(_WIN32)
 #if defined(EPROSIMA_USER_DLL_EXPORT)
-#define eProsima_user_DllExport __declspec( dllexport )
+#define eProsima_user_DllExport __declspec(dllexport)
 #else
 #define eProsima_user_DllExport
-#endif  // EPROSIMA_USER_DLL_EXPORT
+#endif // EPROSIMA_USER_DLL_EXPORT
 #else
 #define eProsima_user_DllExport
-#endif  // _WIN32
+#endif // _WIN32
 
 #if defined(_WIN32)
 #if defined(EPROSIMA_USER_DLL_EXPORT)
 #if defined(Fuel_SOURCE)
-#define Fuel_DllAPI __declspec( dllexport )
+#define Fuel_DllAPI __declspec(dllexport)
 #else
-#define Fuel_DllAPI __declspec( dllimport )
+#define Fuel_DllAPI __declspec(dllimport)
 #endif // Fuel_SOURCE
 #else
 #define Fuel_DllAPI
-#endif  // EPROSIMA_USER_DLL_EXPORT
+#endif // EPROSIMA_USER_DLL_EXPORT
 #else
 #define Fuel_DllAPI
 #endif // _WIN32
 
 namespace eprosima {
 namespace fastcdr {
-class Cdr;
+    class Cdr;
 } // namespace fastcdr
 } // namespace eprosima
-
 
 /*!
  * @brief This class represents the structure Fuel defined by the user in the IDL file.
  * @ingroup FUEL
  */
-class Fuel
-{
+class Fuel {
 public:
-
     /*!
      * @brief Default constructor.
      */
@@ -84,49 +80,49 @@ public:
      * @param x Reference to the object Fuel that will be copied.
      */
     eProsima_user_DllExport Fuel(
-            const Fuel& x);
+        const Fuel& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object Fuel that will be copied.
      */
     eProsima_user_DllExport Fuel(
-            Fuel&& x);
+        Fuel&& x);
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object Fuel that will be copied.
      */
-    eProsima_user_DllExport Fuel& operator =(
-            const Fuel& x);
+    eProsima_user_DllExport Fuel& operator=(
+        const Fuel& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object Fuel that will be copied.
      */
-    eProsima_user_DllExport Fuel& operator =(
-            Fuel&& x);
+    eProsima_user_DllExport Fuel& operator=(
+        Fuel&& x);
 
     /*!
      * @brief Comparison operator.
      * @param x Fuel object to compare.
      */
-    eProsima_user_DllExport bool operator ==(
-            const Fuel& x) const;
+    eProsima_user_DllExport bool operator==(
+        const Fuel& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x Fuel object to compare.
      */
-    eProsima_user_DllExport bool operator !=(
-            const Fuel& x) const;
+    eProsima_user_DllExport bool operator!=(
+        const Fuel& x) const;
 
     /*!
      * @brief This function sets a value in member index
      * @param _index New value for member index
      */
     eProsima_user_DllExport void index(
-            uint32_t _index);
+        uint32_t _index);
 
     /*!
      * @brief This function returns the value of member index
@@ -145,7 +141,7 @@ public:
      * @param _litersRemaining New value for member litersRemaining
      */
     eProsima_user_DllExport void litersRemaining(
-            double _litersRemaining);
+        double _litersRemaining);
 
     /*!
      * @brief This function returns the value of member litersRemaining
@@ -164,7 +160,7 @@ public:
      * @param _litersSpent New value for member litersSpent
      */
     eProsima_user_DllExport void litersSpent(
-            double _litersSpent);
+        double _litersSpent);
 
     /*!
      * @brief This function returns the value of member litersSpent
@@ -178,7 +174,6 @@ public:
      */
     eProsima_user_DllExport double& litersSpent();
 
-
     /*!
      * @brief This function returns the maximum serialized size of an object
      * depending on the buffer alignment.
@@ -186,7 +181,7 @@ public:
      * @return Maximum serialized size.
      */
     eProsima_user_DllExport static size_t getMaxCdrSerializedSize(
-            size_t current_alignment = 0);
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the serialized size of a data depending on the buffer alignment.
@@ -195,25 +190,22 @@ public:
      * @return Serialized size.
      */
     eProsima_user_DllExport static size_t getCdrSerializedSize(
-            const Fuel& data,
-            size_t current_alignment = 0);
-
+        const Fuel& data,
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void serialize(
-            eprosima::fastcdr::Cdr& cdr) const;
+        eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void deserialize(
-            eprosima::fastcdr::Cdr& cdr);
-
-
+        eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function returns the maximum serialized size of the Key of an object
@@ -222,7 +214,7 @@ public:
      * @return Maximum serialized size.
      */
     eProsima_user_DllExport static size_t getKeyMaxCdrSerializedSize(
-            size_t current_alignment = 0);
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
@@ -234,10 +226,9 @@ public:
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void serializeKey(
-            eprosima::fastcdr::Cdr& cdr) const;
+        eprosima::fastcdr::Cdr& cdr) const;
 
 private:
-
     uint32_t m_index;
     double m_litersRemaining;
     double m_litersSpent;

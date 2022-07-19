@@ -23,10 +23,8 @@
 
 using namespace eprosima::fastdds::dds;
 
-class MTSubscriber
-{
+class MTSubscriber {
 private:
-
     DomainParticipant* participant_;
 
     Subscriber* subscriber_;
@@ -37,10 +35,8 @@ private:
 
     TypeSupport type_;
 
-    class SubListener : public DataReaderListener
-    {
+    class SubListener : public DataReaderListener {
     public:
-
         SubListener()
             : samples_(0)
         {
@@ -51,32 +47,25 @@ private:
         }
 
         void on_subscription_matched(
-                DataReader*,
-                const SubscriptionMatchedStatus& info) override
+            DataReader*,
+            const SubscriptionMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 std::cout << "Publisher matched." << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 std::cout << "Publisher unmatched." << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+                          << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
             }
         }
 
         void on_data_available(
-                DataReader* reader) override
+            DataReader* reader) override
         {
             SampleInfo info;
-            if (reader->take_next_sample(&miles_, &info) == ReturnCode_t::RETCODE_OK)
-            {
-                if (info.valid_data)
-                {
+            if (reader->take_next_sample(&miles_, &info) == ReturnCode_t::RETCODE_OK) {
+                if (info.valid_data) {
                     samples_++;
                 }
             }
@@ -89,7 +78,6 @@ private:
     } listener_;
 
 public:
-
     MTSubscriber()
         : participant_(nullptr)
         , subscriber_(nullptr)
@@ -101,16 +89,13 @@ public:
 
     virtual ~MTSubscriber()
     {
-        if (reader_ != nullptr)
-        {
+        if (reader_ != nullptr) {
             subscriber_->delete_datareader(reader_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
-        if (subscriber_ != nullptr)
-        {
+        if (subscriber_ != nullptr) {
             participant_->delete_subscriber(subscriber_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -123,8 +108,7 @@ public:
         participantQos.name("Participant_subscriber");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -134,39 +118,34 @@ public:
         // Create the subscriptions Topic
         topic_ = participant_->create_topic("MilesTravled", "Miles", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Subscriber
         subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 
-        if (subscriber_ == nullptr)
-        {
+        if (subscriber_ == nullptr) {
             return false;
         }
 
         // Create the DataReader
         reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
 
-        if (reader_ == nullptr)
-        {
+        if (reader_ == nullptr) {
             return false;
         }
 
         return true;
     }
 
-    void run(MPG *calc_)
+    void run(MPG* calc_)
     {
         unsigned long count = 0;
         unsigned long old = 0;
-        while(1)
-        {
-            if(listener_.samples_ != old){
-                if(calc_->get_MTindex() == calc_->get_MPGindex())
-                {
+        while (1) {
+            if (listener_.samples_ != old) {
+                if (calc_->get_MTindex() == calc_->get_MPGindex()) {
                     calc_->set_MT(listener_.miles_.milesTraveled());
                     calc_->set_MTindex(count);
                     count++;
@@ -178,10 +157,8 @@ public:
     }
 };
 
-class FRSubscriber
-{
+class FRSubscriber {
 private:
-
     DomainParticipant* participant_;
 
     Subscriber* subscriber_;
@@ -192,10 +169,8 @@ private:
 
     TypeSupport type_;
 
-    class SubListener : public DataReaderListener
-    {
+    class SubListener : public DataReaderListener {
     public:
-
         SubListener()
             : samples_(0)
         {
@@ -206,32 +181,25 @@ private:
         }
 
         void on_subscription_matched(
-                DataReader*,
-                const SubscriptionMatchedStatus& info) override
+            DataReader*,
+            const SubscriptionMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 std::cout << "Publisher matched." << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 std::cout << "Publisher unmatched." << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+                          << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
             }
         }
 
         void on_data_available(
-                DataReader* reader) override
+            DataReader* reader) override
         {
             SampleInfo info;
-            if (reader->take_next_sample(&fuel_, &info) == ReturnCode_t::RETCODE_OK)
-            {
-                if (info.valid_data)
-                {
+            if (reader->take_next_sample(&fuel_, &info) == ReturnCode_t::RETCODE_OK) {
+                if (info.valid_data) {
                     samples_++;
                 }
             }
@@ -244,7 +212,6 @@ private:
     } listener_;
 
 public:
-
     FRSubscriber()
         : participant_(nullptr)
         , subscriber_(nullptr)
@@ -256,16 +223,13 @@ public:
 
     virtual ~FRSubscriber()
     {
-        if (reader_ != nullptr)
-        {
+        if (reader_ != nullptr) {
             subscriber_->delete_datareader(reader_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
-        if (subscriber_ != nullptr)
-        {
+        if (subscriber_ != nullptr) {
             participant_->delete_subscriber(subscriber_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -278,8 +242,7 @@ public:
         participantQos.name("Participant_subscriber");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -289,39 +252,34 @@ public:
         // Create the subscriptions Topic
         topic_ = participant_->create_topic("FuelSpent", "Fuel", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Subscriber
         subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
 
-        if (subscriber_ == nullptr)
-        {
+        if (subscriber_ == nullptr) {
             return false;
         }
 
         // Create the DataReader
         reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
 
-        if (reader_ == nullptr)
-        {
+        if (reader_ == nullptr) {
             return false;
         }
 
         return true;
     }
 
-    void run(MPG *calc_)
+    void run(MPG* calc_)
     {
         unsigned long count = 0;
         unsigned long old = 0;
-        while(1)
-        {
-            if(listener_.samples_ != old){
-                if(calc_->get_FSindex() == calc_->get_MPGindex())
-                {
+        while (1) {
+            if (listener_.samples_ != old) {
+                if (calc_->get_FSindex() == calc_->get_MPGindex()) {
                     calc_->set_FS(listener_.fuel_.litersSpent());
                     calc_->set_FSindex(count);
                     count++;
@@ -333,10 +291,8 @@ public:
     }
 };
 
-class MPGPublisher
-{
+class MPGPublisher {
 private:
-
     MpG mpg_;
 
     DomainParticipant* participant_;
@@ -349,10 +305,8 @@ private:
 
     TypeSupport type_;
 
-    class PubListener : public DataWriterListener
-    {
+    class PubListener : public DataWriterListener {
     public:
-
         PubListener()
             : matched_(0)
         {
@@ -363,23 +317,18 @@ private:
         }
 
         void on_publication_matched(
-                DataWriter*,
-                const PublicationMatchedStatus& info) override
+            DataWriter*,
+            const PublicationMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 matched_ = info.total_count;
                 std::cout << "Subscriber matched. " << matched_ << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 matched_ = info.current_count;
                 std::cout << "Subscriber unmatched. " << matched_ << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
+                          << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
             }
         }
 
@@ -388,7 +337,6 @@ private:
     } listener_;
 
 public:
-
     MPGPublisher()
         : participant_(nullptr)
         , publisher_(nullptr)
@@ -400,16 +348,13 @@ public:
 
     virtual ~MPGPublisher()
     {
-        if (writer_ != nullptr)
-        {
+        if (writer_ != nullptr) {
             publisher_->delete_datawriter(writer_);
         }
-        if (publisher_ != nullptr)
-        {
+        if (publisher_ != nullptr) {
             participant_->delete_publisher(publisher_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -429,8 +374,7 @@ public:
         participantQos.name("Participant_publisher");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -440,24 +384,21 @@ public:
         // Create the publications Topic
         topic_ = participant_->create_topic("MPG", "MpG", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Publisher
         publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
 
-        if (publisher_ == nullptr)
-        {
+        if (publisher_ == nullptr) {
             return false;
         }
 
         // Create the DataWriter
         writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
 
-        if (writer_ == nullptr)
-        {
+        if (writer_ == nullptr) {
             return false;
         }
         return true;
@@ -470,24 +411,19 @@ public:
      * @return true 
      * @return false 
      */
-    bool publish(MPG *calc_)
+    bool publish(MPG* calc_)
     {
         //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
-        if((calc_->get_MPGindex() < calc_->get_MTindex()) && (calc_->get_MPGindex() < calc_->get_FSindex()))
-        {
+        if ((calc_->get_MPGindex() < calc_->get_MTindex()) && (calc_->get_MPGindex() < calc_->get_FSindex())) {
             mpg_.mpg(calc_->mpg(calc_->get_MT(), calc_->get_FS()));
             writer_->write(&mpg_);
-            calc_->set_MPGindex(calc_->get_MPGindex()+1);
+            calc_->set_MPGindex(calc_->get_MPGindex() + 1);
             return true;
-        }
-        else if(calc_->get_MTindex() > calc_->get_FSindex())
-        {
+        } else if (calc_->get_MTindex() > calc_->get_FSindex()) {
             mpg_.mpg(calc_->mpg(0, 0));
             writer_->write(&mpg_);
             return true;
-        }
-        else if(calc_->get_MTindex() < calc_->get_FSindex())
-        {
+        } else if (calc_->get_MTindex() < calc_->get_FSindex()) {
             mpg_.mpg(calc_->mpg(0, 0));
             writer_->write(&mpg_);
             return true;
@@ -501,22 +437,16 @@ public:
      * 
      * @param calc_ 
      */
-    void run(MPG *calc_)
+    void run(MPG* calc_)
     {
-        while (1)
-        {
-            if (publish(calc_))
-            {
-                if(mpg_.mpg() == -1.0){
-                    std::cout << std::fixed << std::setprecision(1) << "MPG: -.-"  << std::endl;
-                }
-                else
-                {
+        while (1) {
+            if (publish(calc_)) {
+                if (mpg_.mpg() == -1.0) {
+                    std::cout << std::fixed << std::setprecision(1) << "MPG: -.-" << std::endl;
+                } else {
                     std::cout << std::fixed << std::setprecision(1) << "MPG: " << mpg_.mpg() << std::endl;
                 }
-            }
-            else
-            {
+            } else {
                 std::cout << "MPG: -.-" << std::endl;
             }
             //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;

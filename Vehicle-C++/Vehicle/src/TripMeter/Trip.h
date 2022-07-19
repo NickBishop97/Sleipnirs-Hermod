@@ -22,7 +22,6 @@
 #ifndef _FAST_DDS_GENERATED_TRIP_H_
 #define _FAST_DDS_GENERATED_TRIP_H_
 
-
 #include <stdint.h>
 #include <array>
 #include <string>
@@ -32,43 +31,40 @@
 
 #if defined(_WIN32)
 #if defined(EPROSIMA_USER_DLL_EXPORT)
-#define eProsima_user_DllExport __declspec( dllexport )
+#define eProsima_user_DllExport __declspec(dllexport)
 #else
 #define eProsima_user_DllExport
-#endif  // EPROSIMA_USER_DLL_EXPORT
+#endif // EPROSIMA_USER_DLL_EXPORT
 #else
 #define eProsima_user_DllExport
-#endif  // _WIN32
+#endif // _WIN32
 
 #if defined(_WIN32)
 #if defined(EPROSIMA_USER_DLL_EXPORT)
 #if defined(Trip_SOURCE)
-#define Trip_DllAPI __declspec( dllexport )
+#define Trip_DllAPI __declspec(dllexport)
 #else
-#define Trip_DllAPI __declspec( dllimport )
+#define Trip_DllAPI __declspec(dllimport)
 #endif // Trip_SOURCE
 #else
 #define Trip_DllAPI
-#endif  // EPROSIMA_USER_DLL_EXPORT
+#endif // EPROSIMA_USER_DLL_EXPORT
 #else
 #define Trip_DllAPI
 #endif // _WIN32
 
 namespace eprosima {
 namespace fastcdr {
-class Cdr;
+    class Cdr;
 } // namespace fastcdr
 } // namespace eprosima
-
 
 /*!
  * @brief This class represents the structure Trip defined by the user in the IDL file.
  * @ingroup TRIP
  */
-class Trip
-{
+class Trip {
 public:
-
     /*!
      * @brief Default constructor.
      */
@@ -84,49 +80,49 @@ public:
      * @param x Reference to the object Trip that will be copied.
      */
     eProsima_user_DllExport Trip(
-            const Trip& x);
+        const Trip& x);
 
     /*!
      * @brief Move constructor.
      * @param x Reference to the object Trip that will be copied.
      */
     eProsima_user_DllExport Trip(
-            Trip&& x);
+        Trip&& x);
 
     /*!
      * @brief Copy assignment.
      * @param x Reference to the object Trip that will be copied.
      */
-    eProsima_user_DllExport Trip& operator =(
-            const Trip& x);
+    eProsima_user_DllExport Trip& operator=(
+        const Trip& x);
 
     /*!
      * @brief Move assignment.
      * @param x Reference to the object Trip that will be copied.
      */
-    eProsima_user_DllExport Trip& operator =(
-            Trip&& x);
+    eProsima_user_DllExport Trip& operator=(
+        Trip&& x);
 
     /*!
      * @brief Comparison operator.
      * @param x Trip object to compare.
      */
-    eProsima_user_DllExport bool operator ==(
-            const Trip& x) const;
+    eProsima_user_DllExport bool operator==(
+        const Trip& x) const;
 
     /*!
      * @brief Comparison operator.
      * @param x Trip object to compare.
      */
-    eProsima_user_DllExport bool operator !=(
-            const Trip& x) const;
+    eProsima_user_DllExport bool operator!=(
+        const Trip& x) const;
 
     /*!
      * @brief This function sets a value in member index
      * @param _index New value for member index
      */
     eProsima_user_DllExport void index(
-            uint32_t _index);
+        uint32_t _index);
 
     /*!
      * @brief This function returns the value of member index
@@ -145,7 +141,7 @@ public:
      * @param _miles New value for member miles
      */
     eProsima_user_DllExport void miles(
-            double _miles);
+        double _miles);
 
     /*!
      * @brief This function returns the value of member miles
@@ -164,7 +160,7 @@ public:
      * @param _speed New value for member speed
      */
     eProsima_user_DllExport void speed(
-            double _speed);
+        double _speed);
 
     /*!
      * @brief This function returns the value of member speed
@@ -183,7 +179,7 @@ public:
      * @param _time New value for member time
      */
     eProsima_user_DllExport void time(
-            double _time);
+        double _time);
 
     /*!
      * @brief This function returns the value of member time
@@ -202,7 +198,7 @@ public:
      * @param _MPG New value for member MPG
      */
     eProsima_user_DllExport void MPG(
-            double _MPG);
+        double _MPG);
 
     /*!
      * @brief This function returns the value of member MPG
@@ -216,7 +212,6 @@ public:
      */
     eProsima_user_DllExport double& MPG();
 
-
     /*!
      * @brief This function returns the maximum serialized size of an object
      * depending on the buffer alignment.
@@ -224,7 +219,7 @@ public:
      * @return Maximum serialized size.
      */
     eProsima_user_DllExport static size_t getMaxCdrSerializedSize(
-            size_t current_alignment = 0);
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function returns the serialized size of a data depending on the buffer alignment.
@@ -233,25 +228,22 @@ public:
      * @return Serialized size.
      */
     eProsima_user_DllExport static size_t getCdrSerializedSize(
-            const Trip& data,
-            size_t current_alignment = 0);
-
+        const Trip& data,
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function serializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void serialize(
-            eprosima::fastcdr::Cdr& cdr) const;
+        eprosima::fastcdr::Cdr& cdr) const;
 
     /*!
      * @brief This function deserializes an object using CDR serialization.
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void deserialize(
-            eprosima::fastcdr::Cdr& cdr);
-
-
+        eprosima::fastcdr::Cdr& cdr);
 
     /*!
      * @brief This function returns the maximum serialized size of the Key of an object
@@ -260,7 +252,7 @@ public:
      * @return Maximum serialized size.
      */
     eProsima_user_DllExport static size_t getKeyMaxCdrSerializedSize(
-            size_t current_alignment = 0);
+        size_t current_alignment = 0);
 
     /*!
      * @brief This function tells you if the Key has been defined for this type
@@ -272,10 +264,9 @@ public:
      * @param cdr CDR serialization object.
      */
     eProsima_user_DllExport void serializeKey(
-            eprosima::fastcdr::Cdr& cdr) const;
+        eprosima::fastcdr::Cdr& cdr) const;
 
 private:
-
     uint32_t m_index;
     double m_miles;
     double m_speed;
