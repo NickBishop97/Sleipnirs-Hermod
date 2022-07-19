@@ -87,16 +87,19 @@ class MpGCalc:
         milesDatum = 0
 
         if not fuelQueue.empty():
-            fuelDatum = fuelQueue.get()[2]
+            fuelDatum = fuelQueue.get()[1]
 
         if not milesQueue.empty():
             milesDatum = milesQueue.get()[1]
 
-        if not fuelDatum == 0:
-            self.mpg = float(milesDatum) / float(fuelDatum)
-
-        elif fuelDatum <= 0:
+        if fuelDatum <= 0:
             self.mpg = float(-1)
+
+        elif milesDatum < 0:
+            self.mpg = float(-1)
+
+        elif not fuelDatum == 0:
+            self.mpg = float(milesDatum) / float(fuelDatum)
 
         return self.mpg
 
