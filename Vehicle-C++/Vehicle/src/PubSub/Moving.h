@@ -2,8 +2,8 @@
 #define MOVING_H
 
 #include "../Calculations.cpp"
-#include "../Moving/MovePubSubTypes.cxx"
-#include "../Moving/Move.cxx"
+#include "../Moving/MovePubSubTypes.h"
+#include "../Moving/Move.h"
 #include "../Fuel/FuelPubSubTypes.cxx"
 #include "../Fuel/Fuel.cxx"
 
