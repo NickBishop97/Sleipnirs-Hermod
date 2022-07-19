@@ -1,5 +1,15 @@
 # Sleipnir
 
+## Purpose
+Summer 2022 Internship Project
+
+Project Hermod is a DDS (Distributed Data Service) that models a DDS that would be used for a car system. It utilizes fastDDS framework to create publishers and subscribers to transmit data via topics in real time. Some of the specific component domain being written for the car system are the following:
+    - Fuel Domain (Fuel spent, Fuel remaining, Low fuel alert, Miles per gallon, etc..)
+    - Miles Domain (Miles traveled, Miles remaining, Miles per gallon, etc..)
+    - Trip Domain (Current trip, Trip time, Avg speed, Avg miles per gallon, etc..)
+
+## Important Info
+
 **Runable Scripts**
 
 - Build.sh (Buids both C++ and Python version of the Code)
