@@ -13,10 +13,8 @@
 
 using namespace eprosima::fastdds::dds;
 
-class FuelRemainPublisher
-{
+class FuelRemainPublisher {
 private:
-
     Fuel fuel_;
 
     DomainParticipant* participant_;
@@ -29,10 +27,8 @@ private:
 
     TypeSupport type_;
 
-    class PubListener : public DataWriterListener
-    {
+    class PubListener : public DataWriterListener {
     public:
-
         PubListener()
             : matched_(0)
         {
@@ -43,23 +39,18 @@ private:
         }
 
         void on_publication_matched(
-                DataWriter*,
-                const PublicationMatchedStatus& info) override
+            DataWriter*,
+            const PublicationMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 matched_ = info.total_count;
                 std::cout << "Subscriber matched. " << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 matched_ = info.current_count;
                 std::cout << "Subscriber unmatched. " << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
+                          << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
             }
         }
 
@@ -68,7 +59,6 @@ private:
     } listener_;
 
 public:
-
     FuelRemainPublisher()
         : participant_(nullptr)
         , publisher_(nullptr)
@@ -80,16 +70,13 @@ public:
 
     virtual ~FuelRemainPublisher()
     {
-        if (writer_ != nullptr)
-        {
+        if (writer_ != nullptr) {
             publisher_->delete_datawriter(writer_);
         }
-        if (publisher_ != nullptr)
-        {
+        if (publisher_ != nullptr) {
             participant_->delete_publisher(publisher_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -106,8 +93,7 @@ public:
         participantQos.name("Participant_publisher");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -117,48 +103,40 @@ public:
         // Create the publications Topic
         topic_ = participant_->create_topic("FuelRemain", "Fuel", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Publisher
         publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
 
-        if (publisher_ == nullptr)
-        {
+        if (publisher_ == nullptr) {
             return false;
         }
 
         // Create the DataWriter
         writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
 
-        if (writer_ == nullptr)
-        {
+        if (writer_ == nullptr) {
             return false;
         }
         return true;
     }
 
     //!Send a publication
-    bool publish(FuelSenor *calc_)
+    bool publish(FuelSenor* calc_)
     {
         double loss;
-        loss = ((0.1)*rand()/RAND_MAX + 0.01);
-        if(calc_->get_check() == 1)
-        {
+        loss = ((0.1) * rand() / RAND_MAX + 0.01);
+        if (calc_->get_check() == 1) {
             writer_->write(&fuel_);
             calc_->set_check(0);
             return true;
-        }
-        else if((fuel_.litersRemaining() - loss) < 0)
-        {
+        } else if ((fuel_.litersRemaining() - loss) < 0) {
             fuel_.litersRemaining(0);
             writer_->write(&fuel_);
             return true;
-        }
-        else
-        {
+        } else {
             fuel_.litersRemaining(fuel_.litersRemaining() - loss);
             writer_->write(&fuel_);
             return true;
@@ -167,15 +145,13 @@ public:
     }
 
     //!Run the Publisher
-    void run(FuelSenor *calc_)
+    void run(FuelSenor* calc_)
     {
-        while (1)
-        {
-            if (publish(calc_))
-            {
+        while (1) {
+            if (publish(calc_)) {
                 calc_->set_FuelRemaining(fuel_.litersRemaining());
                 std::cout << "Litters Remaining: " << fuel_.litersRemaining()
-                            <<  std::endl;
+                          << std::endl;
                 fuel_.index() = fuel_.index() + 1;
                 calc_->set_index(fuel_.index());
             }
@@ -185,14 +161,12 @@ public:
     //!Checks to see if tank is empty
     // This will check to see if the tank is empty, if it is empty
     // then it will fill the tank randomly from 1 to 10 Litters
-    void check(FuelSenor *calc_)
+    void check(FuelSenor* calc_)
     {
         double gain;
-        while(1)
-        {
-            if(fuel_.litersRemaining() == 0)
-            {
-                gain = (rand()%10)+1;
+        while (1) {
+            if (fuel_.litersRemaining() == 0) {
+                gain = (rand() % 10) + 1;
                 std::this_thread::sleep_for(std::chrono::milliseconds(3000));
                 fuel_.litersRemaining() = gain;
                 calc_->set_FuelRemaining(gain);
@@ -204,10 +178,8 @@ public:
     }
 };
 
-class FuelSpentPublisher
-{
+class FuelSpentPublisher {
 private:
-
     Fuel fuel_;
 
     DomainParticipant* participant_;
@@ -220,10 +192,8 @@ private:
 
     TypeSupport type_;
 
-    class PubListener : public DataWriterListener
-    {
+    class PubListener : public DataWriterListener {
     public:
-
         PubListener()
             : matched_(0)
         {
@@ -234,23 +204,18 @@ private:
         }
 
         void on_publication_matched(
-                DataWriter*,
-                const PublicationMatchedStatus& info) override
+            DataWriter*,
+            const PublicationMatchedStatus& info) override
         {
-            if (info.current_count_change == 1)
-            {
+            if (info.current_count_change == 1) {
                 matched_ = info.total_count;
                 std::cout << "Subscriber matched. " << matched_ << std::endl;
-            }
-            else if (info.current_count_change == -1)
-            {
+            } else if (info.current_count_change == -1) {
                 matched_ = info.current_count;
                 std::cout << "Subscriber unmatched. " << matched_ << std::endl;
-            }
-            else
-            {
+            } else {
                 std::cout << info.current_count_change
-                        << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
+                          << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
             }
         }
 
@@ -259,7 +224,6 @@ private:
     } listener_;
 
 public:
-
     FuelSpentPublisher()
         : participant_(nullptr)
         , publisher_(nullptr)
@@ -271,16 +235,13 @@ public:
 
     virtual ~FuelSpentPublisher()
     {
-        if (writer_ != nullptr)
-        {
+        if (writer_ != nullptr) {
             publisher_->delete_datawriter(writer_);
         }
-        if (publisher_ != nullptr)
-        {
+        if (publisher_ != nullptr) {
             participant_->delete_publisher(publisher_);
         }
-        if (topic_ != nullptr)
-        {
+        if (topic_ != nullptr) {
             participant_->delete_topic(topic_);
         }
         DomainParticipantFactory::get_instance()->delete_participant(participant_);
@@ -296,8 +257,7 @@ public:
         participantQos.name("Participant_publisher");
         participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-        if (participant_ == nullptr)
-        {
+        if (participant_ == nullptr) {
             return false;
         }
 
@@ -307,36 +267,32 @@ public:
         // Create the publications Topic
         topic_ = participant_->create_topic("FuelSpent", "Fuel", TOPIC_QOS_DEFAULT);
 
-        if (topic_ == nullptr)
-        {
+        if (topic_ == nullptr) {
             return false;
         }
 
         // Create the Publisher
         publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
 
-        if (publisher_ == nullptr)
-        {
+        if (publisher_ == nullptr) {
             return false;
         }
 
         // Create the DataWriter
         writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
 
-        if (writer_ == nullptr)
-        {
+        if (writer_ == nullptr) {
             return false;
         }
         return true;
     }
 
     //!Send a publication
-    bool publish(FuelSenor *calc_)
+    bool publish(FuelSenor* calc_)
     {
         //if (listener_.matched_ > 0)
         //{
-        if(calc_->get_index() > fuel_.index())
-        {
+        if (calc_->get_index() > fuel_.index()) {
             double fuelR, fuelS;
             fuelR = calc_->get_FuelRemaining();
             fuelS = calc_->fuelspent(fuelR);
@@ -344,9 +300,7 @@ public:
             writer_->write(&fuel_);
             fuel_.index() = fuel_.index() + 1;
             return true;
-        }
-        else
-        {
+        } else {
             //fuel_.litersSpent(0);
             return false;
         }
@@ -355,15 +309,13 @@ public:
     }
 
     //!Run the Publisher
-    void run(FuelSenor *calc_)
+    void run(FuelSenor* calc_)
     {
-        while (1)
-        {
-            if (publish(calc_))
-            {
+        while (1) {
+            if (publish(calc_)) {
                 std::cout << "Litters Spent: " << fuel_.litersSpent()
-                            <<  std::endl;
-                            std::this_thread::sleep_for(std::chrono::milliseconds(248));
+                          << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(248));
             }
             //std::this_thread::sleep_for(std::chrono::milliseconds(248));
         }
