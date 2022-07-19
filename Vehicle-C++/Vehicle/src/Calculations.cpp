@@ -101,7 +101,7 @@ double ML::get_MilesLeft(double MPG, double FR)
 {
     double Gal = FR * 0.264172;
     double ML;
-    if (MPG == 0 || MPG == -1 || FR == 0) {
+    if (MPG <= 0 || FR <=0 || FR > TANK_CAP) {
         return -1;
     }
     ML = MPG * Gal;
