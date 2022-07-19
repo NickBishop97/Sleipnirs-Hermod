@@ -14,16 +14,16 @@
 class FuelSenor {
 
 private:
-    unsigned long index = 0;
-    unsigned long check = 1;
+    //unsigned long index = 0;
+    //unsigned long check = 1;
     double FuelSpent = 0.0;
     double FuelRemaining = 10.0;
 
 public:
     FuelSenor()
     {
-        index = 0;
-        check = 1;
+        //index = 0;
+        //check = 1;
         FuelSpent = 0.0;
         FuelRemaining = 10.0;
     }
@@ -32,31 +32,11 @@ public:
     }
     double fuelspent(double fuelR);
     double get_FuelRemaining();
-    unsigned long get_index();
-    unsigned long get_check();
+    //unsigned long get_index();
+    //unsigned long get_check();
     void set_FuelRemaining(double fuelR);
-    void set_index(unsigned long i);
-    void set_check(unsigned long c);
-};
-
-/**
- * @brief Enables communication between pub/sub in Moving.h
- *
- */
-class Moving {
-private:
-    unsigned long index = 0;
-
-public:
-    Moving()
-    {
-        index = 0;
-    }
-    ~Moving()
-    {
-    }
-    unsigned long get_index();
-    void set_index(unsigned long i);
+    //void set_index(unsigned long i);
+    //void set_check(unsigned long c);
 };
 
 /**

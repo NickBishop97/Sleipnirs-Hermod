@@ -46,68 +46,6 @@ double FuelSenor::get_FuelRemaining()
 }
 
 /**
- * @brief Gets the current index count of the Fuel remaining sensor
- *
- * @return unsigned long
- */
-unsigned long FuelSenor::get_index()
-{
-    return index;
-}
-
-/**
- * @brief Gets the current Check tank status, if its 1 it will indicate the tank
- *has been refilled recently
- *
- * @return unsigned long
- */
-unsigned long FuelSenor::get_check()
-{
-    return check;
-}
-
-/**
- * @brief Sets the current index count of the Fuel remaining sensor
- *
- * @param i
- */
-void FuelSenor::set_index(unsigned long i)
-{
-    index = i;
-}
-
-/**
- * @brief Sets the current Check tank status, if its 1 it will indicate the tank
- *has been refilled recently
- *
- * @param c
- */
-void FuelSenor::set_check(unsigned long c)
-{
-    check = c;
-}
-
-/**
- * @brief Gets the if the car if it is moving or not, 1 equals moving
- *
- * @return unsigned long
- */
-unsigned long Moving::get_index()
-{
-    return index;
-}
-
-/**
- * @brief Sets the if the car if it is moving or not, 1 equals moving
- *
- * @param i
- */
-void Moving::set_index(unsigned long i)
-{
-    index = i;
-}
-
-/**
  * @brief Calculates the MPG using miles traveled and fuel spent
  *
  * @param milesT
