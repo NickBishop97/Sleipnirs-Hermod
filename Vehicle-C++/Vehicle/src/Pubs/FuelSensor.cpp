@@ -1,8 +1,8 @@
 #include "FuelSensor.h"
 
 int main(
-        int argc,
-        char** argv)
+    int argc,
+    char** argv)
 {
     std::cout << "Publishing Fuel Status." << std::endl;
     srand(time(0));
@@ -11,12 +11,11 @@ int main(
 
     FuelRemainPublisher* myFRpub = new FuelRemainPublisher();
     FuelSpentPublisher* myFSpub = new FuelSpentPublisher();
-    if(myFRpub->init() && myFSpub->init())
-    {
+    if (myFRpub->init() && myFSpub->init()) {
         //starts up two threads send fuel info and check tank
-        std::thread sendfuelR (&FuelRemainPublisher::run, myFRpub, &calc_);
-        std::thread checktank (&FuelRemainPublisher::check, myFRpub, &calc_);
-        std::thread sendfuelS (&FuelSpentPublisher::run, myFSpub, &calc_);
+        std::thread sendfuelR(&FuelRemainPublisher::run, myFRpub, &calc_);
+        std::thread checktank(&FuelRemainPublisher::check, myFRpub, &calc_);
+        std::thread sendfuelS(&FuelSpentPublisher::run, myFSpub, &calc_);
         sendfuelR.join();
         checktank.join();
         sendfuelS.join();
