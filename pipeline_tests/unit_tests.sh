@@ -14,14 +14,14 @@ pytest ./
 pytest --cov=./ > coverage/ADT_cov_report.txt
 cd -
 
-# echo ""
-# echo "========================================="
-# echo "Starting unit tests for Lemuel Example..."
-# echo "========================================="
-# echo ""
-# cd Examples/Trip_Meter/lemuel
-# pytest
-# cd -
+echo ""
+echo "========================================="
+echo "Starting unit tests for Lemuel Example..."
+echo "========================================="
+echo ""
+cd Examples/Trip_Meter/lemuel
+pytest
+cd -
 
 echo ""
 echo "==========================================="
@@ -41,14 +41,14 @@ cd Examples/Trip_Meter/Nick
 pytest
 cd -
 
-# echo ""
-# echo "========================================"
-# echo "Starting unit tests for Cole Example..."
-# echo "========================================"
-# echo ""
-# cd Examples/Trip_Meter/Cole
-# pytest
-# cd -
+echo ""
+echo "========================================"
+echo "Starting unit tests for Cole Example..."
+echo "========================================"
+echo ""
+cd Examples/Trip_Meter/Cole
+pytest
+cd -
 
 echo ""
 echo "==========================================="
