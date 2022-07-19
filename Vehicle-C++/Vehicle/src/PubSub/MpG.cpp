@@ -8,15 +8,16 @@ int main(
     srand(time(0));
 
     MPG calc_;
+    MilesPerGallon data;
 
-    MTSubscriber* myMTsub = new MTSubscriber();
-    FRSubscriber* myFRsub = new FRSubscriber();
-    MPGPublisher* myMPGpub = new MPGPublisher();
+    MilesPerGallon::MTSubscriber* myMTsub = new MilesPerGallon::MTSubscriber();
+    MilesPerGallon::FRSubscriber* myFRsub = new MilesPerGallon::FRSubscriber();
+    MilesPerGallon::MPGPublisher* myMPGpub = new MilesPerGallon::MPGPublisher();
     if (myMTsub->init() && myFRsub->init() && myMPGpub->init()) {
         //starts up two threads send fuel info and check tank
-        std::thread milesT(&MTSubscriber::run, myMTsub, &calc_);
-        std::thread fuelR(&FRSubscriber::run, myFRsub, &calc_);
-        std::thread MPG(&MPGPublisher::run, myMPGpub, &calc_);
+        std::thread milesT(&MilesPerGallon::MTSubscriber::run, myMTsub, &calc_, &data);
+        std::thread fuelR(&MilesPerGallon::FRSubscriber::run, myFRsub, &calc_, &data);
+        std::thread MPG(&MilesPerGallon::MPGPublisher::run, myMPGpub, &calc_, &data);
         milesT.join();
         fuelR.join();
         MPG.join();

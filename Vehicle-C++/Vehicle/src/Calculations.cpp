@@ -108,26 +108,6 @@ void Moving::set_index(unsigned long i)
 }
 
 /**
- * @brief Returns 1 or 0 if car is moving or not
- *
- * @return unsigned long
- */
-unsigned long MilesTraveled::get_index()
-{
-    return index;
-}
-
-/**
- * @brief Sets index to 1 or 0 if car is moving or not
- *
- * @param i
- */
-void MilesTraveled::set_index(unsigned long i)
-{
-    index = i;
-}
-
-/**
  * @brief Calculates the MPG using miles traveled and fuel spent
  *
  * @param milesT
@@ -162,17 +142,6 @@ double MPG::mpg(double milesT, double fuelS)
     return temp;
 }
 
-///**
-// * @brief Calculates the Fuel Remaining percentage
-// *
-// * @param fuelR
-// * @return double
-// */
-// double MPG::FuelRemainPercent(double fuelR)
-//{
-//   return (fuelR/TANK_CAP)*100;
-//}
-
 /**
  * @brief Return current MPG
  *
@@ -181,104 +150,6 @@ double MPG::mpg(double milesT, double fuelS)
 double MPG::get_MPG()
 {
     return MpG.back();
-}
-
-///**
-// * @brief Get avg MPG
-// *
-// * Note use running avg to fix the avg problem
-// https://sciencing.com/calculate-running-average-6949441.html
-// *
-// * @return double
-// */
-// double MPG::get_avgMPG()
-//{
-//   if(MpG.size() >= 10)
-//   {
-//       double temp = 0;
-//       int MAX = MpG.size();
-//       for(int i = 0; i < MAX; ++i)
-//       {
-//           temp += MpG[i];
-//       }
-//       set_avgMPG(temp/MAX);
-//       MpG.clear();
-//       return avgMPG;
-//   }
-//   else
-//   {
-//       return -1;
-//   }
-//}
-//
-///**
-// * @brief Save current avg MPG
-// *
-// * @param MPG
-// * @return double
-// */
-// double MPG::set_avgMPG(double MPG)
-//{
-//    if(avgMPG == 0.0)
-//    {
-//        avgMPG = MPG;
-//        return avgMPG;
-//    }
-//    else
-//    {
-//        avgMPG = (avgMPG + MPG)/2;
-//        return avgMPG;
-//    }
-//}
-
-double MPG::get_MT()
-{
-    return MT;
-}
-
-double MPG::get_FS()
-{
-    return FS;
-}
-
-void MPG::set_MT(double mt)
-{
-    MT = mt;
-}
-
-void MPG::set_FS(double fs)
-{
-    FS = fs;
-}
-
-unsigned long MPG::get_MTindex()
-{
-    return MTindex;
-}
-
-unsigned long MPG::get_FSindex()
-{
-    return FSindex;
-}
-
-void MPG::set_MTindex(unsigned long i)
-{
-    MTindex = i;
-}
-
-void MPG::set_FSindex(unsigned long i)
-{
-    FSindex = i;
-}
-
-void MPG::set_MPGindex(unsigned long i)
-{
-    MPGindex = i;
-}
-
-unsigned long MPG::get_MPGindex()
-{
-    return MPGindex;
 }
 
 /**

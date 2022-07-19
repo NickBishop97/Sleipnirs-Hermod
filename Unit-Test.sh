@@ -12,3 +12,5 @@ echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
 pytest
+echo
+echo "############ Running Boost-Test ##############"
