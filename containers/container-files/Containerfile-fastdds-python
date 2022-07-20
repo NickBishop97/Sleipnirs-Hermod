@@ -1,0 +1,69 @@
+########################################################################################################################
+# Filename: Containerfile-fastdds-python
+# 
+# Date: 2022-07-22
+# Author: Christopher J. Mundt
+#
+# Desc: Dockerfile used to build a container image that will run FastDDS-Python
+#
+# Reference: https://github.com/eProsima/Fast-DDS-python
+#            https://www.redhat.com/sysadmin/tiny-containers
+#            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
+#            
+# 
+# Info: Based this off of work previously completed under the Triton and Sleipnir projects
+#
+#
+#           ************************************************************************************************************
+# History:  |Version    Date        Task         Author                Desc
+#           |-----------------------------------------------------------------------------------------------------------
+#           | 1.0       2022-07-18  LETS-4802    Christopher J. Mundt  Initial Rev.
+#           |-----------------------------------------------------------------------------------------------------------
+# 
+# Notes:    Consolidate the number of RUN commands because each 1 equates to a new image layer when being built,
+#           which can result in larger than necessary images.  Also clean up repos when done before
+#           exiting a command to minimize size.
+########################################################################################################################
+
+
+#############################################
+#
+# Start from the Base UBI8 image
+FROM localhost/ubi8-dev-image as fastdds-python
+USER root
+LABEL maintainer="christopher.mundt@ngc.com"
+
+#############################################
+#
+# Install SWIG  4.0
+# 
+#    *  SWIG 4.0
+WORKDIR /opt
+RUN git clone https://github.com/swig/swig.git
+WORKDIR /opt/swig
+RUN ./autogen.sh
+RUN ./configure --prefix=/usr/local
+RUN make
+RUN make install
+RUN swig -version
+WORKDIR /opt
+RUN rm -rf /opt/swig
+
+#############################################
+#
+# Install Fast-DDS-Python
+# 
+WORKDIR /opt
+RUN mkdir Fast-DDS-Python
+WORKDIR /opt/Fast-DDS-Python
+RUN wget https://raw.githubusercontent.com/eProsima/Fast-DDS-python/main/fastdds_python.repos
+RUN mkdir src
+RUN vcs import src < fastdds_python.repos
+RUN colcon build
+
+#############################################
+#
+# Put .bashrc in place
+# 
+WORKDIR /root
+COPY configs/fastdds-root-bashrc .bashrc

@@ -1,0 +1,7 @@
+[local_epel]
+name=Epel-local
+baseurl=http://10.22.1.15/epel
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
