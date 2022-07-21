@@ -1,3 +1,13 @@
+/**
+ * @file Calculations.h
+ * @author Team Sleipnir
+ * @brief Defines all the Calculations classes
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef CALCULATIONS_H
 #define CALCULATIONS_H
 

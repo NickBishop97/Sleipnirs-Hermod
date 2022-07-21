@@ -1,3 +1,13 @@
+/**
+ * @file FuelSensor.h
+ * @author Team Sleipnir
+ * @brief Contains all the Publishers for The Fuelsensor
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef FUELSENSOR_H
 #define FUELSENSOR_H
 
