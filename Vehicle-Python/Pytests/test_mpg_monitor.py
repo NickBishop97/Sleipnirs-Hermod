@@ -13,7 +13,7 @@ def testStandardInfo():
     mileQ = Queue()
     fuelQ.put(fuelList)
     mileQ.put(mileList)
-    
+
     CalculatorClass = MpGCalc()
     assert CalculatorClass.calculateMpG(fuelQ, mileQ) == 25.0, "MPG not calculated correctly for standard numbers"
 

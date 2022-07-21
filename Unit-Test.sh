@@ -14,6 +14,8 @@ cd ./Vehicle-Python/Pytests
 pytest --cov-report term-missing
 echo
 echo "############ Running C++ Unit Tests ##############"
+cd ../..
+cd ./Vehicle-C++/Vehicle/src/Unit_Testing
 g++ -Wall -fprofile-arcs -ftest-coverage -c ../Calculations.cpp
 g++ -Wall -fprofile-arcs -ftest-coverage -c Main.cpp
 g++ -Wall -fprofile-arcs -ftest-coverage *.o -o Main -lboost_unit_test_framework-mt
