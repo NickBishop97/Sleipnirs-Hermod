@@ -87,4 +87,3 @@ def test_negative_fuel_mr():
     mr = MileRemainCalc()
     result = mr.calculateMileRemain(fuelQ, mpgQ)
     assert result == 0.0
-

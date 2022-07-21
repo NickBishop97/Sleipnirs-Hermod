@@ -11,11 +11,16 @@
  */
 double FuelSenor::fuelspent(double fuelR)
 {
-    static double oldFuel;
+    static double oldFuel = 0;
+    if (fuelR > TANK_CAP) {
+        return -1;
+    }
     if (fuelR == 0) {
         FuelRemaining = fuelR;
         oldFuel = fuelR;
         FuelSpent = 0;
+    } else if (fuelR < 0) {
+        return -1;
     } else if (oldFuel == 0) {
         oldFuel = fuelR;
     } else {
@@ -28,11 +33,13 @@ double FuelSenor::fuelspent(double fuelR)
 /**
  * @brief Sets the Fuel Remainging in the tank
  *
- * @param fuelR
+ * @param fuelR Fuel Remaining
  */
 void FuelSenor::set_FuelRemaining(double fuelR)
 {
-    FuelRemaining = fuelR;
+    if (0 <= fuelR && fuelR <= TANK_CAP) {
+        FuelRemaining = fuelR;
+    }
 }
 
 /**
@@ -57,15 +64,15 @@ double MPG::mpg(double milesT, double fuelS)
     double temp;
     double Gal = fuelS * 0.264172;
     if (milesT < 0 || Gal < 0) {
-        // sets mpg to 0 when either milesT or fuelS have a negative value
-        temp = 0.0;
+        // sets mpg to -1 when either milesT or fuelS have a negative value
+        temp = -1;
     } else if (milesT == 0.0 || Gal == 0.0) {
         if (milesT > 0) {
             // set mpg to max value when car is traveling but has no fuel
             temp = 99.9;
         } else {
-            // set mpg to -1 when car is at idle or out of fuel
-            temp = -1.0;
+            // set mpg to 0.0 when car is at idle or out of fuel
+            temp = -1;
         }
     } else {
         temp = milesT / Gal;
@@ -101,7 +108,7 @@ double ML::get_MilesLeft(double MPG, double FR)
 {
     double Gal = FR * 0.264172;
     double ML;
-    if (MPG <= 0 || FR <=0 || FR > TANK_CAP) {
+    if (MPG <= 0 || FR <= 0 || FR > TANK_CAP) {
         return -1;
     }
     ML = MPG * Gal;
