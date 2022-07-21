@@ -173,9 +173,26 @@ double TD::getAvSpeed(double newMiles, double newTime)
  */
 double TD::getAvMpg(double MPG)
 {
-    total = total + MPG;
-    MPGcount++;
-    return (total / MPGcount);
+    // If MPG is negative, return a error code
+    if (MPG < 0)
+    {
+        return -1.0;
+    }
+    else
+    {
+        total = total + MPG;
+        MPGcount++;
+    }
+    // If MPG is negative, return a error code
+    if (MPGcount < 0)
+    {
+        return -1.0;
+    }
+    else
+    {
+        return (total / MPGcount);
+    }
+
 }
 
 /**
