@@ -1,3 +1,13 @@
+/**
+ * @file FuelGauge.cpp
+ * @author Team Sleipnir
+ * @brief Starts up Fuel Gauge and reads off the fuel remaining topic
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "../Fuel/FuelPubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>

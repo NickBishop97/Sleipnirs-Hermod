@@ -1,3 +1,13 @@
+/**
+ * @file MilesLeft.h
+ * @author Team Sleipnir
+ * @brief Contains all the publishers and subscribers within MilesLeft class
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef MILESLEFT_H
 #define MILESLEFT_H
 

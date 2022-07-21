@@ -1,3 +1,13 @@
+/**
+ * @file test_TripMeter.cpp
+ * @author Team Sleipnir
+ * @brief Runs Unit testing on Trip Meter Calculations
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
@@ -22,7 +32,7 @@ BOOST_AUTO_TEST_SUITE(Trip_Data_AvSpeed)
  * @param FR New Time
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(zeroTime) 
+BOOST_AUTO_TEST_CASE(zeroTime)
 {
     TD td;
     BOOST_CHECK(td.getAvSpeed(POS_VALUE, INIT_VALUE) == ERROR_CODE);
@@ -36,7 +46,7 @@ BOOST_AUTO_TEST_CASE(zeroTime)
  * @param FR New Time
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(negativeTime) 
+BOOST_AUTO_TEST_CASE(negativeTime)
 {
     TD td;
     BOOST_CHECK(td.getAvSpeed(POS_VALUE, NEG_VALUE) == ERROR_CODE);
@@ -50,11 +60,10 @@ BOOST_AUTO_TEST_CASE(negativeTime)
  * @param FR New Time
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(negativeMiles) 
+BOOST_AUTO_TEST_CASE(negativeMiles)
 {
     TD td;
     BOOST_CHECK(td.getAvSpeed(NEG_VALUE, POS_VALUE) == ERROR_CODE);
-
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -68,12 +77,10 @@ BOOST_AUTO_TEST_SUITE(Trip_Data_AvMPG)
  * @param MPG Miles Per Gallon
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(negativeMPG) 
+BOOST_AUTO_TEST_CASE(negativeMPG)
 {
     TD td;
     BOOST_CHECK(td.getAvMpg(NEG_VALUE) == ERROR_CODE);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-\

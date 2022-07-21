@@ -1,3 +1,13 @@
+/**
+ * @file DisDisplay.cpp
+ * @author Team Sleipnir
+ * @brief Starts up the Distance display subscriber
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "DisDisplay.h"
 
 int main(

@@ -1,3 +1,13 @@
+/**
+ * @file MpG.cpp
+ * @author Team Sleipnir
+ * @brief Starts up the Miles per Gallong publishers and subscribers
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "MpG.h"
 
 int main(

@@ -1,3 +1,13 @@
+/**
+ * @file Calculations.cpp
+ * @author Team Sleipnir
+ * @brief Contains all the calculations functions for data processing for Hermod
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "Calculations.h"
 #include <tuple>
 
@@ -126,8 +136,14 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
 {
     miles = miles + newMiles;
     time = time + newtime;
-    if (newMPG <= 0) {
-        MPG = getAvMpg(newMPG);
+    if (newMPG >= 0) {
+        double temp;
+        temp = getAvMpg(newMPG);
+        if (temp == -1) {
+            return;
+        } else {
+            MPG = temp;
+        }
     }
     if (newMiles != 0 && newtime != 0) {
         speed = getAvSpeed(newMiles, newtime);
@@ -144,25 +160,20 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
 double TD::getAvSpeed(double newMiles, double newTime)
 {
     // Return error code if time 0 or less or if newMiles is negative
-    if (newTime <= 0 || newMiles < 0)
-    {
+    if (newTime <= 0 || newMiles < 0) {
         return -1.0;
-    }
-    else 
-    {
+    } else {
         SPtotal = SPtotal + (newMiles / newTime);
         SPcount++;
     }
-    if (SPcount <= 0)
-    {
+    if (SPcount <= 0) {
         return -1.0;
-        
+
     }
     // Return error code if SPcount is 0 or less
-    else 
-    {
+    else {
         return (SPtotal / SPcount);
-    }   
+    }
 }
 
 /**
@@ -174,25 +185,18 @@ double TD::getAvSpeed(double newMiles, double newTime)
 double TD::getAvMpg(double MPG)
 {
     // If MPG is negative, return a error code
-    if (MPG < 0)
-    {
+    if (MPG < 0) {
         return -1.0;
-    }
-    else
-    {
+    } else {
         total = total + MPG;
         MPGcount++;
     }
     // If MPG is negative, return a error code
-    if (MPGcount < 0)
-    {
+    if (MPGcount < 0) {
         return -1.0;
-    }
-    else
-    {
+    } else {
         return (total / MPGcount);
     }
-
 }
 
 /**

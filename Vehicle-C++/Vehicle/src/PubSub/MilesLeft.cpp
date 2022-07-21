@@ -1,3 +1,13 @@
+/**
+ * @file MilesLeft.cpp
+ * @author Team Sleipnir
+ * @brief Starts up and runs all the publishers and subscribers for MilesLeft
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "MilesLeft.h"
 
 int main(
