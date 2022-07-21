@@ -11,7 +11,7 @@ echo
 echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
-pytest --cov-report term-missing
+pytest --cov-report term-missing --cov=Calculators
 echo
 echo "############ Running C++ Unit Tests ##############"
 cd ../..
