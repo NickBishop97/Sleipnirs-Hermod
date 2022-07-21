@@ -23,4 +23,10 @@ In order to run TripMeter you will need to start four different binaries first, 
 
 ## Documentation
 
-There is auto-generated documentation available for Hermod, to generate it just be in this local directory and run `doxygen Doxyfile` this will generate an html Documentation in ./Build/ directory.
+- Local Generation
+
+    There is auto-generated documentation available for Hermod, to generate it just be in this local directory and run `doxygen Doxyfile` this will generate an html Documentation in ./Build/ directory.
+
+- Top Directory Generation
+
+    In order to build the documentation in the top directory there is a doc.sh file provided all you have to do is run the command `./doc.sh` and it will be generated in the the ./Vehicle-C++/Vehicle/Build/ directory.

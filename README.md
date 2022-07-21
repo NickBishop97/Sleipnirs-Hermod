@@ -24,8 +24,41 @@ Project Hermod is a DDS (Distributed Data Service) that models a DDS that would 
 - build.sh (Buids both C++ and Python version of the Code)
 - lint.sh (Will lint both C++ and Python code for any syntax errors) **Requires that cppcheck and flake8 are installed**
 - doc.sh (Will create an HTML Doc of the code for both C++ and Python) **Requires that Doxygen is installed**
-- formatcode.sh (Will auto format the Python Code to Pep8 standards) **Requires that autopep8 is installed**
+- formatcode.sh (Will auto format the Python Code to Pep8 standards) **Requires that autopep8 and clang-format is installed**
 - unit-test.sh (Will unit test both C++ and Python code and print the coverage) **Requires that pytest is installed**
+- InstallQemuPackages.sh (Will install QEMU packages from git repo)
+- RunQemuEmulation.sh (Takes two args(.iso path, Image name))
+
+## Required Tools and Packages
+
+1. Python 3.8
+    - Python Packages
+        - signal
+        - thread
+        - pytest
+        - coverage
+        - queue
+        - sys
+        - time
+        - random
+        - autopep8
+        - flake8
+        - Json
+        - venv (Optional)
+2. gcc 11.2.1
+3. FastDDS C++/Python
+    - Required by FastDDS to install
+        - Asio
+        - pcre2
+        - vcstool
+        - softhsm
+        - colcon
+        - gradle
+        - tinyxml2
+        - swig
+4. Doxygen
+5. cppcheck
+6. clang-format
 
 ## FastDDS Setup (Required to use Hermod)
 
@@ -121,9 +154,4 @@ Project Hermod is a DDS (Distributed Data Service) that models a DDS that would 
             - Copy all the files from /home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/             site-packages and move them to /home/<userID>/.local/lib/python3.8/site-packages/
             - `cp -r /home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/site-packages/* /home/<userID>/.local/lib/python3.8/site-packages/`
 
-            Then you should be able to run the commands in xi and xii without a problem
 
-| header | header |
-| ------ | ------ |
-| cell | cell |
-| cell | cell |
