@@ -11,7 +11,7 @@
 #define POS_VALUE 13.2354
 #define DIFF_POS_VALUE 21.54
 #define LARGER_THAN_TANK 0.001 + TANK_CAP
-#define LARGE_FR 226754.6785576899
+#define LARGE_FR 226754.6785576899 // Overflow testing*
 #define LARGE_MPG 223654.6735786819
 
 using namespace std;

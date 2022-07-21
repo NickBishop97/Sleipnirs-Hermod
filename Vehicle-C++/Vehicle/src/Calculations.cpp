@@ -119,7 +119,7 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
 {
     miles = miles + newMiles;
     time = time + newtime;
-    if (newMPG != 0 && newMPG != -1) {
+    if (newMPG <= 0) {
         MPG = getAvMpg(newMPG);
     }
     if (newMiles != 0 && newtime != 0) {
@@ -136,17 +136,26 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
  */
 double TD::getAvSpeed(double newMiles, double newTime)
 {
-    if (newTime > 0):
+    // Return error code if time 0 or less or if newMiles is negative
+    if (newTime <= 0 || newMiles < 0)
+    {
+        return -1.0;
+    }
+    else 
     {
         SPtotal = SPtotal + (newMiles / newTime);
         SPcount++;
     }
-    if (SPcount > 0):
+    if (SPcount <= 0)
+    {
+        return -1.0;
+        
+    }
+    // Return error code if SPcount is 0 or less
+    else 
     {
         return (SPtotal / SPcount);
-    }
-    // Return error code if
-    else {return -1.0}
+    }   
 }
 
 /**
