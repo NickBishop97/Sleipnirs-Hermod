@@ -1,17 +1,5 @@
 #! /bin/bash
 
-#Fail if any command exit with error.
-#set -e
-
-#exits if no directory is given as an arg
-#string=$1
-# if ((${#string} <= 0));
-#if [ -z $string ] ;
-#then
-#    echo No dir arg given
-#    exit 1
-#fi
-
 LPUR='\033[1;35m'
 NC='\033[0m' # No Color
 
