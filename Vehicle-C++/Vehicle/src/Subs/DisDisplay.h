@@ -14,6 +14,11 @@
 
 using namespace eprosima::fastdds::dds;
 
+/**
+    * @brief Distance Display Subscriber that will subscribe to the 
+    * MilesTravled topic.
+    * 
+    */
 class DDSubscriber {
 private:
     DomainParticipant* participant_;

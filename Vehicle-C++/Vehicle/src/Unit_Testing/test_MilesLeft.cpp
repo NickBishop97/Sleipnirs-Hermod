@@ -1,6 +1,3 @@
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE
-
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
@@ -14,7 +11,7 @@
 #define LARGE_FR 226754.6785576899
 #define LARGE_MPG 223654.6735786819
 
-using namespace std;
+BOOST_AUTO_TEST_SUITE(MILES_LEFT_TEST)
 
 /** 
  * @brief Assert that when MPG is negative, 
@@ -24,7 +21,7 @@ using namespace std;
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(negativeMPG) 
+BOOST_AUTO_TEST_CASE(negativeMPG)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(NEG_VALUE, POS_VALUE) == ERROR_CODE);
@@ -38,7 +35,7 @@ BOOST_AUTO_TEST_CASE(negativeMPG)
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(zeroMPG) 
+BOOST_AUTO_TEST_CASE(zeroMPG)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(INIT_VALUE, POS_VALUE) == ERROR_CODE);
@@ -52,7 +49,7 @@ BOOST_AUTO_TEST_CASE(zeroMPG)
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(zeroFR) 
+BOOST_AUTO_TEST_CASE(zeroFR)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, INIT_VALUE) == ERROR_CODE);
@@ -66,7 +63,7 @@ BOOST_AUTO_TEST_CASE(zeroFR)
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(negtaiveFR) 
+BOOST_AUTO_TEST_CASE(negtaiveFR)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, NEG_VALUE) == ERROR_CODE);
@@ -79,7 +76,7 @@ BOOST_AUTO_TEST_CASE(negtaiveFR)
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(excessiveFR) 
+BOOST_AUTO_TEST_CASE(excessiveFR)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
@@ -92,8 +89,10 @@ BOOST_AUTO_TEST_CASE(excessiveFR)
  * @param FR Fuel Remaining 
  * @return bool
  */
-BOOST_AUTO_TEST_CASE(overflow) 
+BOOST_AUTO_TEST_CASE(overflow)
 {
     //ML ml;
     //BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
 }
+
+BOOST_AUTO_TEST_SUITE_END()
