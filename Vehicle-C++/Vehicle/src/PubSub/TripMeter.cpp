@@ -1,3 +1,13 @@
+/**
+ * @file TripMeter.cpp
+ * @author Team Sleipnir
+ * @brief Starts up the Trip Meter pub/subs
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "TripMeter.h"
 
 int main(

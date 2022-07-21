@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 #Fail if any command exit with error.
 set -e
@@ -19,7 +19,6 @@ make
 cd ..
 cd ..
 echo
-echo -e "${LPUR}Binary Files For C++ can be found in ./Vehicle-C++/Vehicle/Build/ ${NC}"
 
 # Builds and Makes the Python files
 echo
@@ -50,5 +49,7 @@ echo -e "${LPUR}Building MpG .so Files ${NC}"
 cmake MpG/.
 cd ./MpG/ && make
 cd ..
+echo
 echo -e "${LPUR}Building of Python Files is Complete ${NC}"
+echo -e "${LPUR}Binary Files For C++ can be found in ./Vehicle-C++/Vehicle/Build/ ${NC}"
 echo

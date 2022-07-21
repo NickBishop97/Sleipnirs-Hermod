@@ -1,3 +1,13 @@
+/**
+ * @file MilesTraveled.cpp
+ * @author Team Sleipnir
+ * @brief Starts up the Miles Traveled Sensor
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "MilesTraveled.h"
 
 int main(
