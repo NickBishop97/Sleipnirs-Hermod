@@ -33,37 +33,62 @@ FROM localhost/ubi8-dev-image as fastdds-python
 USER root
 LABEL maintainer="christopher.mundt@ngc.com"
 
+
 #############################################
 #
-# Install SWIG  4.0
+# Install SWIG
 # 
 #    *  SWIG 4.0
-WORKDIR /opt
-RUN git clone https://github.com/swig/swig.git
 WORKDIR /opt/swig
-RUN ./autogen.sh
-RUN ./configure --prefix=/usr/local
-RUN make
-RUN make install
-RUN swig -version
+RUN git clone https://github.com/swig/swig.git /opt/swig
+RUN ./autogen.sh \
+ && ./configure --prefix=/usr/local \
+ && make \
+ && make install
+
+#############################################
+#
+# Install Gradle
+# 
+#    *  Gradle 6.9
 WORKDIR /opt
-RUN rm -rf /opt/swig
+#RUN wget https://services.gradle.org/distributions/gradle-6.9-all.zip \
+# && unzip -d /opt/gradle gradle-6.9-all.zip
+COPY dependencies/gradle-6.9-all.zip /opt
+RUN unzip gradle-6.9-all.zip \
+ && mv gradle-6.9 gradle
+#ENV PATH $PATH:/opt/gradle/gradle-6.9/bin
+ENV PATH $PATH:/opt/gradle/bin
+RUN gradle --quiet
+COPY configs/gradle.properties /root/.gradle
 
 #############################################
 #
 # Install Fast-DDS-Python
 # 
-WORKDIR /opt
-RUN mkdir Fast-DDS-Python
 WORKDIR /opt/Fast-DDS-Python
-RUN wget https://raw.githubusercontent.com/eProsima/Fast-DDS-python/main/fastdds_python.repos
-RUN mkdir src
-RUN vcs import src < fastdds_python.repos
-RUN colcon build
+RUN wget -P /opt/Fast-DDS-Python https://raw.githubusercontent.com/eProsima/Fast-DDS-python/main/fastdds_python.repos \
+ && mkdir src \
+ && vcs import src < fastdds_python.repos \
+ && colcon build
 
 #############################################
 #
-# Put .bashrc in place
+# Install Fast-DDS-Gen
+#
+WORKDIR /opt/Fast-DDS-Gen
+RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast-DDS-Gen 
+# && gradle assemble
+
+#############################################
+#
+# Put .bashrc and HelloWorld Run script in place
 # 
-WORKDIR /root
-COPY configs/fastdds-root-bashrc .bashrc
+#WORKDIR /root
+COPY configs/fastdds-root-bashrc /root/.bashrc
+COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
+
+# cleanup
+WORKDIR /opt
+RUN rm -rf /opt/swig \
+    rm /opt/gradle-6.9-all.zip
