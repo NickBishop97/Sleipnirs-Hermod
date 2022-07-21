@@ -1,3 +1,13 @@
+/**
+ * @file FuelSensor.cpp
+ * @author Team Sleipnir
+ * @brief Starts up and runs Fuel Sensor publishers
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "FuelSensor.h"
 
 int main(

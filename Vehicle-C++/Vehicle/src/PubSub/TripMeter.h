@@ -1,3 +1,13 @@
+/**
+ * @file TripMeter.h
+ * @author Team Sleipnir
+ * @brief Contains all the pub/subs within the TripMeter class
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef TRIPMETER_H
 #define TRIPMETER_H
 

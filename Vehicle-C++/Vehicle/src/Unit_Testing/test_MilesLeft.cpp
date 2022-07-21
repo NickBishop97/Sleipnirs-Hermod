@@ -1,3 +1,13 @@
+/**
+ * @file test_MilesLeft.cpp
+ * @author Team Sleipnir
+ * @brief Runs unit testing on Miles Left calculations
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
