@@ -136,9 +136,17 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
  */
 double TD::getAvSpeed(double newMiles, double newTime)
 {
-    SPtotal = SPtotal + (newMiles / newTime);
-    SPcount++;
-    return (SPtotal / SPcount);
+    if (newTime > 0):
+    {
+        SPtotal = SPtotal + (newMiles / newTime);
+        SPcount++;
+    }
+    if (SPcount > 0):
+    {
+        return (SPtotal / SPcount);
+    }
+    // Return error code if
+    else {return -1.0}
 }
 
 /**
