@@ -29,8 +29,7 @@ test-unit:
     - pipeline_tests/unit_tests.sh
   artifacts:
     paths:
-      - message-broker/broker/coverage
-      - message-broker/testing-framework/coverage
+      - Vehicle-Python/ADTs/coverage
     expire_in: 14 days
 
 #test-coverage:
