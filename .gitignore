@@ -5,6 +5,7 @@
 *.swp
 *.html
 *.xml
+*.qcno
 
 #ignoring pytest coverage files
 *.coverage

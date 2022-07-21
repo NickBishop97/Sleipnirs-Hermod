@@ -3,7 +3,7 @@
 clear
 echo "Cloning into git repository"
 git clone https://gitlab.com/qemu-project/qemu.git
-pip install ninja
+pip3 install ninja --user
 cd qemu
 git submodule init
 git submodule update --recursive
