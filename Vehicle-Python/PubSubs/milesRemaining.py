@@ -21,6 +21,7 @@ sys.path.insert(3, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames
 
 
 def main():
@@ -36,10 +37,20 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa: F405
+    readers.append(FuelGauge([Fuel,
+                              "Fuel",
+                              TopicNames.getTopicName("Fuel"),
+                              FuelRL]))  # noqa: F405
+    
+    readers.append(MpGDisplay([MpG,
+                               "MpG",
+                               TopicNames.getTopicName("MpG"),
+                               MpGRL]))  # noqa: F405
 
-    writers.append(MilesRemaining([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic"]))  # noqa F405 (linting exemption)
+    writers.append(MilesRemaining([MilesToRefuel,
+                                   "MilesToRefuel",
+                                   TopicNames.getTopicName("MilesToRefuel")],
+                                  MileRemainCalc()))  # noqa F405 (linting exemption)
 
     # Add readers and start threads
     for reader in readers:
@@ -47,8 +58,8 @@ def main():
 
     threadMpG = Thread(target=(writers[0].run),
                        args=(
-        readers[0].dataQueue,
-        readers[1].dataQueue,),
+        readers[0].getData(),
+        readers[1].getData(),),
         daemon=True)
 
     for thread in threads:

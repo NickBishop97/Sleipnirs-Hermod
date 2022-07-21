@@ -17,10 +17,10 @@ import MpG as MpG  # noqa E402 (linting exemption)
 
 # ADT IMPORTS
 sys.path.insert(3, '../ADTs/')
-from Writers import *  # noqa E402,F403 (linting exemptions)
-from Readers import *  # noqa E402,F403 (linting exemptions)
-from Calculators import *  # noqa E402,F403 (linting exemptions)
-
+from Writers     import MpGWriter  # noqa E402,F403 (linting exemptions)
+from Readers     import FuelGauge, FuelRL, DistanceDisplay, DistanceRL  # noqa E402,F403 (linting exemptions)
+from Calculators import MpGCalc  # noqa E402,F403 (linting exemptions)
+from TopicNames  import TopicNames
 
 def main():
     writers = []
@@ -28,7 +28,7 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                      print("\nStopped!"),
+                      print("\nInterrupted!\n"),
                       [reader.delete() for reader in readers],
                       [writer.delete() for writer in writers],
                       sys.exit(0),
@@ -36,10 +36,20 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa: F405
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa: F405
+    readers.append(FuelGauge([Fuel,
+                              "Fuel",
+                              TopicNames.getTopicName("Fuel"),
+                              FuelRL]))  # noqa: F405
+    
+    readers.append(DistanceDisplay([Miles,
+                                    "Miles",
+                                    TopicNames.getTopicName("Miles"),
+                                    DistanceRL]))  # noqa: F405
 
-    writers.append(MpGWriter([MpG, "MpG", "MpGCumulative"]))  # noqa F405 (linting exemption)
+    writers.append(MpGWriter([MpG,
+                              "MpG",
+                              TopicNames.getTopicName("MpG")],
+                             MpGCalc()))  # noqa F405 (linting exemption)
 
     # Add readers and start threads
     for reader in readers:
@@ -48,8 +58,8 @@ def main():
     # writer
     threadMpG = Thread(target=(writers[0].run),
                        args=(
-        readers[0].dataQueue,
-        readers[1].dataQueue,),
+        readers[0].getData(),
+        readers[1].getData(),),
         daemon=True)
 
     for thread in threads:
