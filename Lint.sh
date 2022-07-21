@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 echo
 echo "############ Linting C++ Dir ##############"
 echo
-cppcheck --quiet --enable=all --language=c++ --suppress=missingIncludeSystem --suppress=unusedFunction ./Vehicle-C++/Vehicle/src/
+cppcheck --quiet --enable=all --language=c++ --suppress=missingIncludeSystem --suppress=unusedFunction --suppress=unknownMacro ./Vehicle-C++/Vehicle/src/
 echo -e "${LPUR}C++ LINTING COMPLETE${NC}"
 echo
 echo "############ Linting Python Dir ##############"

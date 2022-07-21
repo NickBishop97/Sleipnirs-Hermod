@@ -22,6 +22,11 @@
 
 using namespace eprosima::fastdds::dds;
 
+/**
+ * @brief MilesLeft Class that will hold all the Pub/Sub for the MilesLeft publisher
+ * and stores all the private data variables that are shared between the Pub/Subs
+ * 
+ */
 class MilesLeft {
 private:
     double FR;
@@ -44,6 +49,11 @@ public:
     {
     }
 
+    /**
+    * @brief MPG Subscriber that will subscribe to the MPG topic and store the data 
+    * locally in the upper class.
+    * 
+    */
     class MPGSubscriber {
     private:
         DomainParticipant* participant_;
@@ -160,6 +170,12 @@ public:
             return true;
         }
 
+        /**
+         * @brief Will take the MPG data and save it to the upper class MPG variable
+         * and increment the MPGindex up by 1.
+         * 
+         * @param data MilesLeft Object Variable
+         */
         void run(MilesLeft* data)
         {
             unsigned long old = 0;
@@ -175,6 +191,11 @@ public:
         }
     };
 
+    /**
+    * @brief Fuel Remaining Subscriber that will subscribe to the FuelRemain topic
+    * and store that data locally in the upper class.
+    * 
+    */
     class FRSubscriber {
     private:
         DomainParticipant* participant_;
@@ -291,6 +312,12 @@ public:
             return true;
         }
 
+        /**
+         * @brief Will take the fuel data and save it to the upper class FR variable
+         * and increment the FRindex up by 1.
+         * 
+         * @param data MilesLeft Obejct variable
+         */
         void run(MilesLeft* data)
         {
             unsigned long old = 0;
@@ -306,6 +333,11 @@ public:
         }
     };
 
+    /**
+    * @brief Miles Left publisher that will post the MilesLeft data to the 
+    * MilesLeft topic.
+    * 
+    */
     class MLPublisher {
     private:
         MilesToRefuel milesleft_;
@@ -420,13 +452,14 @@ public:
         }
 
         /**
-                 * @brief Publishes MilesToRefuel data onto the topic
-                 * 
-                 * @param calc_ Houses all the calculation functions that are required to calc the miles left
-                 * @param data  Houses data from the two local subscribers
-                 * @return true 
-                 * @return false 
-                 */
+        * @brief Publishes MilesToRefuel data onto the topic if FRindex & MPGindex are
+        * greter than MLindex.
+        * 
+        * @param calc_ ML Object variable from Calculations.h
+        * @param data  MilesLeft Object variable
+        * @return true 
+        * @return false
+        */
         bool publish(ML* calc_, MilesLeft* data)
         {
             if (data->MLindex < data->MPGindex && data->MLindex < data->FRindex) {
@@ -439,11 +472,11 @@ public:
         }
 
         /**
-                 * @brief Will check to see if publish returns true or false and wait 0.25 secs
-                 * 
-                 * @param calc_
-                 * @param data 
-                 */
+        * @brief Will check to see if publish returns true or false and wait 0.25 secs
+        * 
+        * @param calc_ ML Object variable from Calculations.h
+        * @param data  MilesLeft Object variable
+        */
         void run(ML* calc_, MilesLeft* data)
         {
             while (1) {

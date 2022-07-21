@@ -7,49 +7,59 @@
 #include <iostream>
 
 /**
- * @brief Enables communication between pub/sub in FuelSensor.h and does
- *calculations that are required for functionality
+ * @brief Does calculations that are required for functionality of the Full Sensor
  *
  */
 class FuelSenor {
 
 private:
-    //unsigned long index = 0;
-    //unsigned long check = 1;
-    double FuelSpent = 0.0;
-    double FuelRemaining = 10.0;
+    double FuelSpent;
+    double FuelRemaining;
 
 public:
+    /**
+     * @brief Construct a new Fuel Senor object
+     * 
+     */
     FuelSenor()
+        : FuelSpent(0.0)
+        , FuelRemaining(10.0)
     {
-        //index = 0;
-        //check = 1;
-        FuelSpent = 0.0;
-        FuelRemaining = 10.0;
     }
+
+    /**
+     * @brief Destroy the Fuel Senor object
+     * 
+     */
     ~FuelSenor()
     {
     }
     double fuelspent(double fuelR);
     double get_FuelRemaining();
-    //unsigned long get_index();
-    //unsigned long get_check();
     void set_FuelRemaining(double fuelR);
-    //void set_index(unsigned long i);
-    //void set_check(unsigned long c);
 };
 
 /**
- * @brief Enables communication between pub/sub in MPG.h, and computes MPG
+ * @brief Calculates MPG and stores them in a vector
  *
  */
 class MPG {
 private:
     std::vector<double> MpG{ 0 };
+
 public:
+    /**
+     * @brief Construct a new MPG object
+     * 
+     */
     MPG()
     {
     }
+
+    /**
+     * @brief Destroy the MPG object
+     * 
+     */
     ~MPG()
     {
     }
@@ -79,9 +89,22 @@ private:
     double MPGcount, total, SPcount, SPtotal;
 
 public:
+    /**
+     * @brief Construct a new Default TD object
+     * 
+     */
     TD()
     {
     }
+
+    /**
+     * @brief Construct a new TD object
+     * 
+     * @param iMiles New Miles Traveled
+     * @param ispeed New Speed
+     * @param itime New Time data
+     * @param iMPG New MPG
+     */
     TD(double iMiles, double ispeed, double itime, double iMPG)
     {
         miles = iMiles;
@@ -93,6 +116,11 @@ public:
         SPcount = 0;
         SPtotal = 0;
     }
+
+    /**
+     * @brief Destroy the TD object
+     * 
+     */
     ~TD()
     {
     }
@@ -118,12 +146,20 @@ private:
     TD* tripPtr;
 
 public:
+    /**
+     * @brief Construct a new TM object
+     * 
+     */
     TM()
         : trip1(TD(0, 0, 0, 0))
         , trip2(TD(0, 0, 0, 0))
         , tripPtr(&trip1)
     {
     }
+    /**
+     * @brief Destroy the TM object
+     * 
+     */
     ~TM()
     {
     }
