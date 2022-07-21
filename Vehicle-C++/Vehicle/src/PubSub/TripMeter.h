@@ -22,14 +22,38 @@
 
 using namespace eprosima::fastdds::dds;
 
+/**
+ * @brief TripMeter Class that will hold all the Pub/Sub for the TripMeter publisher
+ * and stores all the private data variables that are shared between the Pub/Subs
+ * 
+ */
 class TripMeter {
 private:
-    double MT = 0;
-    double MPG = 0;
-    double time = 0;
-    unsigned long MTindex = 0, MPGindex = 0, TMindex = 0;
+    double MT;
+    double MPG;
+    double time;
+    unsigned long MTindex, MPGindex, TMindex;
 
 public:
+    TripMeter()
+        : MT(0)
+        , MPG(0)
+        , time(0)
+        , MTindex(0)
+        , MPGindex(0)
+        , TMindex(0)
+    {
+    }
+
+    ~TripMeter()
+    {
+    }
+
+    /**
+    * @brief Miles Traveled Subscriber that will subscribe to the Miles Travled topic and store the data 
+    * locally in the upper class.
+    * 
+    */
     class MTSubscriber {
     private:
         DomainParticipant* participant_;
@@ -146,6 +170,12 @@ public:
             return true;
         }
 
+        /**
+        * @brief Will take the Miles Traveled data and save it to the upper class MT variable
+        * and increment the MTindex up by 1.
+        * 
+        * @param data TripMeter Object Variable
+        */
         void run(TripMeter* data)
         {
             unsigned long old = 0;
@@ -161,6 +191,11 @@ public:
         }
     };
 
+    /**
+    * @brief MPG Subscriber that will subscribe to the MPG topic and store the data 
+    * locally in the upper class.
+    * 
+    */
     class MPGSubscriber {
     private:
         DomainParticipant* participant_;
@@ -277,6 +312,12 @@ public:
             return true;
         }
 
+        /**
+         * @brief Will take the MPG data and save it to the upper class MPG variable
+         * and increment the MPGindex up by 1.
+         * 
+         * @param data TripMeter Object Variable
+         */
         void run(TripMeter* data)
         {
             unsigned long old = 0;
@@ -292,6 +333,11 @@ public:
         }
     };
 
+    /**
+    * @brief Trip Meter publisher that will post the Trip Meter data to the 
+    * TripMeter topic.
+    * 
+    */
     class TMPublisher {
     private:
         Trip trip_;
@@ -362,11 +408,11 @@ public:
         }
 
         /**
-                 * @brief Initializes the DDS Publisher with correct topic and initial starting data
-                 * 
-                 * @return true if system started without a problme
-                 * @return false if system didn't start correctly
-                 */
+        * @brief Initializes the DDS Publisher with correct topic and initial starting data
+        * 
+        * @return true if system started without a problme
+        * @return false if system didn't start correctly
+        */
         bool init()
         {
             trip_.miles(0);
@@ -409,12 +455,14 @@ public:
         }
 
         /**
-                 * @brief Publishes Trip Meter data onto the topic
-                 * 
-                 * @param calc_ 
-                 * @return true 
-                 * @return false 
-                 */
+        * @brief Publishes Trip Meter data onto the topic if MTindex & MPGindex are 
+        * greater than MPGindex.
+        * 
+        * @param calc_ TM Object variable from Calculations.h
+        * @param data TripMeter Object variable
+        * @return true 
+        * @return false 
+        */
         bool publish(TM* calc_, TripMeter* data)
         {
             if (data->TMindex < data->MPGindex && data->TMindex < data->MTindex) {
@@ -429,10 +477,12 @@ public:
         }
 
         /**
-                 * @brief Will check to see if publish returns true or false and wait 0.25 secs
-                 * 
-                 * @param calc_ 
-                 */
+        * @brief Will check to see if publish returns true or false, it will update the
+        * TripMeter topic data in Calculation every 0.25 secs, and will wait 0.25 secs.
+        * 
+        * @param calc_ TM object varaible from Calculations.h
+        * @param data Trip Meter Object varaible
+        */
         void run(TM* calc_, TripMeter* data)
         {
             while (1) {
@@ -457,10 +507,10 @@ public:
         }
 
         /**
-                 * @brief Gets accurate time info and saves it to data.time for future use
-                 * 
-                 * @param data trip meter object
-                 */
+        * @brief Gets accurate time info and saves it to data.time for future use
+        * 
+        * @param data trip meter object
+        */
         void time(TripMeter* data)
         {
             while (1) {

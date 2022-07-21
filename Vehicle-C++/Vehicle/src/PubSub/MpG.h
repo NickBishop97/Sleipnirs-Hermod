@@ -23,444 +23,492 @@
 
 using namespace eprosima::fastdds::dds;
 
-class MilesPerGallon
-{
+/**
+ * @brief MPG Class that will hold all the Pub/Sub for the MPG publisher
+ * and stores all the private data variables that are shared between the Pub/Subs
+ * 
+ */
+class MilesPerGallon {
+private:
+    double MT;
+    double FS;
+    unsigned long MTindex, FSindex, MPGindex;
+
+public:
+    MilesPerGallon()
+        : MT(0.0)
+        , FS(0.0)
+        , MTindex(0)
+        , FSindex(0)
+        , MPGindex(0)
+    {
+    }
+
+    ~MilesPerGallon()
+    {
+    }
+
+    /**
+    * @brief Miles Traveled Subscriber that will subscribe to the MilesTravled topic and store the data 
+    * locally in the upper class.
+    * 
+    */
+    class MTSubscriber {
     private:
-        double MT = 0.0;
-        double FS = 0.0;
-        unsigned long MTindex = 0, FSindex = 0, MPGindex = 0;
+        DomainParticipant* participant_;
+
+        Subscriber* subscriber_;
+
+        DataReader* reader_;
+
+        Topic* topic_;
+
+        TypeSupport type_;
+
+        class SubListener : public DataReaderListener {
+        public:
+            SubListener()
+                : samples_(0)
+            {
+            }
+
+            ~SubListener() override
+            {
+            }
+
+            void on_subscription_matched(
+                DataReader*,
+                const SubscriptionMatchedStatus& info) override
+            {
+                if (info.current_count_change == 1) {
+                    std::cout << "Publisher matched." << std::endl;
+                } else if (info.current_count_change == -1) {
+                    std::cout << "Publisher unmatched." << std::endl;
+                } else {
+                    std::cout << info.current_count_change
+                              << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+                }
+            }
+
+            void on_data_available(
+                DataReader* reader) override
+            {
+                SampleInfo info;
+                if (reader->take_next_sample(&miles_, &info) == ReturnCode_t::RETCODE_OK) {
+                    if (info.valid_data) {
+                        samples_++;
+                    }
+                }
+            }
+
+            Miles miles_;
+
+            std::atomic_int samples_;
+
+        } listener_;
+
     public:
-        class MTSubscriber {
-        private:
-            DomainParticipant* participant_;
+        MTSubscriber()
+            : participant_(nullptr)
+            , subscriber_(nullptr)
+            , topic_(nullptr)
+            , reader_(nullptr)
+            , type_(new MilesPubSubType())
+        {
+        }
 
-            Subscriber* subscriber_;
+        virtual ~MTSubscriber()
+        {
+            if (reader_ != nullptr) {
+                subscriber_->delete_datareader(reader_);
+            }
+            if (topic_ != nullptr) {
+                participant_->delete_topic(topic_);
+            }
+            if (subscriber_ != nullptr) {
+                participant_->delete_subscriber(subscriber_);
+            }
+            DomainParticipantFactory::get_instance()->delete_participant(participant_);
+        }
 
-            DataReader* reader_;
+        //!Initialize the subscriber
+        bool init()
+        {
+            DomainParticipantQos participantQos;
+            participantQos.name("Participant_subscriber");
+            participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-            Topic* topic_;
+            if (participant_ == nullptr) {
+                return false;
+            }
 
-            TypeSupport type_;
+            // Register the Type
+            type_.register_type(participant_);
 
-            class SubListener : public DataReaderListener {
-            public:
-                SubListener()
-                    : samples_(0)
-                {
-                }
+            // Create the subscriptions Topic
+            topic_ = participant_->create_topic("MilesTravled", "Miles", TOPIC_QOS_DEFAULT);
 
-                ~SubListener() override
-                {
-                }
+            if (topic_ == nullptr) {
+                return false;
+            }
 
-                void on_subscription_matched(
-                    DataReader*,
-                    const SubscriptionMatchedStatus& info) override
-                {
-                    if (info.current_count_change == 1) {
-                        std::cout << "Publisher matched." << std::endl;
-                    } else if (info.current_count_change == -1) {
-                        std::cout << "Publisher unmatched." << std::endl;
-                    } else {
-                        std::cout << info.current_count_change
-                                  << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+            // Create the Subscriber
+            subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
+
+            if (subscriber_ == nullptr) {
+                return false;
+            }
+
+            // Create the DataReader
+            reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
+
+            if (reader_ == nullptr) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+        * @brief Will take the Miles Traveled data and save it to the upper class MT variable
+        * and increment the MTindex up by 1.
+        * 
+        * @param calc_ MPG Object variable from Calculations.h
+        * @param data MilesPerGallong Object Variable
+        */
+        void run(MPG* calc_, MilesPerGallon* data)
+        {
+            unsigned long count = 0;
+            unsigned long old = 0;
+            while (1) {
+                if (listener_.samples_ != old) {
+                    if (data->MTindex == data->MPGindex) {
+                        data->MT = listener_.miles_.milesTraveled();
+                        data->MTindex = count;
+                        count++;
+                        old = listener_.samples_;
                     }
                 }
+            }
+        }
+    };
 
-                void on_data_available(
-                    DataReader* reader) override
-                {
-                    SampleInfo info;
-                    if (reader->take_next_sample(&miles_, &info) == ReturnCode_t::RETCODE_OK) {
-                        if (info.valid_data) {
-                            samples_++;
-                        }
-                    }
-                }
+    /**
+    * @brief Fuel Remainging Subscriber that will subscribe to the FuelRemain topic and store the data 
+    * locally in the upper class.
+    * 
+    */
+    class FRSubscriber {
+    private:
+        DomainParticipant* participant_;
 
-                Miles miles_;
+        Subscriber* subscriber_;
 
-                std::atomic_int samples_;
+        DataReader* reader_;
 
-            } listener_;
+        Topic* topic_;
 
+        TypeSupport type_;
+
+        class SubListener : public DataReaderListener {
         public:
-            MTSubscriber()
-                : participant_(nullptr)
-                , subscriber_(nullptr)
-                , topic_(nullptr)
-                , reader_(nullptr)
-                , type_(new MilesPubSubType())
+            SubListener()
+                : samples_(0)
             {
             }
 
-            virtual ~MTSubscriber()
+            ~SubListener() override
             {
-                if (reader_ != nullptr) {
-                    subscriber_->delete_datareader(reader_);
-                }
-                if (topic_ != nullptr) {
-                    participant_->delete_topic(topic_);
-                }
-                if (subscriber_ != nullptr) {
-                    participant_->delete_subscriber(subscriber_);
-                }
-                DomainParticipantFactory::get_instance()->delete_participant(participant_);
             }
 
-            //!Initialize the subscriber
-            bool init()
+            void on_subscription_matched(
+                DataReader*,
+                const SubscriptionMatchedStatus& info) override
             {
-                DomainParticipantQos participantQos;
-                participantQos.name("Participant_subscriber");
-                participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
-
-                if (participant_ == nullptr) {
-                    return false;
+                if (info.current_count_change == 1) {
+                    std::cout << "Publisher matched." << std::endl;
+                } else if (info.current_count_change == -1) {
+                    std::cout << "Publisher unmatched." << std::endl;
+                } else {
+                    std::cout << info.current_count_change
+                              << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
                 }
-
-                // Register the Type
-                type_.register_type(participant_);
-
-                // Create the subscriptions Topic
-                topic_ = participant_->create_topic("MilesTravled", "Miles", TOPIC_QOS_DEFAULT);
-
-                if (topic_ == nullptr) {
-                    return false;
-                }
-
-                // Create the Subscriber
-                subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-
-                if (subscriber_ == nullptr) {
-                    return false;
-                }
-
-                // Create the DataReader
-                reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
-
-                if (reader_ == nullptr) {
-                    return false;
-                }
-
-                return true;
             }
 
-            void run(MPG* calc_, MilesPerGallon* data)
+            void on_data_available(
+                DataReader* reader) override
             {
-                unsigned long count = 0;
-                unsigned long old = 0;
-                while (1) {
-                    if (listener_.samples_ != old) {
-                        if (data->MTindex == data->MPGindex) {
-                            data->MT = listener_.miles_.milesTraveled();
-                            data->MTindex = count;
-                            count++;
-                            old = listener_.samples_;
-                        }
-                    }
-                    //old = listener_.samples_;
-                }
-            }
-        };
-
-        class FRSubscriber {
-        private:
-            DomainParticipant* participant_;
-
-            Subscriber* subscriber_;
-
-            DataReader* reader_;
-
-            Topic* topic_;
-
-            TypeSupport type_;
-
-            class SubListener : public DataReaderListener {
-            public:
-                SubListener()
-                    : samples_(0)
-                {
-                }
-
-                ~SubListener() override
-                {
-                }
-
-                void on_subscription_matched(
-                    DataReader*,
-                    const SubscriptionMatchedStatus& info) override
-                {
-                    if (info.current_count_change == 1) {
-                        std::cout << "Publisher matched." << std::endl;
-                    } else if (info.current_count_change == -1) {
-                        std::cout << "Publisher unmatched." << std::endl;
-                    } else {
-                        std::cout << info.current_count_change
-                                  << " is not a valid value for PublisherMatchedStatus current count change" << std::endl;
+                SampleInfo info;
+                if (reader->take_next_sample(&fuel_, &info) == ReturnCode_t::RETCODE_OK) {
+                    if (info.valid_data) {
+                        samples_++;
                     }
                 }
+            }
 
-                void on_data_available(
-                    DataReader* reader) override
-                {
-                    SampleInfo info;
-                    if (reader->take_next_sample(&fuel_, &info) == ReturnCode_t::RETCODE_OK) {
-                        if (info.valid_data) {
-                            samples_++;
-                        }
+            Fuel fuel_;
+
+            std::atomic_int samples_;
+
+        } listener_;
+
+    public:
+        FRSubscriber()
+            : participant_(nullptr)
+            , subscriber_(nullptr)
+            , topic_(nullptr)
+            , reader_(nullptr)
+            , type_(new FuelPubSubType())
+        {
+        }
+
+        virtual ~FRSubscriber()
+        {
+            if (reader_ != nullptr) {
+                subscriber_->delete_datareader(reader_);
+            }
+            if (topic_ != nullptr) {
+                participant_->delete_topic(topic_);
+            }
+            if (subscriber_ != nullptr) {
+                participant_->delete_subscriber(subscriber_);
+            }
+            DomainParticipantFactory::get_instance()->delete_participant(participant_);
+        }
+
+        //!Initialize the subscriber
+        bool init()
+        {
+            DomainParticipantQos participantQos;
+            participantQos.name("Participant_subscriber");
+            participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
+
+            if (participant_ == nullptr) {
+                return false;
+            }
+
+            // Register the Type
+            type_.register_type(participant_);
+
+            // Create the subscriptions Topic
+            topic_ = participant_->create_topic("FuelSpent", "Fuel", TOPIC_QOS_DEFAULT);
+
+            if (topic_ == nullptr) {
+                return false;
+            }
+
+            // Create the Subscriber
+            subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
+
+            if (subscriber_ == nullptr) {
+                return false;
+            }
+
+            // Create the DataReader
+            reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
+
+            if (reader_ == nullptr) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+        * @brief Will take the Fuel Spent data and save it to the upper class FS variable
+        * and increment the FSindex up by 1.
+        * 
+        * @param calc_ MPG Object Variable from Calculatoins.h
+        * @param data TripMeter Object Variable
+        */
+        void run(MPG* calc_, MilesPerGallon* data)
+        {
+            unsigned long count = 0;
+            unsigned long old = 0;
+            while (1) {
+                if (listener_.samples_ != old) {
+                    if (data->FSindex == data->MPGindex) {
+                        data->FS = listener_.fuel_.litersSpent();
+                        data->FSindex = count;
+                        count++;
+                        old = listener_.samples_;
                     }
                 }
+            }
+        }
+    };
 
-                Fuel fuel_;
+    /**
+    * @brief Miles Per Gallong publisher that will post the Miles Per Gallong data to the 
+    * MPG topic.
+    * 
+    */
+    class MPGPublisher {
+    private:
+        MpG mpg_;
 
-                std::atomic_int samples_;
+        DomainParticipant* participant_;
 
-            } listener_;
+        Publisher* publisher_;
 
+        Topic* topic_;
+
+        DataWriter* writer_;
+
+        TypeSupport type_;
+
+        class PubListener : public DataWriterListener {
         public:
-            FRSubscriber()
-                : participant_(nullptr)
-                , subscriber_(nullptr)
-                , topic_(nullptr)
-                , reader_(nullptr)
-                , type_(new FuelPubSubType())
+            PubListener()
+                : matched_(0)
             {
             }
 
-            virtual ~FRSubscriber()
-            {
-                if (reader_ != nullptr) {
-                    subscriber_->delete_datareader(reader_);
-                }
-                if (topic_ != nullptr) {
-                    participant_->delete_topic(topic_);
-                }
-                if (subscriber_ != nullptr) {
-                    participant_->delete_subscriber(subscriber_);
-                }
-                DomainParticipantFactory::get_instance()->delete_participant(participant_);
-            }
-
-            //!Initialize the subscriber
-            bool init()
-            {
-                DomainParticipantQos participantQos;
-                participantQos.name("Participant_subscriber");
-                participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
-
-                if (participant_ == nullptr) {
-                    return false;
-                }
-
-                // Register the Type
-                type_.register_type(participant_);
-
-                // Create the subscriptions Topic
-                topic_ = participant_->create_topic("FuelSpent", "Fuel", TOPIC_QOS_DEFAULT);
-
-                if (topic_ == nullptr) {
-                    return false;
-                }
-
-                // Create the Subscriber
-                subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT, nullptr);
-
-                if (subscriber_ == nullptr) {
-                    return false;
-                }
-
-                // Create the DataReader
-                reader_ = subscriber_->create_datareader(topic_, DATAREADER_QOS_DEFAULT, &listener_);
-
-                if (reader_ == nullptr) {
-                    return false;
-                }
-
-                return true;
-            }
-
-            void run(MPG* calc_, MilesPerGallon* data)
-            {
-                unsigned long count = 0;
-                unsigned long old = 0;
-                while (1) {
-                    if (listener_.samples_ != old) {
-                        if (data->FSindex == data->MPGindex) {
-                            data->FS = listener_.fuel_.litersSpent();
-                            data->FSindex = count;
-                            count++;
-                            old = listener_.samples_;
-                        }
-                    }
-                    //old = listener_.samples_;
-                }
-            }
-        };
-
-        class MPGPublisher {
-        private:
-            MpG mpg_;
-
-            DomainParticipant* participant_;
-
-            Publisher* publisher_;
-
-            Topic* topic_;
-
-            DataWriter* writer_;
-
-            TypeSupport type_;
-
-            class PubListener : public DataWriterListener {
-            public:
-                PubListener()
-                    : matched_(0)
-                {
-                }
-
-                ~PubListener() override
-                {
-                }
-
-                void on_publication_matched(
-                    DataWriter*,
-                    const PublicationMatchedStatus& info) override
-                {
-                    if (info.current_count_change == 1) {
-                        matched_ = info.total_count;
-                        std::cout << "Subscriber matched. " << matched_ << std::endl;
-                    } else if (info.current_count_change == -1) {
-                        matched_ = info.current_count;
-                        std::cout << "Subscriber unmatched. " << matched_ << std::endl;
-                    } else {
-                        std::cout << info.current_count_change
-                                  << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
-                    }
-                }
-
-                std::atomic_int matched_;
-
-            } listener_;
-
-        public:
-            MPGPublisher()
-                : participant_(nullptr)
-                , publisher_(nullptr)
-                , topic_(nullptr)
-                , writer_(nullptr)
-                , type_(new MpGPubSubType())
+            ~PubListener() override
             {
             }
 
-            virtual ~MPGPublisher()
+            void on_publication_matched(
+                DataWriter*,
+                const PublicationMatchedStatus& info) override
             {
-                if (writer_ != nullptr) {
-                    publisher_->delete_datawriter(writer_);
+                if (info.current_count_change == 1) {
+                    matched_ = info.total_count;
+                    std::cout << "Subscriber matched. " << matched_ << std::endl;
+                } else if (info.current_count_change == -1) {
+                    matched_ = info.current_count;
+                    std::cout << "Subscriber unmatched. " << matched_ << std::endl;
+                } else {
+                    std::cout << info.current_count_change
+                              << " is not a valid value for SubscriberMatchedStatus current count change." << std::endl;
                 }
-                if (publisher_ != nullptr) {
-                    participant_->delete_publisher(publisher_);
-                }
-                if (topic_ != nullptr) {
-                    participant_->delete_topic(topic_);
-                }
-                DomainParticipantFactory::get_instance()->delete_participant(participant_);
             }
 
-            /**
+            std::atomic_int matched_;
+
+        } listener_;
+
+    public:
+        MPGPublisher()
+            : participant_(nullptr)
+            , publisher_(nullptr)
+            , topic_(nullptr)
+            , writer_(nullptr)
+            , type_(new MpGPubSubType())
+        {
+        }
+
+        virtual ~MPGPublisher()
+        {
+            if (writer_ != nullptr) {
+                publisher_->delete_datawriter(writer_);
+            }
+            if (publisher_ != nullptr) {
+                participant_->delete_publisher(publisher_);
+            }
+            if (topic_ != nullptr) {
+                participant_->delete_topic(topic_);
+            }
+            DomainParticipantFactory::get_instance()->delete_participant(participant_);
+        }
+
+        /**
              * @brief Initializes the DDS Publisher with correct topic and initial starting data
              * 
              * @return true if system started without a problme
              * @return false if system didn't start correctly
              */
-            bool init()
-            {
-                mpg_.mpg(0);
+        bool init()
+        {
+            mpg_.mpg(0);
 
-                DomainParticipantQos participantQos;
-                participantQos.name("Participant_publisher");
-                participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
+            DomainParticipantQos participantQos;
+            participantQos.name("Participant_publisher");
+            participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participantQos);
 
-                if (participant_ == nullptr) {
-                    return false;
-                }
-
-                // Register the Type
-                type_.register_type(participant_);
-
-                // Create the publications Topic
-                topic_ = participant_->create_topic("MPG", "MpG", TOPIC_QOS_DEFAULT);
-
-                if (topic_ == nullptr) {
-                    return false;
-                }
-
-                // Create the Publisher
-                publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
-
-                if (publisher_ == nullptr) {
-                    return false;
-                }
-
-                // Create the DataWriter
-                writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
-
-                if (writer_ == nullptr) {
-                    return false;
-                }
-                return true;
-            }
-
-            /**
-             * @brief Publishes MPG data onto the topic
-             * 
-             * @param calc_ 
-             * @return true 
-             * @return false 
-             */
-            bool publish(MPG* calc_, MilesPerGallon* data)
-            {
-                //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
-                if ((data->MPGindex < data->MTindex) && (data->MPGindex < data->FSindex)) {
-                    mpg_.mpg(calc_->mpg(data->MT, data->FS));
-                    writer_->write(&mpg_);
-                    data->MPGindex = data->MPGindex + 1;
-                    return true;
-                } else if (data->MTindex > data->FSindex) {
-                    mpg_.mpg(calc_->mpg(0, 0));
-                    writer_->write(&mpg_);
-                    return true;
-                } else if (data->MTindex < data->FSindex) {
-                    mpg_.mpg(calc_->mpg(0, 0));
-                    writer_->write(&mpg_);
-                    return true;
-                }
-                writer_->write(&mpg_);
+            if (participant_ == nullptr) {
                 return false;
             }
 
-            /**
-             * @brief Will check to see if publish returns true or false and wait 0.25 secs
-             * 
-             * @param calc_ 
-             */
-            void run(MPG* calc_, MilesPerGallon* data)
-            {
-                while (1) {
-                    if (publish(calc_, data)) {
-                        if (mpg_.mpg() == -1.0) {
-                            std::cout << std::fixed << std::setprecision(1) << "MPG: -.-" << std::endl;
-                        } else {
-                            std::cout << std::fixed << std::setprecision(1) << "MPG: " << mpg_.mpg() << std::endl;
-                        }
-                    } else {
-                        std::cout << "MPG: -.-" << std::endl;
-                    }
-                    //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
-                    std::this_thread::sleep_for(std::chrono::milliseconds(250));
-                }
+            // Register the Type
+            type_.register_type(participant_);
+
+            // Create the publications Topic
+            topic_ = participant_->create_topic("MPG", "MpG", TOPIC_QOS_DEFAULT);
+
+            if (topic_ == nullptr) {
+                return false;
             }
-        };
+
+            // Create the Publisher
+            publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT, nullptr);
+
+            if (publisher_ == nullptr) {
+                return false;
+            }
+
+            // Create the DataWriter
+            writer_ = publisher_->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &listener_);
+
+            if (writer_ == nullptr) {
+                return false;
+            }
+            return true;
+        }
+
+        /**
+        * @brief Publishes MPG data onto the topic if MTindex & FSindex are greater
+        * than MPGindex
+        * 
+        * @param calc_ MPG Object variable from Calculations.h
+        * @param data MilesPerGallon Object variable
+        * @return true 
+        * @return false 
+        */
+        bool publish(MPG* calc_, MilesPerGallon* data)
+        {
+            //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
+            if ((data->MPGindex < data->MTindex) && (data->MPGindex < data->FSindex)) {
+                mpg_.mpg(calc_->mpg(data->MT, data->FS));
+                writer_->write(&mpg_);
+                data->MPGindex = data->MPGindex + 1;
+                return true;
+            } else if (data->MTindex > data->FSindex) {
+                mpg_.mpg(calc_->mpg(0, 0));
+                writer_->write(&mpg_);
+                return true;
+            } else if (data->MTindex < data->FSindex) {
+                mpg_.mpg(calc_->mpg(0, 0));
+                writer_->write(&mpg_);
+                return true;
+            }
+            writer_->write(&mpg_);
+            return false;
+        }
+
+        /**
+        * @brief Will check to see if publish returns true or false and wait 0.25 secs
+        * 
+        * @param calc_ MPG Object variable from Calculations.h
+        * @param data MilesPerGallon Object variable
+        */
+        void run(MPG* calc_, MilesPerGallon* data)
+        {
+            while (1) {
+                if (publish(calc_, data)) {
+                    if (mpg_.mpg() == -1.0) {
+                        std::cout << std::fixed << std::setprecision(1) << "MPG: -.-" << std::endl;
+                    } else {
+                        std::cout << std::fixed << std::setprecision(1) << "MPG: " << mpg_.mpg() << std::endl;
+                    }
+                } else {
+                    std::cout << "MPG: -.-" << std::endl;
+                }
+                //std::cout << "MPG Index: " << calc_->get_MPGindex() << " MT index: " << calc_->get_MTindex() << " FS index: " << calc_->get_FSindex() << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(250));
+            }
+        }
+    };
 };
 
 #endif
