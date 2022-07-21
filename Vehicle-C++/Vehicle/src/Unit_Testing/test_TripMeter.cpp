@@ -7,8 +7,6 @@
 #define ERROR_CODE -1.0
 #define POS_VALUE 13.2354
 #define DIFF_POS_VALUE 21.54
-#define LARGE_DOUBLE1 226754.6785576899 // Overflow testing*
-#define LARGE_DOUBLE2 223654.6735786819
 
 using namespace std;
 

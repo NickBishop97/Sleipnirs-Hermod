@@ -8,8 +8,7 @@
 #define POS_VALUE 13.2354
 #define DIFF_POS_VALUE 21.54
 #define LARGER_THAN_TANK 0.001 + TANK_CAP
-#define LARGE_DOUBLE1 226754.6785576899 // Overflow testing*
-#define LARGE_DOUBLE2 223654.6735786819
+
 
 BOOST_AUTO_TEST_SUITE(MILES_LEFT_TEST)
 
@@ -80,19 +79,6 @@ BOOST_AUTO_TEST_CASE(excessiveFR)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
-}
-
-/** 
- * @brief Assert that when FR is larger than tank,  
- * then get_MilesLeft returns ERROR_CODE
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return bool
- */
-BOOST_AUTO_TEST_CASE(overflow)
-{
-    //ML ml;
-    //BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
