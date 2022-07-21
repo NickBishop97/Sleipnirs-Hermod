@@ -25,4 +25,9 @@ Project Hermod is a DDS (Distributed Data Service) that models a DDS that would 
             - Run these commands in order.
 ## 
 
-![alt text](https://gitlab.sde.sp.gc1.myngc.com/lts/sleipnir/-/blob/master/ect/Gradle.gif)
+<img src="https://gitlab.sde.sp.gc1.myngc.com/lts/sleipnir/-/raw/master/ect/Gradle.gif" width="697" height="279" />
+
+| header | header |
+| ------ | ------ |
+| cell | cell |
+| cell | cell |
