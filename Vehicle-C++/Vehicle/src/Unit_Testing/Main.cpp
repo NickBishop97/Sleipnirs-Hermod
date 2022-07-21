@@ -3,3 +3,4 @@
 #include "test_MilesLeft.cpp"
 #include "test_FuelSensor.cpp"
 #include "test_MPG.cpp"
+#include "test_TripMeter.cpp"
