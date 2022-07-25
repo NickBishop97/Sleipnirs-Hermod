@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(negative_case)
 }
 
 /**
- * @brief Assert that when FuelReamining is negative
+ * @brief Assert that when FuelRemaining is negative
  * then get_FuelRemaining returns perviously held value
  * 
  * @param fuelR Fuel Remaining
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(negative_case2)
 }
 
 /**
- * @brief Assert that when FuelReamining is normal value
+ * @brief Assert that when FuelRemaining is normal value
  * then fuelspent returns expected value
  * 
  * @param fuelR Fuel Remaining
