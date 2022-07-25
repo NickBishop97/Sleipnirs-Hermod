@@ -1,0 +1,4 @@
+The import "behave" is a BDD testing tool. The following are resources used for installation, setup and features provided for using behave:
+
+https://behave.readthedocs.io/en/stable/tutorial.html
+https://automationpanda.com/2018/05/11/python-testing-101-behave/
