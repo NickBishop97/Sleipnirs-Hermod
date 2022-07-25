@@ -32,7 +32,3 @@ test-unit:
       - Vehicle-Python/ADTs/coverage
     expire_in: 14 days
 
-#test-coverage:
-#  stage: unit-testing
-#  script:
-#    - pipeline_tests/cov_tests.sh
