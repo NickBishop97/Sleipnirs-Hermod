@@ -41,4 +41,4 @@ def runSensor():
     signal.pause()
 
 
-runSensor()
+#runSensor()
