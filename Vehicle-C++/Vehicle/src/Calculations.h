@@ -174,8 +174,8 @@ public:
     {
     }
     void toggleTrip();
-    void AvSpeed(double newMiles, double newTime);
-    void AvMpg(double MPG);
+    double AvSpeed(double newMiles, double newTime);
+    double AvMpg(double MPG);
     void updateTrip(double newMiles, double newMPG, double newtime);
     std::tuple<double, double, double, double> GetTripData();
     void clear();
