@@ -511,8 +511,6 @@ public:
                 }
                 calc_->updateTrip(data->MT, data->MPG, data->time);
                 std::this_thread::sleep_for(std::chrono::milliseconds(250));
-                //std::cout << data->MPGindex << " " << data->MTindex << " " << data->TMindex << std::endl;
-                //std::cout << data->MPG << " " << data->MT << " " << data->time << std::endl;
             }
         }
 
