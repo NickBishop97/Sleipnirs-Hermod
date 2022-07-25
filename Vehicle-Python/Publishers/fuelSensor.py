@@ -38,7 +38,6 @@ def runSensor():
     fuelWriter = FuelWriter([Fuel, "Fuel", "FuelRemaining544645"], FuelConsump(100, 100))  # noqa: F821
     fuelWriter.run(test_flag.test_flag)
 
-    # code is not unreachable, just a bug
     signal.pause()
 
 
