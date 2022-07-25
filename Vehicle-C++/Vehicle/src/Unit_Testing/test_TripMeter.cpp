@@ -83,6 +83,10 @@ BOOST_AUTO_TEST_CASE(negativeMPG)
     BOOST_CHECK(tm.AvMpg(NEG_VALUE) == ERROR_CODE);
 }
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(Trip_Data_UpdateTrip)
+
 /**
  * @brief Assert that when GetTripData is called 
  * and the last updateTrip had negative values
@@ -94,7 +98,7 @@ BOOST_AUTO_TEST_CASE(GetTripData_NegCase)
 {
     TM tm;
     tm.updateTrip(NEG_VALUE, NEG_VALUE, NEG_VALUE);
-    double test [4] = {INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE};
+    double test[4] = { INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE };
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == INIT_VALUE);
     BOOST_CHECK(test[1] == INIT_VALUE);
@@ -112,7 +116,7 @@ BOOST_AUTO_TEST_CASE(GetTripData_MilesZeroCase)
 {
     TM tm;
     tm.updateTrip(INIT_VALUE, POS_VALUE, POS_VALUE);
-    double test [4] = {INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE};
+    double test[4] = { INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE };
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == INIT_VALUE);
     BOOST_CHECK(test[1] == INIT_VALUE);
@@ -130,10 +134,10 @@ BOOST_AUTO_TEST_CASE(GetTripData_MpgZeroCase)
 {
     TM tm;
     tm.updateTrip(POS_VALUE, INIT_VALUE, POS_VALUE);
-    double test [4] = {INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE};
+    double test[4] = { INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE };
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == POS_VALUE);
-    BOOST_CHECK(test[1] == (POS_VALUE/POS_VALUE));
+    BOOST_CHECK(test[1] == (POS_VALUE / POS_VALUE));
     BOOST_CHECK(test[2] == POS_VALUE);
     BOOST_CHECK(test[3] == INIT_VALUE);
 }
@@ -148,7 +152,7 @@ BOOST_AUTO_TEST_CASE(GetTripData_ClearCase)
 {
     TM tm;
     tm.updateTrip(POS_VALUE, POS_VALUE, POS_VALUE);
-    double test [4] = {INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE};
+    double test[4] = { INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE };
     tm.clear();
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == INIT_VALUE);
@@ -167,7 +171,7 @@ BOOST_AUTO_TEST_CASE(GetTripData_ChangeTripCase)
 {
     TM tm;
     tm.updateTrip(POS_VALUE, POS_VALUE, POS_VALUE);
-    double test [4] = {INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE};
+    double test[4] = { INIT_VALUE, INIT_VALUE, INIT_VALUE, INIT_VALUE };
     tm.toggleTrip();
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == INIT_VALUE);
@@ -177,7 +181,7 @@ BOOST_AUTO_TEST_CASE(GetTripData_ChangeTripCase)
     tm.toggleTrip();
     std::tie(test[0], test[1], test[2], test[3]) = tm.GetTripData();
     BOOST_CHECK(test[0] == POS_VALUE);
-    BOOST_CHECK(test[1] == (POS_VALUE/POS_VALUE));
+    BOOST_CHECK(test[1] == (POS_VALUE / POS_VALUE));
     BOOST_CHECK(test[2] == POS_VALUE);
     BOOST_CHECK(test[3] == POS_VALUE);
 }

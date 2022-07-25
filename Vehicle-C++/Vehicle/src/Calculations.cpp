@@ -133,8 +133,7 @@ double ML::get_MilesLeft(double MPG, double FR)
  */
 void TD::updateData(double newMiles, double newMPG, double newtime)
 {
-    if(newMiles >= 0 || newMPG >= 0 || newtime > 0)
-    {
+    if (newMiles >= 0 || newMPG >= 0 || newtime > 0) {
         double temp;
         temp = getAvMpg(newMPG);
         if (temp == -1) {
@@ -143,20 +142,19 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
             MPG = temp;
         }
         if (newMiles != 0 && newtime != 0) {
-            double temp;
-            temp = getAvSpeed(newMiles, newtime);
-            if(temp == -1)
-            {
+            double data;
+            data = getAvSpeed(newMiles, newtime);
+            if (data == -1) {
                 return;
             } else {
-                speed = temp;
+                speed = data;
             }
         }
         miles = miles + newMiles;
         time = time + newtime;
     }
 }
-
+ 
 /**
  * @brief Calculates the Avg speed
  *
