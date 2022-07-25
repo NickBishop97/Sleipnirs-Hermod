@@ -113,22 +113,3 @@ def test_full_over_negative():
     print("Expected: 0.0")
     print("Actual Result: " + str(test_gauge.calculateFuelPercentage()))
     assert test_gauge.calculateFuelPercentage() == 0.0
-
-
-test_base_case()
-print('')
-test_zero_over_full()
-print('')
-test_zero_over_zero()
-print('')
-test_negative_over_full()
-print('')
-test_side_case()
-print('')
-test_half_over_zero()
-print('')
-test_extra_over_full()
-print('')
-test_full_over_full()
-print('')
-test_full_over_negative()
