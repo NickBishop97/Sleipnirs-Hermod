@@ -11,6 +11,8 @@
 
 [Hermod - Setup](#FastDDS-Setup)
 
+[Hermod - Known Problems](#Known-Problems)
+
 ## Purpose
 Summer 2022 Internship Project
 
@@ -27,7 +29,7 @@ Project Hermod is a DDS (Distributed Data Service) that models a DDS that would 
 - lint.sh (Will lint both C++ and Python code for any syntax errors) **Requires that cppcheck and flake8 are installed**
 - doc.sh (Will create an HTML Doc of the code for both C++ and Python) **Requires that Doxygen is installed**
 - formatcode.sh (Will auto format the Python Code to Pep8 standards) **Requires that autopep8 and clang-format is installed**
-- unit-test.sh (Will unit test both C++ and Python code and print the coverage) **Requires that pytest and lcov is installed**
+- unit-test.sh (Will unit test both C++ and Python code and print the coverage) **Requires that pytest and lcov is installed (Might throw an Internal Error check known problems section if it happens)**
 - InstallQemuPackages.sh (Will install QEMU packages from git repo)
 - RunQemuEmulation.sh (Takes two args(.iso path, Image name))
 
@@ -71,6 +73,7 @@ The Files below are generated exclusively by the above scripts
     - C++ Documentation html: `./Vehicle-C++/Vehicle/Build/html/index.html`
     - C++ Coverage html: `./Vehicle-C++/Vehicle/Build/Coverage/index.html`
     - Python Documentation html: `./Vehicle-Python/Build/html/index.html`
+    - Python Coverage html: `./Vehicle-Python/Build/Coverage/index.html` **(Error could be caused trying to gen this, read known problems section)**
 
 ## FastDDS Setup (Required to use Hermod)
 
@@ -163,7 +166,10 @@ The Files below are generated exclusively by the above scripts
             - `source ~/.bashrc`
     - **Fixes**
         - **Fix for FastDDS.py not found**
-            - Copy all the files from /home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/             site-packages and move them to /home/<userID>/.local/lib/python3.8/site-packages/
+            - Copy all the files from `/home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/site-packages` and move them to `/home/<userID>/.local/lib/python3.8/site-packages/`
             - `cp -r /home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/site-packages/* /home/<userID>/.local/lib/python3.8/site-packages/`
 
+## Known Problems
 
+INTERNALERROR Unsupported hash type(Python)
+- If you try to run the unit-test.sh script and it throws and error about INTERNALERROR unsupported hash type then this is a problem with openssl binding with python. To fix this you can uninstall python and openssl and bind them together(Research is needed for this). The method we used was to change two lines of code in the site-packages from the files `/home/<user>/.local/lib/python3.8/site-packages/coverage/misc.py line 226` and `/home/n16743/.local/lib/python3.8/site-packages/coverage/files.py line 95` and change the strings that say sha3_256 to sha256. If you don't want to fix this you can just comment out line 14 in unit-testing.sh and uncomment line 15 which will just show what lines weren't hit during the test.

@@ -11,7 +11,10 @@ echo
 echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
-pytest --cov-report term-missing --cov=Calculators
+pytest --cov-report=html:../Build/Coverage --cov=Calculators
+#pytest --cov-report term-missing --cov=Calculators
+rm .coverage
+echo -e "${LPUR}Python UNIT TESTING COMPLETE${NC}"
 echo
 echo "############ Running C++ Unit Tests ##############"
 cd ../..
@@ -29,8 +32,9 @@ echo
 printf ${LPUR}
 gcov Calculations.cpp | head -n 2
 echo
-echo "Coverage html has been generated in Vehicle-C++/Vehicle/Build/Coverage"
 printf ${NC}
 rm *.o *.gcda *.gcno *.gcov Main *.info
-echo
 echo -e "${LPUR}C++ UNIT TESTING COMPLETE${NC}"
+echo
+echo -e "${LPUR}C++ Coverage html has been generated in Vehicle-C++/Vehicle/Build/Coverage${NC}"
+echo -e "${LPUR}Python Coverage html has been generated in Vehicle-Python/Build/Coverage${NC}"
