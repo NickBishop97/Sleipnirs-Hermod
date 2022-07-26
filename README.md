@@ -3,22 +3,25 @@
 <img src= "./etc/Team_Image.png" width="100" height="100">
 
 ## Section Links
+
 [Hermod - Purpose](#Purpose)
 
-[Hermod - Info](#Important-Info)
+[Hermod - Info](#Important Info)
 
-[Hermod - Generated Files](#Generated-Files)
+[Hermod - Generated Files](#Generated Files)
 
-[Hermod - Setup](#FastDDS-Setup)
+[Hermod - Setup](#FastDDS Setup)
 
-[Hermod - Functional Requirements](Functional-Requirements)
+[Hermod - Functional Requirements](#Functional Requirements)
 
-[Hermod - Known Problems](#Known-Problems)
+[Hermod - Known Problems](#Known Problems)
 
 ## Purpose
-Summer 2022 Internship Project
+
+**Summer 2022 Internship Project**
 
 Project Hermod is a DDS (Distributed Data Service) that models a DDS that would be used for a car system. It utilizes fastDDS framework to create publishers and subscribers to transmit data via topics in real time. Some of the specific component domain being written for the car system are the following:
+
     - Fuel Domain (Fuel spent, Fuel remaining, Low fuel alert, Miles per gallon, etc..)
     - Miles Domain (Miles traveled, Miles remaining, Miles per gallon, etc..)
     - Trip Domain (Current trip, Trip time, Avg speed, Avg miles per gallon, etc..)
@@ -77,7 +80,9 @@ The Files below are generated exclusively by the above scripts
     - Python Documentation html: `./Vehicle-Python/Build/html/index.html`
     - Python Coverage html: `./Vehicle-Python/Build/Coverage/index.html` **(Error could be caused trying to gen this, read known problems section)**
 
-## FastDDS Setup (Required to use Hermod)
+## FastDDS Setup
+
+The following steps are required to run Hermod.
 
 1. Getting dependencies **(the commands below are assuming your using CentOS 7)**
     - **TinyXml2 v9.0.0**
@@ -171,7 +176,7 @@ The Files below are generated exclusively by the above scripts
             - Copy all the files from `/home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/site-packages` and move them to `/home/<userID>/.local/lib/python3.8/site-packages/`
             - `cp -r /home/<location to FastDDS-Python>/install/fastdds_python/lib64/python3.8/site-packages/* /home/<userID>/.local/lib/python3.8/site-packages/`
 
-## Functional-Requirements
+## Functional Requirements
 What follows are the functional requirements set by the client, which were later refined and changed.
 
 Number of Topics: 5
@@ -180,10 +185,12 @@ Number of Exclusively Subscribers: 5
 Number of Multi-Subscribers and Single Subscribers: 3
 
 **1. System Level Requirements:**
-    - The vehicle shall display a visible indicator to the driver when the vehicle is projected to run out of fuel within 5 liters or less from the Low Fuel Alert Monitor.
-    - The vehicle shall display to the driver the amount of fuel remaining in liters from the tank as a percentage from the Fuel Gauge.
-    - The vehicle shall display average miles per gallon to the driver from the Miles Per Gallon.
-    - The vehicle shall display the selected road trip of miles traveled to the driver from the Road Trip Meter.
+
+    System:
+        - The vehicle shall display a visible indicator to the driver when the vehicle is projected to run out of fuel within 5 liters or less from the Low Fuel Alert Monitor.
+        - The vehicle shall display to the driver the amount of fuel remaining in liters from the tank as a percentage from the Fuel Gauge.
+        - The vehicle shall display average miles per gallon to the driver from the Miles Per Gallon.
+        - The vehicle shall display the selected road trip of miles traveled to the driver from the Road Trip Meter.
 
 **2. Publisher Requirements:**
 
@@ -274,6 +281,58 @@ Number of Multi-Subscribers and Single Subscribers: 3
         - The Road Trip Meter Topic shall receive the button input from the Button Sensor.
         - The Road Trip Meter Topic Topic shall publish the button input to its subscribers.
 
+## Design Constraints
+
+What follows are the design constraints determined by the team to carry out the functional requirements.
+
+**Fuel Sensor Implementation Requirements:**
+
+    Fuel Sensor shall send:
+        - Message Index (unsigned integer)
+        - Liters Remaining (double)
+        - Liters Spent (double)
+    Fuel Sensor shall force other sensors to read 0.0 for none index values until it Fuel Sensor start.
+
+**Miles Sensor Implementation Requirements:**
+
+    Miles Traveled Sensor shall send:
+        - Message Index (unsigned integer)
+        - Cumulative Miles Traveled (double)
+
+**Miles Per Gallon Implementation Requirements:**
+
+    Miles Per Gallon shall send:
+        - Message Index (unsigned integer)
+        - Cumulative Miles Per Gallon (double)
+
+**Miles Left Until Refuel Implementation Requirements:**
+
+    Miles Left Until Refuel shall send:
+        - Message Index (unsigned integer)
+        - Miles Left Until Refuel (double)
+
+**Low Fuel Alert Monitor Implementation Requirements:**
+
+    Low Fuel Alert Monitor shall send:
+        - Message Index (unsigned integer)
+        - Is Fuel Low (signed integer) (treat as bool)
+
+**Road Trip Meter Implementation Requirements:**
+
+    Button Sensor shall send:
+        - Message Index (unsigned integer)
+        - Button Pressed in seconds (unsigned integer)
+    Road Trip shall send:
+        -The current trip number being displayed (string) (i.e. Trip #)
+        - Road Trip of miles traveled (unsigned integer)
+
+**Standard Protocol:**
+    Subscribers:
+        - When a Subscriber disconnects: A Publisher will continue writing even if there were no initial Subscribers.
+    Publishers:
+        - When a Publisher disconnects: a Subscriber will contnue to read an error value even if there were no initial Publishers.
+            - For the double value, it will be -1.0
+            - For the integer value, it will be -1
 
 ## Known Problems
 
