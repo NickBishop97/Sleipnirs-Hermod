@@ -10,6 +10,13 @@
  */
 #include "Moving.h"
 
+/**
+ * @brief Starts up Moving publisher and subscriber and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

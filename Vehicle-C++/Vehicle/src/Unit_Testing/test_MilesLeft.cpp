@@ -12,6 +12,25 @@
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
 
+/**
+ * @def INIT_VALUE 
+ * Initial 0 value for testing purposes 
+ * 
+ * @def NEG_VALUE 
+ * A random negative decimal value for testing purposes 
+ * 
+ * @def ERROR_CODE 
+ * The return value for an error
+ * 
+ * @def POS_VALUE
+ * A random positive value for testing purposes
+ * 
+ * 
+ * 
+ * @def LARGER_THAN_TANK 
+ * A value that is larger than TANK_CAP for testing purposes 
+ * 
+ */
 #define INIT_VALUE 0.0
 #define NEG_VALUE -0.001
 #define ERROR_CODE -1.0

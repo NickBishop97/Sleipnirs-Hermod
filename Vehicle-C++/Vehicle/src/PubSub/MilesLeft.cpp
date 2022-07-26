@@ -10,6 +10,13 @@
  */
 #include "MilesLeft.h"
 
+/**
+ * @brief Starts up MilesLeft subscribers and publisher and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)
