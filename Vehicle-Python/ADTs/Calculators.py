@@ -21,14 +21,12 @@ class FuelConsump:
         if stop_flag:
             return(-1, -1)
 
-        change = self.currentFuelGallons = self.currentFuelGallons - \
-            random.uniform(0.001, 0.01)  # random.uniform(0.5, 1)#
-        if change <= 0:
+        change = self.currentFuelGallons - random.uniform(0.001, 0.01)  # random.uniform(0.5, 1)#
+        self.currentFuelGallons = change
+        if self.currentFuelGallons < 0:
             self.currentFuelGallons = 0
         elif change > 0:
             self.currentFuelGallons = change
-        else:
-            self.currentFuelGallons = 0
         return (self.currentFuelGallons, self.capacityGallons - self.currentFuelGallons)
 
     def calculateFuelPercentage(self):
