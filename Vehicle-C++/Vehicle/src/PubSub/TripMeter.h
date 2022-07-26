@@ -60,7 +60,7 @@ public:
     }
 
     /**
-    * @brief Miles Traveled Subscriber that will subscribe to the Miles Travled topic and store the data 
+    * @brief Miles Traveled Subscriber that will subscribe to the Miles Traveled topic and store the data 
     * locally in the upper class.
     * 
     */

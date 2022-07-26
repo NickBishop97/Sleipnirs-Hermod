@@ -154,7 +154,7 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
         time = time + newtime;
     }
 }
- 
+
 /**
  * @brief Calculates the Avg speed
  *
