@@ -1,6 +1,6 @@
 /**
  * @file test_MilesLeft.cpp
- * @author Team Sleipnir
+ * @author Spencer Williams
  * @brief Runs unit testing on Miles Left calculations
  * @version 0.1
  * @date 2022-07-21

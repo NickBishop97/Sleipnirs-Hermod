@@ -1,6 +1,6 @@
 /**
  * @file MilesLeft.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains all the publishers and subscribers within MilesLeft class
  * @version 0.1
  * @date 2022-07-21

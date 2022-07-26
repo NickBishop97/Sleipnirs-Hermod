@@ -1,6 +1,6 @@
 /**
  * @file MpG.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up the Miles per Gallong publishers and subscribers
  * @version 0.1
  * @date 2022-07-21

@@ -1,6 +1,6 @@
 /**
  * @file FuelSensor.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up and runs Fuel Sensor publishers
  * @version 0.1
  * @date 2022-07-21

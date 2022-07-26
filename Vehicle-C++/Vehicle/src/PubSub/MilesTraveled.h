@@ -1,6 +1,6 @@
 /**
  * @file MilesTraveled.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains all the Publishers and Subscribers within the MT class
  * @version 0.1
  * @date 2022-07-21

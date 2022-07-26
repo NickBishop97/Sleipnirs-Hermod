@@ -1,6 +1,6 @@
 /**
  * @file TripMeter.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains all the pub/subs within the TripMeter class
  * @version 0.1
  * @date 2022-07-21
