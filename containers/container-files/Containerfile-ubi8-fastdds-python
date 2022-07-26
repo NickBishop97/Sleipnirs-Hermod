@@ -29,7 +29,7 @@
 #############################################
 #
 # Start from the Base UBI8 image
-FROM localhost/ubi8-dev-image as fastdds-python
+FROM localhost/ubi8-dev-image as ubi8-fastdds-python
 USER root
 LABEL maintainer="christopher.mundt@ngc.com"
 
@@ -48,22 +48,6 @@ RUN ./autogen.sh \
 
 #############################################
 #
-# Install Gradle
-# 
-#    *  Gradle 6.9
-WORKDIR /opt
-#RUN wget https://services.gradle.org/distributions/gradle-6.9-all.zip \
-# && unzip -d /opt/gradle gradle-6.9-all.zip
-COPY dependencies/gradle-6.9-all.zip /opt
-RUN unzip gradle-6.9-all.zip \
- && mv gradle-6.9 gradle
-#ENV PATH $PATH:/opt/gradle/gradle-6.9/bin
-ENV PATH $PATH:/opt/gradle/bin
-RUN gradle --quiet
-COPY configs/gradle.properties /root/.gradle
-
-#############################################
-#
 # Install Fast-DDS-Python
 # 
 WORKDIR /opt/Fast-DDS-Python
@@ -78,14 +62,15 @@ RUN wget -P /opt/Fast-DDS-Python https://raw.githubusercontent.com/eProsima/Fast
 #
 WORKDIR /opt/Fast-DDS-Gen
 RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast-DDS-Gen 
-# && gradle assemble
+# Gradle assembly is not currently working.  Code installs but does not build.. 
+#&& gradle assemble
 
 #############################################
 #
 # Put .bashrc and HelloWorld Run script in place
 # 
 #WORKDIR /root
-COPY configs/fastdds-root-bashrc /root/.bashrc
+COPY configs/ubi8-fastdds-root-bashrc /root/.bashrc
 COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
 
 # cleanup

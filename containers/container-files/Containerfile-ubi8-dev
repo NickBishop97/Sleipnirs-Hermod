@@ -5,7 +5,7 @@
 # Author: Christopher J. Mundt
 #
 # Desc: Dockerfile used to define a UBI 8 Development container image that has everything installed
-#       to run FastDDS-Python
+#       to && FastDDS-Python
 #
 # Reference: https://confluence.sde.sp.gc1.myngc.com/pages/viewpage.action?pageId=305785145
 #            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
@@ -21,7 +21,7 @@
 #           | 1.1       2022-07-18  LETS-4837    Christopher J. Mundt  Updating to the UBI8-Init base base image
 #           |-----------------------------------------------------------------------------------------------------------
 # 
-# Notes:    Consolidate the number of RUN commands because each 1 equates a layer when being built,
+# Notes:    Consolidate the number of && commands because each 1 equates a layer when being built,
 #           which can result in larger than necessary images.  Also clean up repos when done before
 #           exiting a command to minimize size.
 ########################################################################################################################
@@ -29,10 +29,10 @@
 
 #############################################
 #
-# Start from the Base UBI8 image
-#FROM registry.access.redhat.com/ubi8/ubi as dev-base
-
-####    Testing UBI8-init image to see if it resolves the DBUS issues when building FastDDS-Python Container
+# Start from the Base UBI8-init image.
+# Need to use the Init version to support DBUS/Systemd
+# whic is needed to support Fast-DDS-Python Install later.
+#
 FROM registry.access.redhat.com/ubi8/ubi-init as dev-base
 USER root
 LABEL maintainer="christopher.mundt@ngc.com"
@@ -41,7 +41,7 @@ LABEL maintainer="christopher.mundt@ngc.com"
 #
 # Install Development Tools and Dependencies.
 #
-#    *  Enable Coderead Repo
+#    *  Enable Codeready Repo
 #    *  Enable module mariadb-devel (Needed for asio)
 #    *  Install "Development Tools"
 #    *  Install findutils, gedit, wget
@@ -56,7 +56,7 @@ LABEL maintainer="christopher.mundt@ngc.com"
 RUN dnf config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms \
  && dnf module -y --enablerepo=codeready-builder-for-rhel-8-x86_64-rpms enable mariadb-devel \
  && dnf group install -y "Development Tools" \
- && dnf install -y findutils gedit wget \
+ && dnf install -y findutils gedit wget maven \
  && dnf install -y clang boost boost-devel cmake doxygen cppcheck mesa-libGLU mesa-libGLU-devel mesa-dri-drivers glx-utils \
  && dnf install -y tinyxml2.x86_64 tinyxml2-devel.x86_64 openssl-devel.x86_64 openssl-pkcs11.x86_64 asio-devel \
  && dnf install -y dbus-c++.x86_64 dbus-devel.x86_64 dbus-x11.x86_64 \
@@ -64,3 +64,22 @@ RUN dnf config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms \
  && pip3 install --no-cache-dir gcovr lcov colcon-common-extensions vcstool \
  && dnf clean -y all \
  && rm -rf /var/cache/yum
+
+#############################################
+#
+# Install Gradle
+# 
+#    *  Gradle 6.9
+WORKDIR /opt
+RUN wget https://services.gradle.org/distributions/gradle-6.9-all.zip \
+ && unzip -d /opt gradle-6.9-all.zip \
+ && mv gradle-6.9 gradle 
+RUN /opt/gradle/bin/gradle --quiet
+COPY configs/gradle.properties /root/.gradle
+RUN rm gradle-6.9-all.zip 
+
+#############################################
+#
+# Put .bashrc in place
+# 
+COPY configs/ubi8-dev-root-bashrc /root/.bashrc
