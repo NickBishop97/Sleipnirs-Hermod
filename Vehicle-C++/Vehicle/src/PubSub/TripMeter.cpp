@@ -10,6 +10,13 @@
  */
 #include "TripMeter.h"
 
+/**
+ * @brief Starts up TripMeter publisher and subscribers and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)
