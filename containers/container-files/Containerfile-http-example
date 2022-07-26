@@ -1,0 +1,36 @@
+########################################################################################################################
+# Filename: Dockerfile
+# 
+# Date: 2022-07-07
+# Author: Christopher J. Mundt
+#
+# Desc: Dockerfile used to define a simple HTTP Server
+#
+# Reference: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index?extIdCarryOver=true&intcmp=701f20000012k69AAA&sc_cid=701f2000001OH7nAAG#using-the-ubi-init-images_assembly_types-of-container-images
+# 
+# Info: Based off Section 2.7 Using the UBI Init Images
+#
+#       For some reason HTTP is not allowed to install unless build is run as root
+#       
+#       To build and run container:  
+#          sudo ./build-container.sh  -f ./container-files/Containerfile-http-example -i MyImage -n MyContainer
+#          sudo podman run -d --name=mywebserver -p 8081:80 [mywebserver-image]
+#          curl localhost:8082/index.html
+#
+#
+#           ************************************************************************************************************
+# History:  |Version    Date        Task         Author                Desc
+#           |-----------------------------------------------------------------------------------------------------------
+#           | 1.0       2022-07-07  LETS-4837    Christopher J. Mundt  Initial Rev.
+#           |
+#           |-----------------------------------------------------------------------------------------------------------
+# 
+########################################################################################################################
+
+FROM registry.access.redhat.com/ubi8/ubi-init
+USER root
+RUN yum -y install httpd; yum clean all; systemctl enable httpd;
+RUN echo "Successful Web Server Test" > /var/www/html/index.html
+RUN mkdir /etc/systemd/system/httpd.service.d/; echo -e '[Service]\nRestart=always' > /etc/systemd/system/httpd.service.d/httpd.conf
+EXPOSE 80
+CMD [ "/sbin/init" ]

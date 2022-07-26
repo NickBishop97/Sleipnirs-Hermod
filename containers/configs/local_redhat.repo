@@ -1,0 +1,7 @@
+[local_redhat]
+name=Red Hat Enterprise Linux - local
+baseurl=http://10.22.1.15/rhel-7-server-rpms
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
