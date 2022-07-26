@@ -6,15 +6,15 @@
 
 [Hermod - Purpose](#Purpose)
 
-[Hermod - Info](#Important Info)
+[Hermod - Info](#Important-Info)
 
-[Hermod - Generated Files](#Generated Files)
+[Hermod - Generated Files](#Generated-Files)
 
-[Hermod - Setup](#FastDDS Setup)
+[Hermod - Setup](#FastDDS-Setup)
 
-[Hermod - Functional Requirements](#Functional Requirements)
+[Hermod - Functional Requirements](#Functional-Requirements)
 
-[Hermod - Known Problems](#Known Problems)
+[Hermod - Known Problems](#Known-Problems)
 
 ## Purpose
 
