@@ -78,8 +78,9 @@ RUN wget -P /opt/Fast-DDS-Python https://raw.githubusercontent.com/eProsima/Fast
 # Install Fast-DDS-Gen
 #
 WORKDIR /opt/Fast-DDS-Gen
+ENV PATH="/opt/gradle/bin:$PATH"
 RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast-DDS-Gen \
- && gradle assemble
+ && /opt/gradle/bin/gradle assemble
 
 #############################################
 #
@@ -88,6 +89,7 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast
 #WORKDIR /root
 COPY configs/ubi7-fastdds-root-bashrc /root/.bashrc
 COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
+COPY tools/run-c++-vehicle.sh /opt/run-c++-vehicle.sh
 
 # cleanup
 WORKDIR /opt

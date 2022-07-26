@@ -52,7 +52,7 @@ RUN yum-config-manager --enable rhel-server-rhscl-7-rpms \
                                 rhel-7-server-extras-rpms \
                                 rhel-7-server-optional-rpms
 RUN yum update -y
-RUN yum install -y automake byacc cmake3 wget \
+RUN yum install -y automake byacc cmake3 wget xterm \
  && yum install -y rh-python38 rh-python38-python rh-python38-python-devel rh-python38-python-libs rh-python38-python-pip \
  && yum install -y devtoolset-11 devtoolset-11-gcc devtoolset-11-gcc-c++ rh-git29 rh-maven36 \
  && yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/pcre2-utf32-10.23-2.el7.x86_64.rpm \
