@@ -327,6 +327,7 @@ What follows are the design constraints determined by the team to carry out the 
         - Road Trip of miles traveled (unsigned integer)
 
 **Standard Protocol:**
+
     Subscribers:
         - When a Subscriber disconnects: A Publisher will continue writing even if there were no initial Subscribers.
     Publishers:
