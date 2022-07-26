@@ -73,7 +73,6 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast
 COPY configs/ubi8-fastdds-root-bashrc /root/.bashrc
 COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
 COPY tools/run-c++-vehicle.sh /opt/run-c++-vehicle.sh
-COPY dependencies/Vehicle-C++.tar.z /opt/Vehicle-C++.tar.z
 
 # cleanup
 WORKDIR /opt
