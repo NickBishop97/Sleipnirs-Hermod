@@ -1,0 +1,22 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+##########################################   USER MODIFICATIONS BELOW   ################################################
+
+#############################################
+#
+# Update Path to support FastDDS-Python
+export PATH=$PATH:/opt/Fast-DDS-Python/install:/opt/Fast-DDS-Gen/scripts:/opt/gradle/bin
+
+# Setup FastDDS Environment Settings
+source /opt/Fast-DDS-Python/install/local_setup.bash
