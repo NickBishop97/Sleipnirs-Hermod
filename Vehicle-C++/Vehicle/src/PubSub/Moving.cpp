@@ -1,6 +1,6 @@
 /**
  * @file Moving.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up the isMoving Sensor that checks if the car is moving
  * @version 0.1
  * @date 2022-07-21

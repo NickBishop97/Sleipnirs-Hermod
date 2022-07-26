@@ -1,6 +1,6 @@
 /**
  * @file DisDisplay.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains the Miles traveled subscriber
  * @version 0.1
  * @date 2022-07-21

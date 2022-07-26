@@ -1,6 +1,6 @@
 /**
  * @file FuelSensor.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains all the Publishers for The Fuelsensor
  * @version 0.1
  * @date 2022-07-21

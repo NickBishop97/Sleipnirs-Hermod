@@ -1,6 +1,6 @@
 /**
  * @file FuelGauge.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up Fuel Gauge and reads off the fuel remaining topic
  * @version 0.1
  * @date 2022-07-21

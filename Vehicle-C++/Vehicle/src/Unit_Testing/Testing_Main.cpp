@@ -1,6 +1,6 @@
 /**
  * @file Main.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Main Unit Testing File
  * @version 0.1
  * @date 2022-07-21
