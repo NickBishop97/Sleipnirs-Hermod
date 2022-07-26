@@ -1,6 +1,6 @@
 /**
  * @file test_TripMeter.cpp
- * @author Team Sleipnir
+ * @author Spencer Williams, Nick Bishop
  * @brief Runs Unit testing on Trip Meter Calculations
  * @version 0.1
  * @date 2022-07-21

@@ -1,6 +1,6 @@
 /**
  * @file test_MPG.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Runs unit testing on Miles Per Gallong Calculations
  * @version 0.1
  * @date 2022-07-21

@@ -1,6 +1,6 @@
 /**
  * @file MilesLeft.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up and runs all the publishers and subscribers for MilesLeft
  * @version 0.1
  * @date 2022-07-21

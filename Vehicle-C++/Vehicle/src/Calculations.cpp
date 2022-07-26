@@ -1,6 +1,6 @@
 /**
  * @file Calculations.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop, Spencer Williams
  * @brief Contains all the calculations functions for data processing for Hermod
  * @version 0.1
  * @date 2022-07-21
@@ -154,7 +154,7 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
         time = time + newtime;
     }
 }
- 
+
 /**
  * @brief Calculates the Avg speed
  *

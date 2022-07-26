@@ -1,6 +1,6 @@
 /**
  * @file TripMeter.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up the Trip Meter pub/subs
  * @version 0.1
  * @date 2022-07-21

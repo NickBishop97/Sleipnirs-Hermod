@@ -1,6 +1,6 @@
 /**
  * @file Calculations.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Defines all the Calculations classes
  * @version 0.1
  * @date 2022-07-21

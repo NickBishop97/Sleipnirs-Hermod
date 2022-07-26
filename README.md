@@ -26,6 +26,8 @@ Project Hermod is a DDS (Distributed Data Service) that models a DDS that would 
     - Miles Domain (Miles traveled, Miles remaining, Miles per gallon, etc..)
     - Trip Domain (Current trip, Trip time, Avg speed, Avg miles per gallon, etc..)
 
+The main purpose of Hermod is to determine if a DDS system can be integrated tested using behave or other similar ATDD system. Future steps to this project would include containerization of each sensor so they could be run on real time linux embedded system boards to test the DDS system functionality in the real world.
+
 ## Important Info
 
 **Runnable Scripts**
