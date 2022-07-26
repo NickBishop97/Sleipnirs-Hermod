@@ -11,19 +11,30 @@ echo
 echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
-pytest --cov-report term-missing --cov=Calculators
+pytest --cov-report=html:../Build/Coverage --cov=Calculators
+#pytest --cov-report term-missing --cov=Calculators
+rm .coverage
+echo -e "${LPUR}Python UNIT TESTING COMPLETE${NC}"
 echo
 echo "############ Running C++ Unit Tests ##############"
 cd ../..
 cd ./Vehicle-C++/Vehicle/src/Unit_Testing
+# Compiling Unit tests
 g++ -Wall -fprofile-arcs -ftest-coverage -c ../Calculations.cpp
 g++ -Wall -fprofile-arcs -ftest-coverage -c Testing_Main.cpp
 g++ -Wall -fprofile-arcs -ftest-coverage *.o -o Main -lboost_unit_test_framework-mt
 ./Main #--log_level=test_suite
+# creating coverage info
+lcov -c -d . -o coverage.info 1> /dev/null
+# Generating Html coverage report
+genhtml coverage.info -o ../../Build/Coverage 1> /dev/null
 echo
 printf ${LPUR}
 gcov Calculations.cpp | head -n 2
-printf ${NC}
-rm *.o *.gcda *.gcno *.gcov Main 
 echo
+printf ${NC}
+rm *.o *.gcda *.gcno *.gcov Main *.info
 echo -e "${LPUR}C++ UNIT TESTING COMPLETE${NC}"
+echo
+echo -e "${LPUR}C++ Coverage html has been generated in Vehicle-C++/Vehicle/Build/Coverage${NC}"
+echo -e "${LPUR}Python Coverage html has been generated in Vehicle-Python/Build/Coverage${NC}"

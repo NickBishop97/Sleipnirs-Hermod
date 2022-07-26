@@ -41,7 +41,7 @@ double FuelSenor::fuelspent(double fuelR)
 }
 
 /**
- * @brief Sets the Fuel Remainging in the tank
+ * @brief Sets the Fuel Remaining in the tank
  *
  * @param fuelR Fuel Remaining
  */
@@ -53,7 +53,7 @@ void FuelSenor::set_FuelRemaining(double fuelR)
 }
 
 /**
- * @brief Gets the Fuel Remainging in the tank
+ * @brief Gets the Fuel Remaining in the tank
  *
  * @return double
  */
@@ -87,7 +87,6 @@ double MPG::mpg(double milesT, double fuelS)
     } else {
         temp = milesT / Gal;
         if (temp > 99.99) {
-            // std::cout << "99.9" << std::endl;
             temp = 99.9;
         }
     }
@@ -128,15 +127,13 @@ double ML::get_MilesLeft(double MPG, double FR)
 /**
  * @brief Updates the Trip data for the current selected trip
  *
- * @param newMiles Newly recieved Miles Traveled data
- * @param newMPG Newly recieved MPG data
- * @param newtime Newly recieved Time data
+ * @param newMiles Newly received Miles Traveled data
+ * @param newMPG Newly received MPG data
+ * @param newtime Newly received Time data
  */
 void TD::updateData(double newMiles, double newMPG, double newtime)
 {
-    miles = miles + newMiles;
-    time = time + newtime;
-    if (newMPG >= 0) {
+    if (newMiles >= 0 || newMPG >= 0 || newtime > 0) {
         double temp;
         temp = getAvMpg(newMPG);
         if (temp == -1) {
@@ -144,12 +141,20 @@ void TD::updateData(double newMiles, double newMPG, double newtime)
         } else {
             MPG = temp;
         }
-    }
-    if (newMiles != 0 && newtime != 0) {
-        speed = getAvSpeed(newMiles, newtime);
+        if (newMiles != 0 && newtime != 0) {
+            double data;
+            data = getAvSpeed(newMiles, newtime);
+            if (data == -1) {
+                return;
+            } else {
+                speed = data;
+            }
+        }
+        miles = miles + newMiles;
+        time = time + newtime;
     }
 }
-
+ 
 /**
  * @brief Calculates the Avg speed
  *
@@ -191,7 +196,7 @@ double TD::getAvMpg(double MPG)
         total = total + MPG;
         MPGcount++;
     }
-    // If MPG is negative, return a error code
+    // If MPGcount is negative, return a error code
     if (MPGcount < 0) {
         return -1.0;
     } else {
@@ -294,9 +299,9 @@ void TM::clear()
  * @param newMiles
  * @param newTime
  */
-void TM::AvSpeed(double newMiles, double newTime)
+double TM::AvSpeed(double newMiles, double newTime)
 {
-    tripPtr->getAvSpeed(newMiles, newTime);
+    return tripPtr->getAvSpeed(newMiles, newTime);
 }
 
 /**
@@ -304,9 +309,9 @@ void TM::AvSpeed(double newMiles, double newTime)
  *
  * @param MPG
  */
-void TM::AvMpg(double MPG)
+double TM::AvMpg(double MPG)
 {
-    tripPtr->getAvMpg(MPG);
+    return tripPtr->getAvMpg(MPG);
 }
 
 /**
