@@ -113,3 +113,31 @@ def test_full_over_negative():
     print("Expected: 0.0")
     print("Actual Result: " + str(test_gauge.calculateFuelPercentage()))
     assert test_gauge.calculateFuelPercentage() == 0.0
+
+
+def test_stopflag():
+    """Test Consume fuel stop flag
+
+    Test that the stop_flag returns a negative value if the stop flag is raised
+    """
+    test_gauge = FuelConsump(10, 8)
+    assert test_gauge.consumeFuel(1) == (-1,-1)
+
+
+def test_consumeFuel():
+    """Test Consume fuel returning empty tank
+    
+    Test that will check if consumeFuel returns zero if tank is empty
+    """
+    test_gauge = FuelConsump(10,0)
+    assert test_gauge.consumeFuel(0) == (0,0)
+
+
+def test_consumeFuel():
+    """Test Consume fuel returning smaller amount of fuel
+    
+    Test that will check to see if the consumeFuel is consuming fuel after
+    the functions runs.
+    """
+    test_gauge = FuelConsump(10,0.5)
+    assert test_gauge.consumeFuel(0) < (0.5,0.5)
