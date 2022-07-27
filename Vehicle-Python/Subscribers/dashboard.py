@@ -1,3 +1,4 @@
+from TopicNames import TopicNames
 from Writers import *
 import MilesToRefuel as MilesToRefuel
 import LowFuelAlert as LowFuelAlert
@@ -22,77 +23,29 @@ import random
 
 from flask import Flask, Response, render_template, stream_with_context
 
-# IDL DATA IMPORTS
-sys.path.insert(0, '../MessageFormats/Fuel/')
-import Fuel as Fuel  # noqa E402 (linting exemption)
-sys.path.insert(1, '../MessageFormats/Miles/')
-import Miles as Miles  # noqa E402 (linting exemption)
-sys.path.insert(2, '../MessageFormats/MpG/')
-import MpG as MpG  # noqa E402 (linting exemption)
-sys.path.insert(3, '../MessageFormats/LowFuelAlert/')
-import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
-sys.path.insert(4, '../MessageFormats/MilesToRefuel/')
-import MilesToRefuel as MilesToRefuel  # noqa E402 (linting exemption)
-
 # ADT IMPORTS
-sys.path.insert(5, '../ADTs/')
+sys.path.insert(0, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
 
+# IDL DATA IMPORTS
+sys.path.insert(1, '../MessageFormats/Fuel/')
+import Fuel as Fuel  # noqa E402 (linting exemption)
+sys.path.insert(2, '../MessageFormats/Miles/')
+import Miles as Miles  # noqa E402 (linting exemption)
+sys.path.insert(3, '../MessageFormats/MpG/')
+import MpG as MpG  # noqa E402 (linting exemption)
+sys.path.insert(4, '../MessageFormats/LowFuelAlert/')
+import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
+sys.path.insert(5, '../MessageFormats/MilesToRefuel/')
+import MilesToRefuel as MilesToRefuel  # noqa E402 (linting exemption)
+sys.path.insert(5, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402 (linting exemption)
 
 #####################################################
 #####################################################
 #####################################################
-
-#####################################################
-#####################################################
-#####################################################
-
-
-def printer(queueList):
-    while True:
-        # if not queueList[0].empty():
-        print(f"FUEL        :{queueList[0].get()}")
-        print(f"MILES       :{queueList[1].get()}")
-        print(f"MPG         :{queueList[2].get()}")
-        print(f"LOWFUEL     :{queueList[3].get()}")
-        print(f"MILESREMAIN :{queueList[4].get()}")
-        print("\n\n")
-        time.sleep(0.3)
-
-
-def main():
-    readers = []
-    threads = []
-    signal.signal(signal.SIGINT,
-                  lambda sig, frame: (
-                      print("\nStopped!"),
-                      [reader.delete() for reader in readers],
-                      sys.exit(0),
-                  ))
-
-    print("Press Ctrl+C to stop")
-
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa F405 (linting exemption)
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405 (linting exemption)
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
-    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405
-    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))  # noqa F405
-
-    for reader in readers:
-        threads.append(Thread(target=(reader.run), daemon=True))
-    threads.append(Thread(target=(printer),
-                          args=([reader.dataQueue for reader in readers],),
-                          daemon=True))
-
-    for thread in threads:
-        thread.start()
-
-    signal.pause()
-
-
-# main()
 
 application = Flask(__name__)
 random.seed()  # Initialize the random number generator
@@ -110,8 +63,8 @@ def chart_data():
         while True:
             json_data = json.dumps(
                 {
-                    'index': readers[2].dataQueue.get()[0],
-                    'mpg': readers[2].dataQueue.get()[1],
+                    'index': readers[2].getData().get()[0],
+                    'mpg': readers[2].getData().get()[1],
                 })
             yield f"data:{json_data}\n\n"
             time.sleep(0.25)
@@ -135,11 +88,31 @@ if __name__ == '__main__':
 
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL]))  # noqa F405 (linting exemption)
-    readers.append(DistanceDisplay([Miles, "Miles", "MilesTraveled", DistanceRL]))  # noqa F405
-    readers.append(MpGDisplay([MpG, "MpG", "MpGCumulative", MpGRL]))  # noqa F405 (linting exemption)
-    readers.append(LowFuelAlertDisplay([LowFuelAlert, "LowFuelAlert", "LowFuelAlert", LowFuelAlertRL]))  # noqa F405
-    readers.append(MilesRemainDisplay([MilesToRefuel, "MilesToRefuel", "MilesToRefuelTopic", MilesRemainRL]))  # noqa F405
+    readers.append(FuelGauge([Fuel,
+                              "Fuel",
+                              TopicNames.getTopicName("Fuel"),
+                              FuelRL]))  # noqa F405 (linting exemption)
+
+    readers.append(DistanceDisplay([Miles,
+                                    "Miles",
+                                    TopicNames.getTopicName("Miles"),
+                                    DistanceRL]))  # noqa F405
+
+    readers.append(MpGDisplay([MpG,
+                               "MpG",
+                               TopicNames.getTopicName("MpG"),
+                               MpGRL]))  # noqa F405 (linting exemption)
+
+    readers.append(LowFuelAlertDisplay([LowFuelAlert,
+                                        "LowFuelAlert",
+                                        TopicNames.getTopicName("LowFuelAlert"),
+                                        LowFuelAlertRL]))  # noqa F405
+
+    readers.append(MilesRemainDisplay([MilesToRefuel,
+                                       "MilesToRefuel",
+                                       TopicNames.getTopicName("MilesToRefuel"),
+                                       MilesRemainRL]))  # noqa F405
+
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
 

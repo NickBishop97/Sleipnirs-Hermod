@@ -35,8 +35,7 @@ def _swig_setattr_nondynamic_instance_variable(set):
         elif hasattr(self, name) and isinstance(getattr(type(self), name), property):
             set(self, name, value)
         else:
-            raise AttributeError(
-                "You cannot add instance attributes to %s" % self)
+            raise AttributeError("You cannot add instance attributes to %s" % self)
     return set_instance_attr
 
 
@@ -62,8 +61,7 @@ class _SwigNonDynamicMeta(type):
 
 
 class SwigPyIterator(object):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
@@ -127,8 +125,7 @@ _MilesWrapper.SwigPyIterator_swigregister(SwigPyIterator)
 
 
 class _MilesSeq(fastdds.LoanableCollection):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
@@ -141,14 +138,12 @@ _MilesWrapper._MilesSeq_swigregister(_MilesSeq)
 
 
 class MilesSeq(_MilesSeq):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MilesWrapper.delete_MilesSeq
 
     def __init__(self, *args):
-        _MilesWrapper.MilesSeq_swiginit(
-            self, _MilesWrapper.new_MilesSeq(*args))
+        _MilesWrapper.MilesSeq_swiginit(self, _MilesWrapper.new_MilesSeq(*args))
 
     def __len__(self):
         return _MilesWrapper.MilesSeq___len__(self)
@@ -162,8 +157,7 @@ _MilesWrapper.MilesSeq_swigregister(MilesSeq)
 
 
 class Miles(object):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MilesWrapper.delete_Miles
 
@@ -214,13 +208,11 @@ GEN_API_VER = _MilesWrapper.GEN_API_VER
 
 
 class MilesPubSubType(fastdds.TopicDataType):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
-        _MilesWrapper.MilesPubSubType_swiginit(
-            self, _MilesWrapper.new_MilesPubSubType())
+        _MilesWrapper.MilesPubSubType_swiginit(self, _MilesWrapper.new_MilesPubSubType())
     __swig_destroy__ = _MilesWrapper.delete_MilesPubSubType
 
     def serialize(self, data, payload):
@@ -249,10 +241,8 @@ class MilesPubSubType(fastdds.TopicDataType):
 
     def construct_sample(self, memory):
         return _MilesWrapper.MilesPubSubType_construct_sample(self, memory)
-    m_md5 = property(_MilesWrapper.MilesPubSubType_m_md5_get,
-                     _MilesWrapper.MilesPubSubType_m_md5_set)
-    m_keyBuffer = property(_MilesWrapper.MilesPubSubType_m_keyBuffer_get,
-                           _MilesWrapper.MilesPubSubType_m_keyBuffer_set)
+    m_md5 = property(_MilesWrapper.MilesPubSubType_m_md5_get, _MilesWrapper.MilesPubSubType_m_md5_set)
+    m_keyBuffer = property(_MilesWrapper.MilesPubSubType_m_keyBuffer_get, _MilesWrapper.MilesPubSubType_m_keyBuffer_set)
 
 
 # Register MilesPubSubType in _MilesWrapper:

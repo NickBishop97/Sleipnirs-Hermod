@@ -92,6 +92,11 @@ SWIG_LINK_LIBRARIES(${${PROJECT_NAME}_MODULE}
     ${PROJECT_NAME}
     )
 
+
+#############################
+###_ABS_PYTHON_MODULE_PATH###
+#############################
+
 # Find the installation path
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
     OUTPUT_VARIABLE _ABS_PYTHON_MODULE_PATH

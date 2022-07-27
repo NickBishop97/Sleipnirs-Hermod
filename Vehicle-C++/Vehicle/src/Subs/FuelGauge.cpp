@@ -1,6 +1,6 @@
 /**
  * @file FuelGauge.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up Fuel Gauge and reads off the fuel remaining topic
  * @version 0.1
  * @date 2022-07-21
@@ -137,7 +137,10 @@ public:
         return true;
     }
 
-    //!Run the Subscriber
+    /**
+     * @brief Prints out the current fuel in the tank
+     * 
+     */
     void run()
     {
         while (1) {
@@ -148,11 +151,18 @@ public:
     }
 };
 
+/**
+ * @brief starts up can calls fuel subscriber init and run
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)
 {
-    std::cout << "Recieving Fuel Status." << std::endl;
+    std::cout << "Receiving Fuel Status." << std::endl;
 
     FuelSubscriber* mysub = new FuelSubscriber();
     if (mysub->init()) {

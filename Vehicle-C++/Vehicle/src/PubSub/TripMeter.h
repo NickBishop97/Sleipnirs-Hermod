@@ -1,6 +1,6 @@
 /**
  * @file TripMeter.h
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Contains all the pub/subs within the TripMeter class
  * @version 0.1
  * @date 2022-07-21
@@ -60,7 +60,7 @@ public:
     }
 
     /**
-    * @brief Miles Traveled Subscriber that will subscribe to the Miles Travled topic and store the data 
+    * @brief Miles Traveled Subscriber that will subscribe to the Miles Traveled topic and store the data 
     * locally in the upper class.
     * 
     */

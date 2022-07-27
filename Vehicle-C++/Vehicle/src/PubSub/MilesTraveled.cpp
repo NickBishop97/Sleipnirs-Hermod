@@ -1,6 +1,6 @@
 /**
  * @file MilesTraveled.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up the Miles Traveled Sensor
  * @version 0.1
  * @date 2022-07-21
@@ -10,6 +10,13 @@
  */
 #include "MilesTraveled.h"
 
+/**
+ * @brief Starts up MilesTraveled publisher and subscriber and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

@@ -1,6 +1,6 @@
 /**
  * @file Moving.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up the isMoving Sensor that checks if the car is moving
  * @version 0.1
  * @date 2022-07-21
@@ -10,6 +10,13 @@
  */
 #include "Moving.h"
 
+/**
+ * @brief Starts up Moving publisher and subscriber and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

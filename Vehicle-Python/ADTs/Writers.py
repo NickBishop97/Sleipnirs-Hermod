@@ -1,13 +1,64 @@
 # from threading import Condition
 import time
-# import random
+import random
+from queue import Queue
 
 # ADT IMPORTS
 from entity import Entity
-from Calculators import *  # noqa F403 (linting exemption for import)
+from Calculators import *
 
-global_sleep_time = float(0.25)
-global_sleep_time_buffered = global_sleep_time + float(0.03)
+############################################################################################
+############################################################################################
+############################################################################################
+############################################################################################
+############################################################################################
+# This CLK represents: @always(posedge)
+# ___---___---___---___ sync clock
+
+
+class CLKWriter(Entity.Writer):
+    def __init__(self,
+                 ddsDataArray: list,
+                 clockPeriod: float):
+
+        self.__clockPeriod = clockPeriod
+        self.__stopFlag = False
+        super().__init__(ddsDataArray)
+
+    def write(self) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
+
+        if self.__stopFlag:
+            clk = 2
+            print(f"Stop signal sent : {clk}\n")
+        else:
+            # makes this a boolean value that alternates
+            clk = int(index % 2)
+
+        # UPDATING MESSAGE CONTENTS
+        data.clk(clk)
+        data.index(index)
+        writer.write(data)
+        self.setIndex()
+
+    def printData(self) -> None:
+        data = self.getData()
+        index = data.index()
+        clk = data.clk()
+
+        print(f"[index, clk] : {index}, {clk}\n")
+
+    def run(self) -> None:
+        while True:
+            self.write()
+            self.printData()
+            time.sleep(self.__clockPeriod)
+
+    def setStopSignal(self, value: bool) -> None:
+        self.__stopFlag = value
+        self.write()
 ############################################################################################
 ############################################################################################
 ############################################################################################
@@ -16,28 +67,52 @@ global_sleep_time_buffered = global_sleep_time + float(0.03)
 
 
 class FuelWriter(Entity.Writer):
-    def __init__(self, ddsDataArray, CalculationClass):
+    def __init__(self,
+                 ddsDataArray: list,
+                 CalculationClass: type):
 
-        self.CalculationClass = CalculationClass
+        self.__CalculationClass = CalculationClass
+        self.__stopFlag = False
         super().__init__(ddsDataArray)
 
-    def write(self, stop_flag):
+    def write(self) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
+
+        fuelRemain, fuelSpent = self.__CalculationClass.consumeFuel(self.__stopFlag)
+
+        if self.__stopFlag:
+            print(f"Stop signal sent : {fuelRemain}, {fuelSpent}\n")
 
         # UPDATING MESSAGE CONTENTS
-        dataOutput = self.CalculationClass.consumeFuel(stop_flag)
-        self.data.litersRemaining(float(dataOutput[0]))
-        self.data.litersSpent(float(dataOutput[1]))
-        self.data.index(self.index)
+        data.litersRemaining(float(fuelRemain))
+        data.litersSpent(float(fuelSpent))
+        data.index(index)
 
-        self.writer.write(self.data)
-        print(f"{self.index}, {dataOutput[0]}, {dataOutput[1]} \n")
-        self.index = self.index + 1
+        writer.write(data)
+        self.setIndex()
 
-    def run(self, stop_flag) -> None:
-        # self.wait_discovery()
+    def printData(self) -> None:
+        data = self.getData()
+        index = data.index()
+        fuelRemain = data.litersRemaining()
+        fuelSpent = data.litersSpent()
+        print(f"[index, spent, remain] : {index}, {fuelSpent:.2f}, {fuelRemain:.2f}\n")
+
+    def run(self,
+            edge: Queue) -> None:
         while True:
-            self.write(stop_flag)
-            time.sleep(global_sleep_time)
+            currentEdge = edge.get()[1]
+            if currentEdge:
+                self.write()
+                self.printData()
+            else:
+                pass
+
+    def setStopSignal(self, value: bool) -> None:
+        self.__stopFlag = value
+        self.write()
 
 ############################################################################################
 ############################################################################################
@@ -47,28 +122,44 @@ class FuelWriter(Entity.Writer):
 
 
 class MilesWriter(Entity.Writer):
-    def __init__(self, ddsDataArray, CalculationClass):
-        self.CalculationClass = CalculationClass
+    def __init__(self,
+                 ddsDataArray: list,
+                 CalculationClass: type):
+
+        self.__CalculationClass = CalculationClass
+
         super().__init__(ddsDataArray)
 
-    def write(self, startStopCondition):
+    def write(self,
+              fuelQueue: Queue) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
+
+        milesTraveled = self.__CalculationClass.addMiles(fuelQueue)
+
         # UPDATING MESSAGE CONTENTS
-        self.CalculationClass.addMiles(startStopCondition)
-        self.data.milesTraveled(float(self.CalculationClass.milesTraveled))
-        self.data.index(self.index)
-        self.writer.write(self.data)
+        data.index(index)
+        data.milesTraveled(milesTraveled)
 
-        print(
-            f"MILES TRAVELED: {self.data.index()}, {self.data.milesTraveled()}\n")
-        self.index += 1
+        writer.write(data)
+        self.setIndex()
 
-    def run(self, startStopCondition):
-        # self.wait_discovery()
+    def printData(self) -> None:
+        data = self.getData()
+        index = data.index()
+        milesTraveled = data.milesTraveled()
+        print(f"[index, milesTraveled] : {index}, {milesTraveled:.2f}\n")
+
+    def run(self,
+            fuelQueue: Queue,
+            edge: Queue) -> None:
         while True:
-            self.write(startStopCondition)
-            time.sleep(global_sleep_time)    # Report every 0.25 s
-            # 25 MPH = 0.001 miles in 0.25 s
-            # 85 MPH = 0.006 miles in 0.25 s
+            if edge.get()[1]:
+                self.write(fuelQueue)
+                self.printData()
+            else:
+                pass
 
 ############################################################################################
 ############################################################################################
@@ -78,26 +169,43 @@ class MilesWriter(Entity.Writer):
 
 
 class LowFuelWriter(Entity.Writer):
-    def __init__(self, ddsDataArray):
+    def __init__(self,
+                 ddsDataArray: list,
+                 CalculationClass: type):
+
+        self.__CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
 
-    def write(self, fuelQueue):
-        lowFuel = LowFuelCalc(50)  # noqa F405 (linting exemption from Calculators import)
-        alert = lowFuel.lowFuelAlert(fuelQueue.get()[1])
+    def write(self,
+              fuelQueue: Queue) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
+
+        lowFuelFlag = self.__CalculationClass.lowFuelAlert(fuelQueue)
+
         # UPDATING MESSAGE CONTENTS
-        self.data.isFuelLow(alert)
-        self.data.index(self.index)
-        self.writer.write(self.data)
-        print(
-            f"Low Fuel: {self.data.index()}, {bool(self.data.isFuelLow())}\n")
+        data.isFuelLow(lowFuelFlag)
+        data.index(index)
+        writer.write(data)
 
-        self.index = self.index + 1
+        self.setIndex()
 
-    def run(self, fuelQueue):
-        # self.wait_discovery()
+    def printData(self) -> None:
+        data = self.getData()
+        index = data.index()
+        isFuelLow = bool(data.isFuelLow())
+        print(f"[index, isFuelLow]: {index}, {isFuelLow}\n")
+
+    def run(self,
+            fuelQueue: Queue,
+            edge: Queue) -> None:
         while True:
-            self.write(fuelQueue)
-            time.sleep(global_sleep_time)
+            if edge.get()[1]:
+                self.write(fuelQueue)
+                self.printData()
+            else:
+                pass
 
 ############################################################################################
 ############################################################################################
@@ -107,60 +215,88 @@ class LowFuelWriter(Entity.Writer):
 
 
 class MpGWriter(Entity.Writer):
-    def __init__(self, ddsDataArray):  # , CalculationClass):
+    def __init__(self,
+                 ddsDataArray: list,
+                 CalculationClass: type):
 
-        # self.CalculationClass = CalculationClass
+        self.__CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
 
-    def write(self, fuelQueue, milesQueue):
-        mpgCalc = MpGCalc()  # noqa F405 (linting exemption from Calculators import)
+    def write(self,
+              fuelQueue: Queue,
+              milesQueue: Queue) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
 
-        self.data.index(self.index)
-        self.data.mpg(mpgCalc.calculateMpG(fuelQueue, milesQueue))
+        mpgData = self.__CalculationClass.calculateMpG(fuelQueue, milesQueue)
+        data.mpg(mpgData)
+        data.index(index)
+        writer.write(data)
 
-        self.writer.write(self.data)
+        self.setIndex()
 
-        print(f"MpG: {self.data.index()}, {self.data.mpg()} \n")
-        self.index = self.index + 1
+    def printData(self):
+        data = self.getData()
+        index = data.index()
+        mpg = data.mpg()
+        print(f"[index, MpG] : {index}, {mpg} \n")
 
-    def run(self, fuelQueue, milesQueue):
-        # self.wait_discovery()
+    def run(self,
+            fuelQueue: Queue,
+            milesQueue: Queue,
+            edge: Queue) -> None:
+
         while True:
-            self.write(fuelQueue, milesQueue)
-            time.sleep(global_sleep_time_buffered)
+            if edge.get()[1]:
+                self.write(fuelQueue, milesQueue)
+                self.printData()
+            else:
+                pass
+
 
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
-
 
 class MilesRemaining(Entity.Writer):
-    def __init__(self, ddsDataArray):  # , CalculationClass):
+    def __init__(self,
+                 ddsDataArray: list,
+                 CalculationClass: type):
 
-        # self.CalculationClass = CalculationClass
+        self.__CalculationClass = CalculationClass
         super().__init__(ddsDataArray)
 
-    def write(self, fuelQueue, mpgQueue):
+    def write(self,
+              fuelQueue: Queue,
+              mpgQueue: Queue) -> None:
+        index = self.getIndex()
+        data = self.getData()
+        writer = self.getWriter()
 
-        milesRemainCalc = MileRemainCalc()  # noqa F405 (linting exemption)
+        milesRemaining = self.__CalculationClass.calculateMpG(fuelQueue, mpgQueue)
 
-        self.data.index(self.index)
-        self.data.milesToRefuel(
-            milesRemainCalc.calculateMpG(fuelQueue, mpgQueue))
-        self.writer.write(self.data)
+        data.index(index)
+        data.milesToRefuel(milesRemaining)
+        writer.write(data)
 
-        if not fuelQueue.empty() or not mpgQueue.empty():
-            print(
-                f"MilesToRefuel: {self.data.index()}, {self.data.milesToRefuel()} \n")
-        else:
-            print("MilesToRefuel:")
+        self.setIndex()
 
-        self.index = self.index + 1
+    def printData(self) -> None:
+        data = self.getData()
+        index = data.index()
+        milesToRefuel = data.milesToRefuel()
+        print(f"[index, milesToRefuel] : {index}, {milesToRefuel} \n")
 
-    def run(self, fuelQueue, mpgQueue):
-        # self.wait_discovery()
+    def run(self,
+            fuelQueue: Queue,
+            mpgQueue: Queue,
+            edge: Queue) -> None:
         while True:
-            self.write(fuelQueue, mpgQueue)
-            time.sleep(global_sleep_time_buffered)
+            if edge.get()[1]:
+                self.write(fuelQueue, mpgQueue)
+                self.printData()
+            else:
+                pass

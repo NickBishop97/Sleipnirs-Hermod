@@ -1,6 +1,6 @@
 /**
  * @file test_FuelSensor.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Runs unit testing on FuelSensor calculations
  * @version 0.1
  * @date 2022-07-21
@@ -11,6 +11,26 @@
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
 
+/**
+ * @def INIT_VALUE 
+ * Initial 0 value for testing purposes 
+ * 
+ * @def NEG_VALUE 
+ * A random negative decimal value for testing purposes 
+ * 
+ * @def HIGHNEG_VALUE 
+ * A high negative value for testing purposes 
+ * 
+ * @def ERROR_CODE 
+ * The return value for an error
+ * 
+ * @def NORMAL_VALUE 
+ * A normal number value for testing purposes 
+ * 
+ * @def LARGER_THAN_TANK 
+ * A value that is larger than TANK_CAP for testing purposes 
+ * 
+ */
 #define INIT_VALUE 0.0
 #define NEG_VALUE -0.001
 #define HIGHNEG_VALUE -100
@@ -24,8 +44,6 @@ BOOST_AUTO_TEST_SUITE(FUEL_TEST)
  * @brief Assert that when FuelReamining is 0 
  * then fuelspent returns INIT_VALUE
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(zero_case)
 {
@@ -37,8 +55,6 @@ BOOST_AUTO_TEST_CASE(zero_case)
  * @brief Assert that when FuelReamining is 0 
  * then get_FuelRamaining returns INIT_VALUE
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(zero_case2)
 {
@@ -51,8 +67,6 @@ BOOST_AUTO_TEST_CASE(zero_case2)
  * @brief Assert that when FuelReamining is negative
  * then fuelspent returns ERROR_CODE
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(negative_case)
 {
@@ -65,8 +79,6 @@ BOOST_AUTO_TEST_CASE(negative_case)
  * @brief Assert that when FuelRemaining is negative
  * then get_FuelRemaining returns perviously held value
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(negative_case2)
 {
@@ -80,8 +92,6 @@ BOOST_AUTO_TEST_CASE(negative_case2)
  * @brief Assert that when FuelRemaining is normal value
  * then fuelspent returns expected value
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(normal_case)
 {
@@ -94,8 +104,6 @@ BOOST_AUTO_TEST_CASE(normal_case)
  * @brief Assert that when FuelRemaining has Tank Larger
  * than TANK_CAP then fuelspent should return ERROR_CODE
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(tank_larger_case)
 {
@@ -107,8 +115,6 @@ BOOST_AUTO_TEST_CASE(tank_larger_case)
  * @brief Assert that when FuelRemaining has Tank Larger
  * than TANK_CAP then get_FuelRemaining should return previously held value
  * 
- * @param fuelR Fuel Remaining
- * @return bool
  */
 BOOST_AUTO_TEST_CASE(tank_larger_case2)
 {

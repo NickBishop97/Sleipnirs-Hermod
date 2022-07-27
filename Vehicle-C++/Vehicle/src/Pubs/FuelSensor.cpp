@@ -1,6 +1,6 @@
 /**
  * @file FuelSensor.cpp
- * @author Team Sleipnir
+ * @author Nick Bishop
  * @brief Starts up and runs Fuel Sensor publishers
  * @version 0.1
  * @date 2022-07-21
@@ -10,6 +10,13 @@
  */
 #include "FuelSensor.h"
 
+/**
+ * @brief Starts up FuelSensor publishers and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)
