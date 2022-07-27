@@ -3,37 +3,21 @@ import signal
 # import time
 import sys
 
-# IDL DATA IMPORTS
-sys.path.insert(0, '../MessageFormats/Fuel/')
-import Fuel as Fuel  # noqa E402 (linting exemption)
-sys.path.insert(1, '../MessageFormats/Miles/')
-import Miles as Miles  # noqa E402 (linting exemption)
-
 # ADT IMPORTS
-sys.path.insert(2, '../ADTs/')
-from Writers import *  # noqa E402,F403 (linting exemptions)
-from Readers import *  # noqa E402,F403 (linting exemptions)
-from Calculators import *  # noqa E402,F403 (linting exemptions)
+sys.path.insert(0, '../ADTs/')
+from Writers     import MilesWriter  # noqa E402,F403 (linting exemptions)
+from Readers     import CLKDisplay, CLKRL, FuelGauge, FuelRL  # noqa E402,F403 (linting exemptions)
+from Calculators import DistTrav  # noqa E402,F403 (linting exemptions)
+from TopicNames  import TopicNames
 
+# IDL DATA IMPORTS
+sys.path.insert(1, '../MessageFormats/Fuel/')
+import Fuel as Fuel  # noqa E402 (linting exemption)
+sys.path.insert(2, '../MessageFormats/Miles/')
+import Miles as Miles  # noqa E402 (linting exemption)
+sys.path.insert(3, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402 (linting exemption)
 
-def fuelConnectionStatus(dataQueue, connected, startStopCondition):
-    while True:
-
-        # print(f"Connected? {str(connected.connected)}")
-        if not dataQueue.empty():
-            data = dataQueue.get()
-            startStopCondition.milesStarter = True
-
-            if float(data[1]) <= 0:
-                startStopCondition.milesStopper = True
-                print("*****NO FUEL*****")
-
-            print("\n")
-
-
-class StartStopCondition:
-    milesStarter = False
-    milesStopper = False
 
 
 def main():
@@ -42,38 +26,44 @@ def main():
     threads = []
     signal.signal(signal.SIGINT,
                   lambda sig, frame: (
-                      print("\nStopped!"),
+                      print("\nInterrupted!\n"),
+                      [thread.join for thread in threads],
                       [reader.delete() for reader in readers],
                       [writer.delete() for writer in writers],
                       sys.exit(0),
                   ))
 
     print("Press Ctrl+C to stop")
-    startStopCondition = StartStopCondition()
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
-    FuelReader = FuelGauge([Fuel, "Fuel", "FuelRemaining544645", FuelRL])  # noqa: F405
-    DistWriter = MilesWriter([Miles, "Miles", "MilesTraveled"], DistTrav(0))  # noqa: F405
+    FuelReader = FuelGauge([Fuel, 
+                            "Fuel", 
+                            TopicNames.getTopicName("Fuel"), 
+                            FuelRL])  # noqa: F405
+    
+    clkReader = CLKDisplay([CLK, 
+                            "CLK", 
+                            TopicNames.getTopicName("CLK"), 
+                            CLKRL])  # noqa: F405
+    
+    DistWriter = MilesWriter([Miles, 
+                              "Miles", 
+                              TopicNames.getTopicName("Miles")], 
+                             DistTrav(0,0.1))  # noqa: F405
 
     readers.append(FuelReader)
+    readers.append(clkReader)
     writers.append(DistWriter)
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    DistThread = Thread(target=(DistWriter.run), args=(
-        startStopCondition,), daemon=True)
-
-    # REAL TIME READ FLAG DATA FROM FUEL IS HERE
-    CalcThread = Thread(target=(fuelConnectionStatus),
-                        args=(
-                            readers[0].dataQueue,
-                            readers[0].connected,
-                            startStopCondition,),
+    DistThread = Thread(target=(DistWriter.run), 
+                        args = (readers[0].getData(),
+                                readers[1].getData(),),
                         daemon=True)
 
     threads.append(FuelThread)
     threads.append(DistThread)
-    threads.append(CalcThread)
 
     for thread in threads:
         thread.start()

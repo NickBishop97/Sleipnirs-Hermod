@@ -4,7 +4,6 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
-import fastdds
 from sys import version_info as _swig_python_version_info
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
@@ -16,7 +15,6 @@ try:
     import builtins as __builtin__
 except ImportError:
     import __builtin__
-
 
 def _swig_repr(self):
     try:
@@ -35,8 +33,7 @@ def _swig_setattr_nondynamic_instance_variable(set):
         elif hasattr(self, name) and isinstance(getattr(type(self), name), property):
             set(self, name, value)
         else:
-            raise AttributeError(
-                "You cannot add instance attributes to %s" % self)
+            raise AttributeError("You cannot add instance attributes to %s" % self)
     return set_instance_attr
 
 
@@ -62,8 +59,7 @@ class _SwigNonDynamicMeta(type):
 
 
 class SwigPyIterator(object):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
@@ -117,38 +113,29 @@ class SwigPyIterator(object):
 
     def __sub__(self, *args):
         return _MilesToRefuelWrapper.SwigPyIterator___sub__(self, *args)
-
     def __iter__(self):
         return self
 
-
 # Register SwigPyIterator in _MilesToRefuelWrapper:
 _MilesToRefuelWrapper.SwigPyIterator_swigregister(SwigPyIterator)
-
-
+import fastdds
 class _MilesToRefuelSeq(fastdds.LoanableCollection):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
     __swig_destroy__ = _MilesToRefuelWrapper.delete__MilesToRefuelSeq
 
-
 # Register _MilesToRefuelSeq in _MilesToRefuelWrapper:
 _MilesToRefuelWrapper._MilesToRefuelSeq_swigregister(_MilesToRefuelSeq)
-
-
 class MilesToRefuelSeq(_MilesToRefuelSeq):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MilesToRefuelWrapper.delete_MilesToRefuelSeq
 
     def __init__(self, *args):
-        _MilesToRefuelWrapper.MilesToRefuelSeq_swiginit(
-            self, _MilesToRefuelWrapper.new_MilesToRefuelSeq(*args))
+        _MilesToRefuelWrapper.MilesToRefuelSeq_swiginit(self, _MilesToRefuelWrapper.new_MilesToRefuelSeq(*args))
 
     def __len__(self):
         return _MilesToRefuelWrapper.MilesToRefuelSeq___len__(self)
@@ -156,20 +143,15 @@ class MilesToRefuelSeq(_MilesToRefuelSeq):
     def __getitem__(self, i):
         return _MilesToRefuelWrapper.MilesToRefuelSeq___getitem__(self, i)
 
-
 # Register MilesToRefuelSeq in _MilesToRefuelWrapper:
 _MilesToRefuelWrapper.MilesToRefuelSeq_swigregister(MilesToRefuelSeq)
-
-
 class MilesToRefuel(object):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
     __swig_destroy__ = _MilesToRefuelWrapper.delete_MilesToRefuel
 
     def __init__(self, *args):
-        _MilesToRefuelWrapper.MilesToRefuel_swiginit(
-            self, _MilesToRefuelWrapper.new_MilesToRefuel(*args))
+        _MilesToRefuelWrapper.MilesToRefuel_swiginit(self, _MilesToRefuelWrapper.new_MilesToRefuel(*args))
 
     def __eq__(self, x):
         return _MilesToRefuelWrapper.MilesToRefuel___eq__(self, x)
@@ -208,20 +190,15 @@ class MilesToRefuel(object):
     def serializeKey(self, cdr):
         return _MilesToRefuelWrapper.MilesToRefuel_serializeKey(self, cdr)
 
-
 # Register MilesToRefuel in _MilesToRefuelWrapper:
 _MilesToRefuelWrapper.MilesToRefuel_swigregister(MilesToRefuel)
 GEN_API_VER = _MilesToRefuelWrapper.GEN_API_VER
-
-
 class MilesToRefuelPubSubType(fastdds.TopicDataType):
-    thisown = property(lambda x: x.this.own(), lambda x,
-                       v: x.this.own(v), doc="The membership flag")
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
 
     def __init__(self):
-        _MilesToRefuelWrapper.MilesToRefuelPubSubType_swiginit(
-            self, _MilesToRefuelWrapper.new_MilesToRefuelPubSubType())
+        _MilesToRefuelWrapper.MilesToRefuelPubSubType_swiginit(self, _MilesToRefuelWrapper.new_MilesToRefuelPubSubType())
     __swig_destroy__ = _MilesToRefuelWrapper.delete_MilesToRefuelPubSubType
 
     def serialize(self, data, payload):
@@ -250,12 +227,9 @@ class MilesToRefuelPubSubType(fastdds.TopicDataType):
 
     def construct_sample(self, memory):
         return _MilesToRefuelWrapper.MilesToRefuelPubSubType_construct_sample(self, memory)
-    m_md5 = property(_MilesToRefuelWrapper.MilesToRefuelPubSubType_m_md5_get,
-                     _MilesToRefuelWrapper.MilesToRefuelPubSubType_m_md5_set)
-    m_keyBuffer = property(_MilesToRefuelWrapper.MilesToRefuelPubSubType_m_keyBuffer_get,
-                           _MilesToRefuelWrapper.MilesToRefuelPubSubType_m_keyBuffer_set)
-
+    m_md5 = property(_MilesToRefuelWrapper.MilesToRefuelPubSubType_m_md5_get, _MilesToRefuelWrapper.MilesToRefuelPubSubType_m_md5_set)
+    m_keyBuffer = property(_MilesToRefuelWrapper.MilesToRefuelPubSubType_m_keyBuffer_get, _MilesToRefuelWrapper.MilesToRefuelPubSubType_m_keyBuffer_set)
 
 # Register MilesToRefuelPubSubType in _MilesToRefuelWrapper:
-_MilesToRefuelWrapper.MilesToRefuelPubSubType_swigregister(
-    MilesToRefuelPubSubType)
+_MilesToRefuelWrapper.MilesToRefuelPubSubType_swigregister(MilesToRefuelPubSubType)
+
