@@ -1,4 +1,6 @@
 # from queue import Queue
+from TopicNames import TopicNames
+from Readers import FuelGauge, FuelRL, DistanceDisplay, DistanceRL, CLKDisplay, CLKRL
 from threading import Thread
 import signal
 # import time
@@ -9,10 +11,8 @@ import sys
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
-from Writers     import MpGWriter  # noqa E402,F403 (linting exemptions)
-from Readers     import FuelGauge, FuelRL, DistanceDisplay, DistanceRL, CLKDisplay, CLKRL
+from Writers import MpGWriter  # noqa E402,F403 (linting exemptions)
 from Calculators import MpGCalc  # noqa E402,F403 (linting exemptions)
-from TopicNames  import TopicNames
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -23,7 +23,6 @@ sys.path.insert(3, '../MessageFormats/CLK/')
 import CLK as CLK  # noqa E402 (linting exemption)
 sys.path.insert(4, '../MessageFormats/MpG/')
 import MpG as MpG  # noqa E402 (linting exemption)
-
 
 
 def main():
@@ -44,17 +43,17 @@ def main():
                               "Fuel",
                               TopicNames.getTopicName("Fuel"),
                               FuelRL]))  # noqa: F405
-    
+
     readers.append(DistanceDisplay([Miles,
                                     "Miles",
                                     TopicNames.getTopicName("Miles"),
                                     DistanceRL]))  # noqa: F405
-    
-    readers.append(CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
+
+    readers.append(CLKDisplay([CLK,
+                            "CLK",
+                            TopicNames.getTopicName("CLK"),
                             CLKRL]))  # noqa: F405
-    
+
     writers.append(MpGWriter([MpG,
                               "MpG",
                               TopicNames.getTopicName("MpG")],

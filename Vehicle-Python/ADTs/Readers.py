@@ -1,4 +1,4 @@
-from threading import Thread    
+from threading import Thread
 from entity import Entity
 import fastdds
 from queue import Queue
@@ -8,34 +8,37 @@ from queue import Queue
 # import Fuel
 # sys.path.insert(1, './Miles/')
 # import Miles as M
+
+
 class CLKDisplay(Entity.Reader):
-    def __init__(self, 
-                 ddsDataArray : list):
+    def __init__(self,
+                 ddsDataArray: list):
         super().__init__(ddsDataArray)
-    
+
+
 class CLKRL(Entity.ReaderListener):
-    def __init__(self, 
-                 data : type):
-        self.__data        = data
+    def __init__(self,
+                 data: type):
+        self.__data = data
         self.__listenerQueue = Queue()
         super().__init__()
 
     def printData(self) -> None:
-        data   = self.__data
-        index  = data.index()
-        clk    = data.clk()
+        data = self.__data
+        index = data.index()
+        clk = data.clk()
         print(f"[index, clk] {index}, {clk}\n")
 
-    def on_data_available(self, 
-                          reader : type) -> None:
+    def on_data_available(self,
+                          reader: type) -> None:
         data = self.__data
         info = fastdds.SampleInfo()
         reader.take_next_sample(data, info)
-        
-        #self.printData()
+
+        # self.printData()
         self.__listenerQueue.put([data.index(), data.clk()])
-        
-    #The integer acts as a bool
+
+    # The integer acts as a bool
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue
 
@@ -45,37 +48,39 @@ class CLKRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 
+
 class FuelGauge(Entity.Reader):
-    def __init__(self, 
-                 ddsDataArray : list):
+    def __init__(self,
+                 ddsDataArray: list):
         super().__init__(ddsDataArray)
 
+
 class FuelRL(Entity.ReaderListener):
-    def __init__(self, 
-                 data : type):
+    def __init__(self,
+                 data: type):
         self.__data = data
         self.__listenerQueue = Queue()
-        
+
         super().__init__()
 
     def printData(self) -> None:
-        data   =  self.__data
-        index  = data.index()
-        spent  = data.litersSpent()
+        data = self.__data
+        index = data.index()
+        spent = data.litersSpent()
         remain = data.litersRemaining()
         print(f"[index, spent, remain] : {index}, {spent}, {remain}\n")
 
-    def on_data_available(self, 
-                          reader : type) -> None:
+    def on_data_available(self,
+                          reader: type) -> None:
         data = self.__data
         info = fastdds.SampleInfo()
         reader.take_next_sample(data, info)
-        
-        #self.printData()
-        self.__listenerQueue.put([data.index(), 
-                                data.litersSpent(),
-                                data.litersRemaining()])
-        
+
+        # self.printData()
+        self.__listenerQueue.put([data.index(),
+                                  data.litersSpent(),
+                                  data.litersRemaining()])
+
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue
 
@@ -85,31 +90,33 @@ class FuelRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 
+
 class DistanceDisplay(Entity.Reader):
-    def __init__(self, 
-                 ddsDataArray : list):
+    def __init__(self,
+                 ddsDataArray: list):
         super().__init__(ddsDataArray)
+
 
 class DistanceRL(Entity.ReaderListener):
     def __init__(self, data):
         self.__data = data
         self.__listenerQueue = Queue()
         super().__init__()
-        
+
     def printData(self) -> None:
-        index         = self.__data.index()
+        index = self.__data.index()
         milesTraveled = self.__data.milesTraveled()
         print(f"[index, spent, remain] : {index}, {milesTraveled}")
-        
-    def on_data_available(self, 
-                          reader : type) -> None:
+
+    def on_data_available(self,
+                          reader: type) -> None:
         info = fastdds.SampleInfo()
         data = self.__data
         reader.take_next_sample(data, info)
 
         self.printData()
         self.__listenerQueue.put([data.index(),
-                            data.milesTraveled()])
+                                  data.milesTraveled()])
 
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue
@@ -120,9 +127,11 @@ class DistanceRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 
+
 class MpGDisplay(Entity.Reader):
     def __init__(self, ddsDataArray: list):
         super().__init__(ddsDataArray)
+
 
 class MpGRL(Entity.ReaderListener):
     def __init__(self, data):
@@ -132,18 +141,18 @@ class MpGRL(Entity.ReaderListener):
 
     def printData(self) -> None:
         index = self.__data.index()
-        mpg   = self.__data.mpg()
+        mpg = self.__data.mpg()
         print(f"[index, mpg] : {index}, {mpg}")
 
-    def on_data_available(self, 
-                          reader : type) -> None:
+    def on_data_available(self,
+                          reader: type) -> None:
         info = fastdds.SampleInfo()
         data = self.__data
         reader.take_next_sample(data, info)
-        
+
         self.printData()
         self.__listenerQueue.put([data.index(),
-                            float(data.mpg())])
+                                  float(data.mpg())])
 
     def getDataReturn(self):
         return self.__listenerQueue
@@ -154,39 +163,43 @@ class MpGRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 
+
 class LowFuelAlertDisplay(Entity.Reader):
-    def __init__(self, ddsDataArray : list):
+    def __init__(self, ddsDataArray: list):
         super().__init__(ddsDataArray)
+
 
 class LowFuelAlertRL(Entity.ReaderListener):
     def __init__(self, data):
         self.__data = data
         self.__listenerQueue = Queue()
         super().__init__()
-        
+
     def printData(self) -> None:
-        index     = self.__data.index()
+        index = self.__data.index()
         isFuelLow = self.__data.isFuelLow()
         print(f"[index, mpg] : {index}, {isFuelLow}")
-        
-    def on_data_available(self, 
-                          reader : type) -> None:
+
+    def on_data_available(self,
+                          reader: type) -> None:
         info = fastdds.SampleInfo()
         data = self.__data
         reader.take_next_sample(data, info)
-        
+
         self.printData()
         self.__listenerQueue.put([data.index(),
-                            bool(data.isFuelLow())])
+                                  bool(data.isFuelLow())])
 
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue
-    
+
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
+
+
 class MilesRemainDisplay(Entity.Reader):
     def __init__(self, ddsDataArray):
         super().__init__(ddsDataArray)
@@ -195,6 +208,7 @@ class MilesRemainDisplay(Entity.Reader):
         dataThread = Thread(target=(self.dataRunReturn), daemon=True)
         dataThread.start()
 
+
 class MilesRemainRL(Entity.ReaderListener):
     def __init__(self, data):
         self.__data = data
@@ -202,19 +216,19 @@ class MilesRemainRL(Entity.ReaderListener):
         super().__init__()
 
     def printData(self) -> None:
-        index         = self.__data.index()
+        index = self.__data.index()
         milesToRefuel = self.__data.milesToRefuel()
         print(f"[index, mpg] : {index}, {milesToRefuel}")
-        
-    def on_data_available(self, 
-                          reader : type) -> None:
+
+    def on_data_available(self,
+                          reader: type) -> None:
         info = fastdds.SampleInfo()
         data = self.__data
         reader.take_next_sample(data, info)
-        
+
         self.printData()
         self.__listenerQueue.put([data.index(),
-                            data.milesToRefuel()])
+                                  data.milesToRefuel()])
 
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue
@@ -223,29 +237,32 @@ class MilesRemainRL(Entity.ReaderListener):
 ############################################################################################
 ############################################################################################
 ############################################################################################
+
+
 class MilesRemainDisplay(Entity.Reader):
-    def __init__(self, ddsDataArray : list):
+    def __init__(self, ddsDataArray: list):
         super().__init__(ddsDataArray)
+
 
 class MilesRemainRL(Entity.ReaderListener):
     def __init__(self, data):
         self.__data = data
         self.__listenerQueue = Queue()
         super().__init__()
-        
+
     def printData(self) -> None:
-        index         = self.__data.index()
+        index = self.__data.index()
         milesToRefuel = self.__data.milesToRefuel()
         print(f"[index, mpg] : {index}, {milesToRefuel}")
-        
-    def on_data_available(self, reader : type):
+
+    def on_data_available(self, reader: type):
         info = fastdds.SampleInfo()
         data = self.__data
         reader.take_next_sample(data, info)
-        
+
         self.printData()
         self.__listenerQueue.put([data.index(),
-                            data.milesToRefuel()])
+                                  data.milesToRefuel()])
 
     def getDataReturn(self) -> Queue:
         return self.__listenerQueue

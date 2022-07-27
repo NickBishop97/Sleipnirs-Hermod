@@ -26,28 +26,39 @@ echo "############ Buiding/Making Vehicle Python ##############"
 echo
 cd Vehicle-Python/MessageFormats/
 echo -e "${LPUR}Building Fuel .so Files ${NC}"
-cmake Fuel/.
-cd ./Fuel/ && make
+cd ./Fuel
+cmake .
+make
+cd ..
+echo
+echo -e "${LPUR}Building CLK .so Files ${NC}"
+cd ./CLK
+cmake .
+make
 cd ..
 echo
 echo -e "${LPUR}Building LowFuelAlert .so Files ${NC}"
-cmake LowFuelAlert/.
-cd ./LowFuelAlert/ && make
+cd ./LowFuelAlert
+cmake .
+make
 cd ..
 echo
 echo -e "${LPUR}Building Miles .so Files ${NC}"
-cmake Miles/.
-cd ./Miles/ && make
+cd ./Miles
+cmake .
+make
 cd ..
 echo
 echo -e "${LPUR}Building MilesToRefuel .so Files ${NC}"
-cmake MilesToRefuel/.
-cd ./MilesToRefuel/ && make
+cd ./MilesToRefuel
+cmake .
+make
 cd ..
 echo
 echo -e "${LPUR}Building MpG .so Files ${NC}"
-cmake MpG/.
-cd ./MpG/ && make
+cd ./MpG
+cmake .
+make
 cd ..
 echo
 echo -e "${LPUR}Building of Python Files is Complete ${NC}"

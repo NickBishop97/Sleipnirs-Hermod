@@ -28,6 +28,7 @@ import fastdds
 DESCRIPTION = """Writer and Reader ADTs for use"""
 USAGE = """TO BE INHERITED BY A USER DEFINED CLASS"""
 
+
 class Entity:
 
     class ReaderListener(fastdds.DataReaderListener):
@@ -36,13 +37,13 @@ class Entity:
             # self.__data = __data
             super().__init__()
 
-        def on_subscription_matched(self, datareader : type, info : type) -> None:
+        def on_subscription_matched(self, datareader: type, info: type) -> None:
             if(0 < info.current_count_change):
                 print("Subscriber matched publisher {}".format(info.last_publication_handle))
             else:
                 print("Subscriber unmatched publisher {}".format(info.last_publication_handle))
-            
-        def on_data_available(self, reader : type) -> None:
+
+        def on_data_available(self, reader: type) -> None:
             raise NotImplementedError(self.__class__.__name__ + " was not implemented!")
 
         def getDataReturn(self):
@@ -50,13 +51,13 @@ class Entity:
 
     class Reader:
         def __init__(self,
-                     ddsDataArray : list):
-            
+                     ddsDataArray: list):
+
             # SAVING INPUT VARIABLES
             self.__MessageType = ddsDataArray[0]
             self.__MessageType_name = ddsDataArray[1]
             self.__Topic_name = ddsDataArray[2]
-            
+
             try:
                 # __data = HelloWorld.HelloWorld()
                 func = getattr(self.__MessageType, f"{self.__MessageType_name}")  # inputting the idl special datatype
@@ -81,7 +82,7 @@ class Entity:
                 print(f"{self.__MessageType_name}.{self.__MessageType_name}PubSubType() not found")
                 raise
 
-            #creation of a topic name and registering __data type and topic with fastdds
+            # creation of a topic name and registering __data type and topic with fastdds
             self.__topic_data_type.setName(f"{self.__MessageType_name}")
             self.__type_support = fastdds.TypeSupport(self.__topic_data_type)
             self.__participant.register_type(self.__type_support)
@@ -101,19 +102,19 @@ class Entity:
             #####################################################################################################
 
             self.__listener = ddsDataArray[3](self.__data)
-            #By default, reader data should be a queue
-            self.__readerData = self.__listener.getDataReturn() 
+            # By default, reader data should be a queue
+            self.__readerData = self.__listener.getDataReturn()
 
             #####################################################################################################
-           
-            #creation of the __data reader
+
+            # creation of the __data reader
             self.__reader_qos = fastdds.DataReaderQos()
             self.__subscriber.get_default_datareader_qos(self.__reader_qos)
             self.__reader = self.__subscriber.create_datareader(self.__topic, self.__reader_qos, self.__listener)
 
         def getReader(self) -> type:
             return self.__reader
-        
+
         def getListener(self) -> type:
             return self.__listener
 
@@ -123,11 +124,11 @@ class Entity:
         def getData(self) -> Queue:
             return self.__readerData
 
-        #Returns a Queue by reference, so the whole queue is constantly returned 
+        # Returns a Queue by reference, so the whole queue is constantly returned
         def dataRunReturn(self) -> Queue:
             while True:
                 if not self.__readerData.empty():
-                    self.__listener.getDataReturn() 
+                    self.__listener.getDataReturn()
                 else:
                     return None
 
@@ -136,21 +137,21 @@ class Entity:
             dataThread.start()
 
         def delete(self) -> None:
-            #self.__readerData.queue.clear()
+            # self.__readerData.queue.clear()
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.__participant.delete_contained_entities()
             factory.delete_participant(self.__participant)
 
     class WriterListener (fastdds.DataWriterListener):
-        def __init__(self, writer : type):
+        def __init__(self, writer: type):
             self._writer = writer
             super().__init__()
 
-        def on_publication_matched(self, datawriter : type, info : type) -> None:
+        def on_publication_matched(self, datawriter: type, info: type) -> None:
             print("Sending...")
             if(0 < info.current_count_change):
                 print("Publisher matched subscriber {}".format(info.last_subscription_handle))
-                
+
                 self._writer._cvDiscovery.acquire()
                 self._writer._cvDiscovery.notify()
                 self._writer._matched_reader += 1
@@ -164,11 +165,11 @@ class Entity:
 
     class Writer:
 
-        def __init__(self, ddsDataArray : list):
+        def __init__(self, ddsDataArray: list):
             # SAVING INPUT VARIABLES
-            self.__MessageType      = ddsDataArray[0]
+            self.__MessageType = ddsDataArray[0]
             self.__MessageType_name = ddsDataArray[1]
-            self.__Topic_name       = ddsDataArray[2]
+            self.__Topic_name = ddsDataArray[2]
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
@@ -215,16 +216,16 @@ class Entity:
             self._writer_qos = fastdds.DataWriterQos()
             self.__publisher.get_default_datawriter_qos(self._writer_qos)
             self.__writer = self.__publisher.create_datawriter(self.__topic, self._writer_qos, self.__listener)
-       
+
         def getWriter(self) -> type:
             return self.__writer
-       
+
         def getData(self) -> type:
             return self.data
-        
+
         def setIndex(self) -> None:
             self.__index += 1
-            
+
         def getIndex(self) -> int:
             return self.__index
 
