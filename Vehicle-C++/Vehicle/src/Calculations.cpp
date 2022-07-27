@@ -1,6 +1,6 @@
 /**
  * @file Calculations.cpp
- * @author Nick Bishop, Spencer Williams
+ * @author Nick Bishop(coding/documenting), Spencer Williams(coding)
  * @brief Contains all the calculations functions for data processing for Hermod
  * @version 0.1
  * @date 2022-07-21
