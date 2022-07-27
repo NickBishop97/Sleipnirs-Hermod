@@ -25,11 +25,14 @@
  * @def POS_VALUE
  * A random positive value for testing purposes
  * 
- * 
+ * @def DIFF_POS_VALUE
+ * A random positive value fro testing purposes
  * 
  * @def LARGER_THAN_TANK 
  * A value that is larger than TANK_CAP for testing purposes 
  * 
+ * @def EXPECTED
+ * A calculated expected value for comparison purposes
  */
 #define INIT_VALUE 0.0
 #define NEG_VALUE -0.001
@@ -45,9 +48,6 @@ BOOST_AUTO_TEST_SUITE(MILES_LEFT_TEST)
  * @brief Assert that when MPG is negative, 
  * then get_MilesLeft returns ERROR_CODE 
  *
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(negativeMPG)
 {
@@ -59,9 +59,6 @@ BOOST_AUTO_TEST_CASE(negativeMPG)
  * @brief Assert that when MPG is 0 or init, 
  * then get_MilesLeft returns ERROR_CODE 
  *
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(zeroMPG)
 {
@@ -73,9 +70,6 @@ BOOST_AUTO_TEST_CASE(zeroMPG)
  * @brief Assert that when FR is 0 or init, 
  * then get_MilesLeft returns  
  *
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(zeroFR)
 {
@@ -87,9 +81,6 @@ BOOST_AUTO_TEST_CASE(zeroFR)
  * @brief Assert that when FR is negative, 
  * then get_MilesLeft returns ERROR_CODE
  *
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(negativeFR)
 {
@@ -100,9 +91,6 @@ BOOST_AUTO_TEST_CASE(negativeFR)
 /** 
  * @brief Assert that when FR is larger than tank,  
  * then get_MilesLeft returns ERROR_CODE
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(excessiveFR)
 {
@@ -113,9 +101,6 @@ BOOST_AUTO_TEST_CASE(excessiveFR)
 /** 
  * @brief Assert that when FR is larger than tank,  
  * then get_MilesLeft returns ERROR_CODE
- * @param MPG Miles per Gallon
- * @param FR Fuel Remaining 
- * @return double
  */
 BOOST_AUTO_TEST_CASE(correct_value)
 {
