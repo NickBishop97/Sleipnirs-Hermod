@@ -88,14 +88,18 @@ class DistTrav:
                  displacement: float,
                  delta: float):
 
-        self.__milesTraveled = float(displacement)
-        self.__delta = float(delta)
+        if delta >= 0 and displacement >= 0:
+            self.__delta = float(delta)
+        else:
+            self.__delta = float(0)
+        if displacement >= 0:
+            self.__milesTraveled = float(displacement)
+        else:
+            self.__milesTraveled = float(0)
 
     def addMiles(self,
                  fuelQueue: Queue) -> float:
         # Fuel has not send data
-        # if not startStopCondition.milesStarter:
-        #    self.__milesTraveled = -1
         if not fuelQueue.empty():
             data = fuelQueue.get()
             # If the fuel guage is sending values <= 0, it is likely that the fuel tank is out
@@ -111,7 +115,10 @@ class DistTrav:
 
     def setDelta(self,
                  delta: float) -> None:
-        self.__delta = delta
+        if delta >= 0:
+            self.__delta = delta
+        else:
+            self.__delta = 0
 
 ############################################################################################
 ############################################################################################
@@ -131,17 +138,21 @@ class LowFuelCalc:
     # return __lowFuelAlertFlag acts as a bool
     def lowFuelAlert(self,
                      fuelQueue: Queue) -> int:
+        if fuelQueue.empty():
+            self.__lowFuelAlertFlag = -1
+            return self.__lowFuelAlertFlag
+
         currentFuel = fuelQueue.get()[1]
 
         if currentFuel < self.__threshold:
             self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
+        elif self.__threshold < 0:
+            self.__lowFuelAlertFlag = -1
+            return self.__lowFuelAlertFlag
         else:
             self.__lowFuelAlertFlag = 0
             return self.__lowFuelAlertFlag
-
-    def getlowFuelAlertFlag(self):
-        return self.__lowFuelAlertFlag
 
 
 ############################################################################################
