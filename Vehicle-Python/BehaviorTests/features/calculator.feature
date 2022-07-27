@@ -1,6 +1,6 @@
-Feature: Determining MPG
+Feature: unit testing with behave
 
-    Scenario: Negative MPG
-        Given the Fuel Sensor, Miles Sensor, and Low Fuel is running
-        When the Fuel receives negative miles
-        Then the Fuel will return an error code
+  Scenario: unit test low fuel
+     Given we have fuel domain
+      When low fuel receives negative fuel
+      Then low fuel should return an error code

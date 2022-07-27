@@ -1,20 +1,19 @@
 from behave import *
 
-
 import sys
 sys.path.insert(0, '../../../ADTs/')
 from Calculators import LowFuelCalc # noqa E402 (linting exemption)
 
-@given('the Fuel Sensor, Miles Sensor, and MPG is running')
+@given('we have fuel domain')
 def step_impl():
-    # The idea for intergration testing is to have this running 
-    # For now, pass in the values into the function to test behave
+    LowFuelCalc
     pass
 
-@when('the MPG receives negative miles')
+@when('low fuel receives negative fuel')
 def step_impl():
+    LowFuelCalc.lowFuelAlert(-5)
     pass
 
-@then('the MPG will return an error code')
+@then('low fuel should return an error code')
 def step_impl():
-    assert LowFuelCalc.lowFuelAlert(-1)
+    assert LowFuelCalc.lowFuelAlert(-5) == -1
