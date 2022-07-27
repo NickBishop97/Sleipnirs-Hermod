@@ -1,3 +1,13 @@
+"""@package docstring
+This py file contains all of the calculations for publisher and subscribers
+
+@class FuelConsump - Does calculations based on fuel consumption rate in L/Gal
+@class DisTrav - Does calculations to find the distance traveled
+@class LowFuelCalc - Does calculations to determine if the low fuel alert is 1/0
+@class MPGCalc - Calculates the miles per gallon
+@class MileRemainCalc - Calculates the miles remaining till the tank is empty
+@class TripCalc - Does calculations related to tripmeter display.
+"""
 import time
 import random
 from queue import Queue

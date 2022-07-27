@@ -1,5 +1,22 @@
+/**
+ * @file TripMeter.cpp
+ * @author Nick Bishop
+ * @brief Starts up the Trip Meter pub/subs
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "TripMeter.h"
 
+/**
+ * @brief Starts up TripMeter publisher and subscribers and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

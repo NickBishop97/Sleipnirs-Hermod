@@ -1,0 +1,43 @@
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+
+##########################################   USER MODIFICATIONS BELOW   ################################################
+
+#====================
+#
+# Begin of:  Enable Software Collections
+#
+#====================
+source scl_source enable devtoolset-11
+source scl_source enable rh-python38
+source scl_source enable rh-git29
+source scl_source enable rh-maven36
+alias tools='printenv |grep X_SCLS|cut -d'=' -f2-'
+#====================
+#
+# End of:  Enable Software Collections
+#
+#====================
+
+#====================
+#
+# Begin of: Configure PATH
+#
+#====================
+export PATH=/opt/gradle/bin:$PATH
+#====================
+#
+# Begin of: Configure PATH
+#
+#====================

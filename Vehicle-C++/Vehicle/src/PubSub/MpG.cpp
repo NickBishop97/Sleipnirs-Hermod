@@ -1,5 +1,22 @@
+/**
+ * @file MpG.cpp
+ * @author Nick Bishop
+ * @brief Starts up the Miles per Gallong publishers and subscribers
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "MpG.h"
 
+/**
+ * @brief Starts up MilesPerGallong publisher and subscribers and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

@@ -1,15 +1,43 @@
+/**
+ * @file test_MilesLeft.cpp
+ * @author Spencer Williams
+ * @brief Runs unit testing on Miles Left calculations
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <iostream>
 #include <boost/test/unit_test.hpp>
 #include "../Calculations.h"
 
+/**
+ * @def INIT_VALUE 
+ * Initial 0 value for testing purposes 
+ * 
+ * @def NEG_VALUE 
+ * A random negative decimal value for testing purposes 
+ * 
+ * @def ERROR_CODE 
+ * The return value for an error
+ * 
+ * @def POS_VALUE
+ * A random positive value for testing purposes
+ * 
+ * 
+ * 
+ * @def LARGER_THAN_TANK 
+ * A value that is larger than TANK_CAP for testing purposes 
+ * 
+ */
 #define INIT_VALUE 0.0
 #define NEG_VALUE -0.001
 #define ERROR_CODE -1.0
 #define POS_VALUE 13.2354
 #define DIFF_POS_VALUE 21.54
 #define LARGER_THAN_TANK 0.001 + TANK_CAP
-#define LARGE_FR 226754.6785576899
-#define LARGE_MPG 223654.6735786819
+#define EXPECTED (POS_VALUE*(5 * 0.264172))
 
 BOOST_AUTO_TEST_SUITE(MILES_LEFT_TEST)
 
@@ -19,7 +47,7 @@ BOOST_AUTO_TEST_SUITE(MILES_LEFT_TEST)
  *
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
 BOOST_AUTO_TEST_CASE(negativeMPG)
 {
@@ -33,7 +61,7 @@ BOOST_AUTO_TEST_CASE(negativeMPG)
  *
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
 BOOST_AUTO_TEST_CASE(zeroMPG)
 {
@@ -47,7 +75,7 @@ BOOST_AUTO_TEST_CASE(zeroMPG)
  *
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
 BOOST_AUTO_TEST_CASE(zeroFR)
 {
@@ -61,9 +89,9 @@ BOOST_AUTO_TEST_CASE(zeroFR)
  *
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
-BOOST_AUTO_TEST_CASE(negtaiveFR)
+BOOST_AUTO_TEST_CASE(negativeFR)
 {
     ML ml;
     BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, NEG_VALUE) == ERROR_CODE);
@@ -74,7 +102,7 @@ BOOST_AUTO_TEST_CASE(negtaiveFR)
  * then get_MilesLeft returns ERROR_CODE
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
 BOOST_AUTO_TEST_CASE(excessiveFR)
 {
@@ -87,12 +115,12 @@ BOOST_AUTO_TEST_CASE(excessiveFR)
  * then get_MilesLeft returns ERROR_CODE
  * @param MPG Miles per Gallon
  * @param FR Fuel Remaining 
- * @return bool
+ * @return double
  */
-BOOST_AUTO_TEST_CASE(overflow)
+BOOST_AUTO_TEST_CASE(correct_value)
 {
-    //ML ml;
-    //BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, LARGER_THAN_TANK) == ERROR_CODE);
+    ML ml;
+    BOOST_CHECK(ml.get_MilesLeft(POS_VALUE, 5) == EXPECTED);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,3 +1,13 @@
+/**
+ * @file MilesTraveled.h
+ * @author Nick Bishop
+ * @brief Contains all the Publishers and Subscribers within the MT class
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef MILESTRAVELED_H
 #define MILESTRAVELED_H
 

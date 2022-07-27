@@ -1,3 +1,13 @@
+/**
+ * @file TripMeter.h
+ * @author Nick Bishop
+ * @brief Contains all the pub/subs within the TripMeter class
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef TRIPMETER_H
 #define TRIPMETER_H
 
@@ -50,7 +60,7 @@ public:
     }
 
     /**
-    * @brief Miles Traveled Subscriber that will subscribe to the Miles Travled topic and store the data 
+    * @brief Miles Traveled Subscriber that will subscribe to the Miles Traveled topic and store the data 
     * locally in the upper class.
     * 
     */
@@ -501,8 +511,6 @@ public:
                 }
                 calc_->updateTrip(data->MT, data->MPG, data->time);
                 std::this_thread::sleep_for(std::chrono::milliseconds(250));
-                //std::cout << data->MPGindex << " " << data->MTindex << " " << data->TMindex << std::endl;
-                //std::cout << data->MPG << " " << data->MT << " " << data->time << std::endl;
             }
         }
 

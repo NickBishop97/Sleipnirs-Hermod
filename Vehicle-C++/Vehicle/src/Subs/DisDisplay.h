@@ -1,3 +1,13 @@
+/**
+ * @file DisDisplay.h
+ * @author Nick Bishop
+ * @brief Contains the Miles traveled subscriber
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef MOVING_H
 #define MOVING_H
 
@@ -135,7 +145,10 @@ public:
         return true;
     }
 
-    //!Run the Subscriber
+    /**
+     * @brief Checks to see if miles traveled is larger than 0
+     * 
+     */
     void run()
     {
         double total = 0;

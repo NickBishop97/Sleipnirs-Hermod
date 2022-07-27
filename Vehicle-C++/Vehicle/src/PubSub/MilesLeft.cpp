@@ -1,5 +1,22 @@
+/**
+ * @file MilesLeft.cpp
+ * @author Nick Bishop
+ * @brief Starts up and runs all the publishers and subscribers for MilesLeft
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "MilesLeft.h"
 
+/**
+ * @brief Starts up MilesLeft subscribers and publisher and assigns them threads to work off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)

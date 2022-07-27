@@ -1,0 +1,80 @@
+########################################################################################################################
+# Filename: Containerfile-fastdds-python
+# 
+# Date: 2022-07-22
+# Author: Christopher J. Mundt
+#
+# Desc: Dockerfile used to build a container image that will run FastDDS-Python
+#
+# Reference: https://github.com/eProsima/Fast-DDS-python
+#            https://www.redhat.com/sysadmin/tiny-containers
+#            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
+#            
+# 
+# Info: Based this off of work previously completed under the Triton and Sleipnir projects
+#
+#
+#           ************************************************************************************************************
+# History:  |Version    Date        Task         Author                Desc
+#           |-----------------------------------------------------------------------------------------------------------
+#           | 1.0       2022-07-18  LETS-4802    Christopher J. Mundt  Initial Rev.
+#           |-----------------------------------------------------------------------------------------------------------
+# 
+# Notes:    Consolidate the number of RUN commands because each 1 equates to a new image layer when being built,
+#           which can result in larger than necessary images.  Also clean up repos when done before
+#           exiting a command to minimize size.
+########################################################################################################################
+
+
+#############################################
+#
+# Start from the Base UBI8 image
+FROM localhost/ubi8-dev-image as ubi8-fastdds-python
+USER root
+LABEL maintainer="christopher.mundt@ngc.com"
+
+
+#############################################
+#
+# Install SWIG
+# 
+#    *  SWIG 4.0
+WORKDIR /opt/swig
+RUN git clone https://github.com/swig/swig.git /opt/swig
+RUN ./autogen.sh \
+ && ./configure --prefix=/usr/local \
+ && make \
+ && make install
+
+#############################################
+#
+# Install Fast-DDS-Python
+# 
+WORKDIR /opt/Fast-DDS-Python
+RUN wget -P /opt/Fast-DDS-Python https://raw.githubusercontent.com/eProsima/Fast-DDS-python/main/fastdds_python.repos \
+ && mkdir src \
+ && vcs import src < fastdds_python.repos \
+ && colcon build
+
+#############################################
+#
+# Install Fast-DDS-Gen
+#
+WORKDIR /opt/Fast-DDS-Gen
+RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast-DDS-Gen 
+# Gradle assembly is not currently working.  Code installs but does not build.. 
+#&& gradle assemble
+
+#############################################
+#
+# Put .bashrc and HelloWorld Run script in place
+# 
+#WORKDIR /root
+COPY configs/ubi8-fastdds-root-bashrc /root/.bashrc
+COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
+COPY tools/run-c++-vehicle.sh /opt/run-c++-vehicle.sh
+
+# cleanup
+WORKDIR /opt
+RUN rm -rf /opt/swig \
+    rm /opt/gradle-6.9-all.zip

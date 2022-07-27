@@ -87,3 +87,13 @@ def test_negative_fuel_mr():
     mr = MileRemainCalc()
     result = mr.calculateMileRemain(fuelQ, mpgQ)
     assert result == 0.0
+
+
+# Verify that empty queue will return 0
+def test_empty_fuel_queue():
+    fuelQ = Queue()
+    mpgQ = Queue()
+
+    mr = MileRemainCalc()
+    result = mr.calculateMileRemain(fuelQ, mpgQ)
+    assert result == 0.0
