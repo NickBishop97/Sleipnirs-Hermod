@@ -7,16 +7,16 @@ from behave import *
 # import fuelSensor  # noqa E402 (linting exemption)
 
 
-@given('the Fuel Sensor is running') # noqa F405 (linting exemption)
+@given('the Fuel Sensor is running')  # noqa F405 (linting exemption)
 def step_impl(context):
     pass
 
 
-@when('the Fuel Sensor is activated') # noqa F405 (linting exemption)
+@when('the Fuel Sensor is activated')  # noqa F405 (linting exemption)
 def step_impl(context):
     pass
 
 
-@then('the signal will be sent') # noqa F405 (linting exemption)
+@then('the signal will be sent')  # noqa F405 (linting exemption)
 def step_impl(context):
     pass

@@ -1,4 +1,5 @@
 # from queue import Queue
+from TopicNames import TopicNames
 from threading import Thread
 import signal
 # import time
@@ -11,7 +12,6 @@ sys.path.insert(0, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
-from TopicNames import TopicNames
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -23,8 +23,6 @@ import CLK as CLK  # noqa E402 (linting exemption)
 
 sys.path.insert(4, '../MessageFormats/MilesToRefuel/')
 import MilesToRefuel as MilesToRefuel  # noqa E402 (linting exemption)
-
-
 
 
 def main():
@@ -44,17 +42,17 @@ def main():
                               "Fuel",
                               TopicNames.getTopicName("Fuel"),
                               FuelRL]))  # noqa: F405
-    
+
     readers.append(MpGDisplay([MpG,
                                "MpG",
                                TopicNames.getTopicName("MpG"),
                                MpGRL]))  # noqa: F405
-    
-    readers.append(CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
+
+    readers.append(CLKDisplay([CLK,
+                            "CLK",
+                            TopicNames.getTopicName("CLK"),
                             CLKRL]))  # noqa: F405
-    
+
     writers.append(MilesRemaining([MilesToRefuel,
                                    "MilesToRefuel",
                                    TopicNames.getTopicName("MilesToRefuel")],

@@ -16,7 +16,7 @@
  * 
  * Defines how big the gas tank of the car is
  */
-#define TANK_CAP 10 
+#define TANK_CAP 10
 
 #include <vector>
 #include <iostream>

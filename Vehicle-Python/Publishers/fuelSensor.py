@@ -1,21 +1,21 @@
+import Fuel as Fuel
+import CLK as CLK
+from Calculators import FuelConsump
+from TopicNames import TopicNames
+from Readers import CLKDisplay, CLKRL
+from Writers import FuelWriter
 import signal
 import sys
 from threading import Thread
 
-#ADT IMPORTS
+# ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
-from Writers     import FuelWriter
-from Readers     import CLKDisplay, CLKRL
-from TopicNames  import TopicNames
-from Calculators import FuelConsump
 
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/CLK/')
-import CLK as CLK  
 
 sys.path.insert(2, '../MessageFormats/Fuel/')
-import Fuel as Fuel  
 
 
 def runSensor():
@@ -36,13 +36,13 @@ def runSensor():
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
     fuelWriter = FuelWriter([Fuel,
-                             "Fuel", 
-                             TopicNames.getTopicName("Fuel")], 
-                            FuelConsump(100,100, 0.01)) 
-    
-    clkReader = CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
+                             "Fuel",
+                             TopicNames.getTopicName("Fuel")],
+                            FuelConsump(100, 100, 0.01))
+
+    clkReader = CLKDisplay([CLK,
+                            "CLK",
+                            TopicNames.getTopicName("CLK"),
                             CLKRL])  # noqa: F405
 
     readers.append(clkReader)
@@ -50,8 +50,8 @@ def runSensor():
 
     # Add readers and start threads
     CLKThread = Thread(target=(clkReader.run), daemon=True)
-    FuelThread = Thread(target=(fuelWriter.run), 
-                        args = (readers[0].getData(),),
+    FuelThread = Thread(target=(fuelWriter.run),
+                        args=(readers[0].getData(),),
                         daemon=True)
 
     threads.append(CLKThread)

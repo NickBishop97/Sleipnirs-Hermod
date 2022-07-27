@@ -1,3 +1,4 @@
+from TopicNames import TopicNames
 from threading import Thread
 import signal
 # import time
@@ -5,10 +6,9 @@ import sys
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
-from Writers     import MilesWriter  # noqa E402,F403 (linting exemptions)
-from Readers     import CLKDisplay, CLKRL, FuelGauge, FuelRL  # noqa E402,F403 (linting exemptions)
+from Writers import MilesWriter  # noqa E402,F403 (linting exemptions)
+from Readers import CLKDisplay, CLKRL, FuelGauge, FuelRL  # noqa E402,F403 (linting exemptions)
 from Calculators import DistTrav  # noqa E402,F403 (linting exemptions)
-from TopicNames  import TopicNames
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -17,7 +17,6 @@ sys.path.insert(2, '../MessageFormats/Miles/')
 import Miles as Miles  # noqa E402 (linting exemption)
 sys.path.insert(3, '../MessageFormats/CLK/')
 import CLK as CLK  # noqa E402 (linting exemption)
-
 
 
 def main():
@@ -36,20 +35,20 @@ def main():
     print("Press Ctrl+C to stop")
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
-    FuelReader = FuelGauge([Fuel, 
-                            "Fuel", 
-                            TopicNames.getTopicName("Fuel"), 
+    FuelReader = FuelGauge([Fuel,
+                            "Fuel",
+                            TopicNames.getTopicName("Fuel"),
                             FuelRL])  # noqa: F405
-    
-    clkReader = CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
+
+    clkReader = CLKDisplay([CLK,
+                            "CLK",
+                            TopicNames.getTopicName("CLK"),
                             CLKRL])  # noqa: F405
-    
-    DistWriter = MilesWriter([Miles, 
-                              "Miles", 
-                              TopicNames.getTopicName("Miles")], 
-                             DistTrav(0,0.1))  # noqa: F405
+
+    DistWriter = MilesWriter([Miles,
+                              "Miles",
+                              TopicNames.getTopicName("Miles")],
+                             DistTrav(0, 0.1))  # noqa: F405
 
     readers.append(FuelReader)
     readers.append(clkReader)
@@ -57,9 +56,9 @@ def main():
 
     # Add readers and start threads
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
-    DistThread = Thread(target=(DistWriter.run), 
-                        args = (readers[0].getData(),
-                                readers[1].getData(),),
+    DistThread = Thread(target=(DistWriter.run),
+                        args=(readers[0].getData(),
+                              readers[1].getData(),),
                         daemon=True)
 
     threads.append(FuelThread)

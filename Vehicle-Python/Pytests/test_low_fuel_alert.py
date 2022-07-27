@@ -4,6 +4,7 @@ is less than or equal to the established threshold, then the alarm is triggered.
 if the amount of current fuel is greater than the threshold, then the alarm is not
 triggered.
 """
+from queue import Queue
 import sys
 sys.path.insert(0, "../ADTs")
 from Calculators import LowFuelCalc  # noqa E402 (linting exemption)
@@ -17,8 +18,10 @@ def test_enough_fuel():
     current fuel is set to 10, thus not triggering the alarm.
     """
     f = LowFuelCalc(5)
-    f.lowFuelAlert(10)
-    assert f.lowFuelAlertFlag == 0
+    lowfuel = Queue()
+    lowfuel.put([1, 10])
+    f.lowFuelAlert(lowfuel)
+    assert f.getlowFuelAlertFlag() == 0
 
 
 # Fuel is low
