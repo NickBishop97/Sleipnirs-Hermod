@@ -3,12 +3,6 @@ from entity import Entity
 import fastdds
 from queue import Queue
 
-# import sys
-# sys.path.insert(1, './Fuel')
-# import Fuel
-# sys.path.insert(1, './Miles/')
-# import Miles as M
-
 
 class CLKDisplay(Entity.Reader):
     def __init__(self,

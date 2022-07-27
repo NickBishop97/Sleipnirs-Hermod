@@ -20,8 +20,7 @@ def test_enough_fuel():
     f = LowFuelCalc(5)
     lowfuel = Queue()
     lowfuel.put([1, 10])
-    f.lowFuelAlert(lowfuel)
-    assert f.getlowFuelAlertFlag() == 0
+    assert f.lowFuelAlert(lowfuel) == 0
 
 
 # Fuel is low
@@ -32,8 +31,9 @@ def test_low_fuel():
     current fuel is set to 2, thus triggering the alarm.
     """
     f = LowFuelCalc(5)
-    f.lowFuelAlert(2)
-    assert f.lowFuelAlertFlag == 1
+    lowfuel = Queue()
+    lowfuel.put([1, 2])
+    assert f.lowFuelAlert(lowfuel) == 1
 
 
 # Fuel is at threshold but not low
@@ -45,8 +45,9 @@ def test_on_mark_fuel():
     remaining is set to 10, thus not triggering the alarm.
     """
     f = LowFuelCalc(5)
-    f.lowFuelAlert(5)
-    assert f.lowFuelAlertFlag == 0
+    lowfuel = Queue()
+    lowfuel.put([1, 5])
+    assert f.lowFuelAlert(lowfuel) == 0
 
 
 # Fuel is empty
@@ -57,8 +58,9 @@ def test_zero_fuel():
     remaining is set to 0, thus triggering the alarm.
     """
     f = LowFuelCalc(5)
-    f.lowFuelAlert(0)
-    assert f.lowFuelAlertFlag == 1
+    lowfuel = Queue()
+    lowfuel.put([1, 0])
+    assert f.lowFuelAlert(lowfuel) == 1
 
 
 # Fuel is negative should result in low fuel alert
@@ -69,8 +71,9 @@ def test_negative_fuel():
     remaining is set to -1, thus triggering the alarm.
     """
     f = LowFuelCalc(5)
-    f.lowFuelAlert(-1.0)
-    assert f.lowFuelAlertFlag == 1
+    lowfuel = Queue()
+    lowfuel.put([1, -1])
+    assert f.lowFuelAlert(lowfuel) == 1
 
 
 # Fuel capacity is negative, then send an error
@@ -81,5 +84,18 @@ def test_negative_capacity():
     remaining is set to 20, thus triggering the amount.
     """
     f = LowFuelCalc(-6)
-    f.lowFuelAlert(20)
-    assert f.lowFuelAlertFlag == -1
+    lowfuel = Queue()
+    lowfuel.put([1, 20])
+    assert f.lowFuelAlert(lowfuel) == -1
+
+
+# Fuel Queue is empty
+def test_empty_queue():
+    """Test to see if the system indicates that the capacity amount if negative
+
+    The expected value should be 1 since the threshold is set to -6 and the amount of fuel
+    remaining is set to 20, thus triggering the amount.
+    """
+    f = LowFuelCalc(5)
+    lowfuel = Queue()
+    assert f.lowFuelAlert(lowfuel) == -1

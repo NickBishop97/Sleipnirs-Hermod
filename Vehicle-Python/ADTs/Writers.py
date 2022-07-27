@@ -1,6 +1,5 @@
 # from threading import Condition
 import time
-import random
 from queue import Queue
 
 # ADT IMPORTS
