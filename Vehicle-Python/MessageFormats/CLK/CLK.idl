@@ -1,0 +1,5 @@
+struct CLK{
+
+    unsigned long index;
+    unsigned long clk;
+};
