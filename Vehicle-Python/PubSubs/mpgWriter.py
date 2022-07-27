@@ -7,20 +7,24 @@ import signal
 
 import sys
 
-# IDL DATA IMPORTS
-sys.path.insert(0, '../MessageFormats/Fuel/')
-import Fuel as Fuel  # noqa E402 (linting exemption)
-sys.path.insert(1, '../MessageFormats/Miles/')
-import Miles as Miles  # noqa E402 (linting exemption)
-sys.path.insert(2, '../MessageFormats/MpG/')
-import MpG as MpG  # noqa E402 (linting exemption)
-
 # ADT IMPORTS
-sys.path.insert(3, '../ADTs/')
+sys.path.insert(0, '../ADTs/')
 from Writers     import MpGWriter  # noqa E402,F403 (linting exemptions)
-from Readers     import FuelGauge, FuelRL, DistanceDisplay, DistanceRL  # noqa E402,F403 (linting exemptions)
+from Readers     import FuelGauge, FuelRL, DistanceDisplay, DistanceRL, CLKDisplay, CLKRL
 from Calculators import MpGCalc  # noqa E402,F403 (linting exemptions)
 from TopicNames  import TopicNames
+
+# IDL DATA IMPORTS
+sys.path.insert(1, '../MessageFormats/Fuel/')
+import Fuel as Fuel  # noqa E402 (linting exemption)
+sys.path.insert(2, '../MessageFormats/Miles/')
+import Miles as Miles  # noqa E402 (linting exemption)
+sys.path.insert(3, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402 (linting exemption)
+sys.path.insert(4, '../MessageFormats/MpG/')
+import MpG as MpG  # noqa E402 (linting exemption)
+
+
 
 def main():
     writers = []
@@ -45,7 +49,12 @@ def main():
                                     "Miles",
                                     TopicNames.getTopicName("Miles"),
                                     DistanceRL]))  # noqa: F405
-
+    
+    readers.append(CLKDisplay([CLK, 
+                            "CLK", 
+                            TopicNames.getTopicName("CLK"), 
+                            CLKRL]))  # noqa: F405
+    
     writers.append(MpGWriter([MpG,
                               "MpG",
                               TopicNames.getTopicName("MpG")],
@@ -59,7 +68,8 @@ def main():
     threadMpG = Thread(target=(writers[0].run),
                        args=(
         readers[0].getData(),
-        readers[1].getData(),),
+        readers[1].getData(),
+        readers[2].getData()),
         daemon=True)
 
     for thread in threads:

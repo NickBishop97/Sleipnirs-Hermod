@@ -36,23 +36,23 @@ def main():
     print("Press Ctrl+C to stop")
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
-    clkReader = CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
-                            CLKRL])  # noqa: F405
-    
     FuelReader = FuelGauge([Fuel, 
                             "Fuel", 
                             TopicNames.getTopicName("Fuel"), 
                             FuelRL])  # noqa: F405
+    
+    clkReader = CLKDisplay([CLK, 
+                            "CLK", 
+                            TopicNames.getTopicName("CLK"), 
+                            CLKRL])  # noqa: F405
     
     DistWriter = MilesWriter([Miles, 
                               "Miles", 
                               TopicNames.getTopicName("Miles")], 
                              DistTrav(0,0.1))  # noqa: F405
 
-    readers.append(clkReader)
     readers.append(FuelReader)
+    readers.append(clkReader)
     writers.append(DistWriter)
 
     # Add readers and start threads

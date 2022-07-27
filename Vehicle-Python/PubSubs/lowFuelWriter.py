@@ -6,7 +6,7 @@ import sys
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
 from Writers     import LowFuelWriter, LowFuelCalc  # noqa E402,F403 (linting exemptions)
-from Readers     import FuelGauge, FuelRL  # noqa E402,F403 (linting exemptions)
+from Readers     import FuelGauge, FuelRL, CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
 from Calculators import LowFuelCalc  # noqa E402,F403 (linting exemptions)
 from TopicNames  import TopicNames
 
@@ -30,6 +30,12 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
+    
+    clkReader = CLKDisplay([CLK, 
+                            "CLK", 
+                            TopicNames.getTopicName("CLK"), 
+                            CLKRL])
+    
     FuelReader    = FuelGauge([Fuel,
                                "Fuel",
                                TopicNames.getTopicName("Fuel"),
@@ -39,18 +45,23 @@ def main():
                                    "LowFuelAlert",
                                    TopicNames.getTopicName("LowFuelAlert")],
                                   LowFuelCalc(50))  # noqa F405 (linting exemption)
-
+    
+    
     readers.append(FuelReader)
+    readers.append(clkReader)
     writers.append(lowFuelWriter)
 
     # Add readers and start threads
+    CLKThread  = Thread(target=())
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
     LowFThread = Thread(target=(writers[0].run),
                         args=(
-                            readers[0].getData(),),
+                            readers[0].getData(),
+                            readers[1].getData(),),
                         daemon=True)
 
     threads.append(FuelThread)
+    threads.append(CLKThread)
     threads.append(LowFThread)
 
     for thread in threads:
