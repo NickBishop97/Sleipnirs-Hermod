@@ -1,7 +1,5 @@
-from TopicNames import TopicNames
 from threading import Thread
 import signal
-# import time
 import sys
 
 # ADT IMPORTS
@@ -9,6 +7,7 @@ sys.path.insert(0, '../ADTs/')
 from Writers import MilesWriter  # noqa E402,F403 (linting exemptions)
 from Readers import CLKDisplay, CLKRL, FuelGauge, FuelRL  # noqa E402,F403 (linting exemptions)
 from Calculators import DistTrav  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
