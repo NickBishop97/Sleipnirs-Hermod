@@ -1,21 +1,20 @@
-import Fuel as Fuel
-import CLK as CLK
-from Calculators import FuelConsump
-from TopicNames import TopicNames
-from Readers import CLKDisplay, CLKRL
-from Writers import FuelWriter
 import signal
 import sys
 from threading import Thread
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
-
+from Calculators import FuelConsump  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
+from Readers import CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
+from Writers import FuelWriter  # noqa E402,F403 (linting exemptions)
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402,F403 (linting exemptions)
 
 sys.path.insert(2, '../MessageFormats/Fuel/')
+import Fuel as Fuel  # noqa E402,F403 (linting exemptions)
 
 
 def runSensor():

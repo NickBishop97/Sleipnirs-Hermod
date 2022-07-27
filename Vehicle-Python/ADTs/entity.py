@@ -14,13 +14,8 @@
 """
 entity.py
 """
-#from msilib.schema import TypeLib
 from threading import Thread
-# from email.message import Message
-# from logging.config import listen
-# from multiprocessing.connection import Listener
 from threading import Condition
-# import time
 from queue import Queue
 
 import fastdds
@@ -34,7 +29,6 @@ class Entity:
     class ReaderListener(fastdds.DataReaderListener):
 
         def __init__(self):
-            # self.__data = __data
             super().__init__()
 
         def on_subscription_matched(self, datareader: type, info: type) -> None:
@@ -59,7 +53,6 @@ class Entity:
             self.__Topic_name = ddsDataArray[2]
 
             try:
-                # __data = HelloWorld.HelloWorld()
                 func = getattr(self.__MessageType, f"{self.__MessageType_name}")  # inputting the idl special datatype
                 self.__data = func()
             except AttributeError:
@@ -137,7 +130,6 @@ class Entity:
             dataThread.start()
 
         def delete(self) -> None:
-            # self.__readerData.queue.clear()
             factory = fastdds.DomainParticipantFactory.get_instance()
             self.__participant.delete_contained_entities()
             factory.delete_participant(self.__participant)

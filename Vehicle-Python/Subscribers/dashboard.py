@@ -1,16 +1,7 @@
-from TopicNames import TopicNames
-from Writers import *
-import MilesToRefuel as MilesToRefuel
-import LowFuelAlert as LowFuelAlert
-import MpG as MpG
-import Miles as Miles
 from flask import Flask, Response, render_template, stream_with_context
 from datetime import datetime
 import random
 import json
-from Calculators import *
-from Readers import *
-import Fuel as Fuel
 from threading import Thread
 import signal
 import time
@@ -19,7 +10,6 @@ import sys
 # Flask Imports
 import json
 import random
-# from datetime import datetime
 
 from flask import Flask, Response, render_template, stream_with_context
 
@@ -28,6 +18,7 @@ sys.path.insert(0, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -40,7 +31,7 @@ sys.path.insert(4, '../MessageFormats/LowFuelAlert/')
 import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
 sys.path.insert(5, '../MessageFormats/MilesToRefuel/')
 import MilesToRefuel as MilesToRefuel  # noqa E402 (linting exemption)
-sys.path.insert(5, '../MessageFormats/CLK/')
+sys.path.insert(6, '../MessageFormats/CLK/')
 import CLK as CLK  # noqa E402 (linting exemption)
 
 #####################################################
@@ -88,27 +79,27 @@ if __name__ == '__main__':
 
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel,
+    readers.append(FuelGauge([Fuel,  # noqa F405 (linting exception)
                               "Fuel",
                               TopicNames.getTopicName("Fuel"),
-                              FuelRL]))  # noqa F405 (linting exemption)
+                              FuelRL]))  # noqa F405
 
-    readers.append(DistanceDisplay([Miles,
+    readers.append(DistanceDisplay([Miles,  # noqa F405
                                     "Miles",
                                     TopicNames.getTopicName("Miles"),
                                     DistanceRL]))  # noqa F405
 
-    readers.append(MpGDisplay([MpG,
+    readers.append(MpGDisplay([MpG,  # noqa F405
                                "MpG",
                                TopicNames.getTopicName("MpG"),
-                               MpGRL]))  # noqa F405 (linting exemption)
+                               MpGRL]))  # noqa F405
 
-    readers.append(LowFuelAlertDisplay([LowFuelAlert,
+    readers.append(LowFuelAlertDisplay([LowFuelAlert,  # noqa F405
                                         "LowFuelAlert",
                                         TopicNames.getTopicName("LowFuelAlert"),
                                         LowFuelAlertRL]))  # noqa F405
 
-    readers.append(MilesRemainDisplay([MilesToRefuel,
+    readers.append(MilesRemainDisplay([MilesToRefuel,  # noqa F405
                                        "MilesToRefuel",
                                        TopicNames.getTopicName("MilesToRefuel"),
                                        MilesRemainRL]))  # noqa F405

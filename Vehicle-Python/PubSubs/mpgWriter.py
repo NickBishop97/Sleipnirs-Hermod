@@ -1,18 +1,13 @@
-# from queue import Queue
-from TopicNames import TopicNames
-from Readers import FuelGauge, FuelRL, DistanceDisplay, DistanceRL, CLKDisplay, CLKRL
 from threading import Thread
 import signal
-# import time
-# import queue
-# from queue import Queue
-
 import sys
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
 from Writers import MpGWriter  # noqa E402,F403 (linting exemptions)
 from Calculators import MpGCalc  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
+from Readers import FuelGauge, FuelRL, DistanceDisplay, DistanceRL, CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -50,9 +45,9 @@ def main():
                                     DistanceRL]))  # noqa: F405
 
     readers.append(CLKDisplay([CLK,
-                            "CLK",
-                            TopicNames.getTopicName("CLK"),
-                            CLKRL]))  # noqa: F405
+                               "CLK",
+                               TopicNames.getTopicName("CLK"),
+                               CLKRL]))  # noqa: F405
 
     writers.append(MpGWriter([MpG,
                               "MpG",

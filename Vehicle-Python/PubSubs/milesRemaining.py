@@ -1,17 +1,13 @@
-# from queue import Queue
-from TopicNames import TopicNames
 from threading import Thread
 import signal
-# import time
-# import queue
-# from queue import Queue
-
 import sys
+
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -38,25 +34,25 @@ def main():
 
     print("Press Ctrl+C to stop")
 
-    readers.append(FuelGauge([Fuel,
+    readers.append(FuelGauge([Fuel,  # noqa: F405
                               "Fuel",
                               TopicNames.getTopicName("Fuel"),
                               FuelRL]))  # noqa: F405
 
-    readers.append(MpGDisplay([MpG,
+    readers.append(MpGDisplay([MpG,  # noqa: F405
                                "MpG",
                                TopicNames.getTopicName("MpG"),
                                MpGRL]))  # noqa: F405
 
-    readers.append(CLKDisplay([CLK,
-                            "CLK",
-                            TopicNames.getTopicName("CLK"),
-                            CLKRL]))  # noqa: F405
+    readers.append(CLKDisplay([CLK,  # noqa: F405
+                               "CLK",
+                               TopicNames.getTopicName("CLK"),
+                               CLKRL]))  # noqa: F405
 
-    writers.append(MilesRemaining([MilesToRefuel,
+    writers.append(MilesRemaining([MilesToRefuel,  # noqa: F405
                                    "MilesToRefuel",
                                    TopicNames.getTopicName("MilesToRefuel")],
-                                  MileRemainCalc()))  # noqa F405 (linting exemption)
+                                   MileRemainCalc()))  # noqa: F405, E127
 
     # Add readers and start threads
     for reader in readers:
