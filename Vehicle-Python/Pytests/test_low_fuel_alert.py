@@ -3,6 +3,11 @@ File used to unit test the low fuel alert of the vehicle. If the amount of curre
 is less than or equal to the established threshold, then the alarm is triggered. Else
 if the amount of current fuel is greater than the threshold, then the alarm is not
 triggered.
+
+@author Matthew Hendrickson, Nicholas Bishop
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
 """
 from queue import Queue
 import sys

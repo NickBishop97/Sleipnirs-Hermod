@@ -7,6 +7,11 @@ This py file contains all of the calculations for the publisher and subscribers
 @class MPGCalc - Calculates the miles per gallon
 @class MileRemainCalc - Calculates the miles remaining till the tank is empty
 @class TripCalc - Does calculations related to tripmeter display.
+
+@author Maxwell Rosales, Nicholas Bishop, Spencer Williams
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
 """
 import queue
 import time
@@ -17,31 +22,6 @@ from xmlrpc.client import Boolean
 
 # NOTE THAT THESE ARE SELF DEFINED CLASSES,
 # EACH TYPE OF CLASS WILL BE DIFFERENT AND WILL HAVE DIFFERENT UNITS
-
-class clkClac:
-    def __init__(self):
-        pass
-
-    def edgeIsHigh(self, clkQueue):
-        timeOut = 0
-        breakTime = 1000
-        # do nothing until the queue is populated
-        while clkQueue.empty():
-            timeOut += 1
-            if(timeOut == breakTime):
-                break
-
-        edge = clkQueue.get()
-        if edge == 1:
-            return True
-        else:
-            return False
-
-############################################################################################
-############################################################################################
-############################################################################################
-############################################################################################
-############################################################################################
 
 
 class FuelConsump:
@@ -178,7 +158,7 @@ class MpGCalc:
         else:
             self.__mpg = float(-1)
             return self.__mpg
-            
+
         if not fuelDatum <= 0 and not milesDatum <= 0:
             self.__mpg = float(milesDatum / fuelDatum)
             return self.__mpg
@@ -186,7 +166,6 @@ class MpGCalc:
             self.__mpg = float(-1)
             return self.__mpg
 
-        
 
 ############################################################################################
 ############################################################################################
@@ -200,8 +179,8 @@ class MileRemainCalc:
         self.__mileRemain = 0
 
     def calculateMileRemain(self,
-                     fuelQueue: Queue,
-                     mpgQueue: Queue):
+                            fuelQueue: Queue,
+                            mpgQueue: Queue):
         fuelDatum = 0
         mpgDatum = 0
 
@@ -218,7 +197,7 @@ class MileRemainCalc:
         else:
             self.__mileRemain = -1.0
             return self.__mileRemain
-        
+
 
 ############################################################################################
 ############################################################################################
