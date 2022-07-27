@@ -10,6 +10,13 @@
  */
 #include "DisDisplay.h"
 
+/**
+ * @brief starts up DisDisplay subscriber and assigns it a thread to run off of
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int returns exit code 0
+ */
 int main(
     int argc,
     char** argv)
