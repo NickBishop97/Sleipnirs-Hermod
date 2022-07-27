@@ -7,13 +7,14 @@ from queue import Queue
 from entity import Entity  
 from Calculators import *
 
-global_sleep_time          = float(0.01)
-global_sleep_time_buffered = global_sleep_time + float(0.03)
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
 ############################################################################################
+#This CLK represents: @always(posedge)   
+#___---___---___---___ sync clock
+
 class CLKWriter(Entity.Writer):
     def __init__(self, 
                  ddsDataArray : list, 
@@ -49,7 +50,6 @@ class CLKWriter(Entity.Writer):
         print(f"[index, clk] : {index}, {clk}\n")
         
     def run(self) -> None: 
-        #self.wait_discovery()
         while True:
             self.write()
             self.printData()
@@ -100,7 +100,6 @@ class FuelWriter(Entity.Writer):
         
     def run(self, 
             edge : Queue) -> None: 
-        #self.wait_discovery()
         while True:
             currentEdge = edge.get()[1]
             if currentEdge:
@@ -151,7 +150,6 @@ class MilesWriter(Entity.Writer):
     def run(self, 
             fuelQueue : Queue,
             edge : Queue) -> None:
-        #self.wait_discovery()
         while True:
             if edge.get()[1]:
                 self.write(fuelQueue)
@@ -196,15 +194,14 @@ class LowFuelWriter(Entity.Writer):
         
     def run(self, 
             fuelQueue : Queue,
-            edge : bool = 1) -> None:
-        #self.wait_discovery()
+            edge : Queue) -> None:
         while True:
-            if edge:
+            if edge.get()[1]:
                 self.write(fuelQueue)
                 self.printData()
-                #time.sleep(global_sleep_time)
             else:
-                pass       
+                pass
+    
 ############################################################################################
 ############################################################################################
 ############################################################################################
@@ -240,12 +237,16 @@ class MpGWriter(Entity.Writer):
             
     def run(self, 
             fuelQueue : Queue, 
-            milesQueue : Queue) -> None:
-        #self.wait_discovery()
+            milesQueue : Queue,
+            edge : Queue) -> None:
+
         while True:
-            self.write(fuelQueue, milesQueue)
-            self.printData()
-            time.sleep(global_sleep_time_buffered)
+            if edge.get()[1]:
+                self.write(fuelQueue, milesQueue)
+                self.printData()
+            else:
+                pass
+            
   
 ############################################################################################
 ############################################################################################
@@ -284,25 +285,14 @@ class MilesRemaining(Entity.Writer):
 
     def run(self, 
             fuelQueue : Queue, 
-            mpgQueue  : Queue) -> None:
-        #self.wait_discovery()
+            mpgQueue  : Queue,
+            edge : Queue) -> None:
         while True:
-            self.write(fuelQueue, mpgQueue)
-            self.printData()
-            time.sleep(global_sleep_time_buffered)
+            if edge.get()[1]:
+                self.write(fuelQueue, mpgQueue)
+                self.printData()
+            else:
+                pass
             
 
-#@always(posedge)   
-#___---___---___---___ sync clock
 
-#fuel
-#time
-#distance
-
-#0.25
-#fuel t = 0
-#time t = 0.05
-
-
-#mpg (fuel, distance)
-#wait for data queues to be non-empty and then pop

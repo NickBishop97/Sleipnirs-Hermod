@@ -35,15 +35,15 @@ def runSensor():
     print("Press Ctrl+C to stop")
 
     # MAKING THREADS TO RUN READER AND WRITER OBJECTS
-    clkReader = CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
-                            CLKRL])  # noqa: F405
-    
     fuelWriter = FuelWriter([Fuel,
                              "Fuel", 
                              TopicNames.getTopicName("Fuel")], 
                             FuelConsump(100,100, 0.01)) 
+    
+    clkReader = CLKDisplay([CLK, 
+                            "CLK", 
+                            TopicNames.getTopicName("CLK"), 
+                            CLKRL])  # noqa: F405
 
     readers.append(clkReader)
     writers.append(fuelWriter)
