@@ -194,15 +194,20 @@ class MileRemainCalc:
         fuelDatum = 0
         mpgDatum = 0
 
-        if not fuelQueue.empty():
+        if not fuelQueue.empty() and not mpgQueue.empty():
             fuelDatum = fuelQueue.get()[2]
-
-        if not mpgQueue.empty():
             mpgDatum = mpgQueue.get()[1]
+        else:
+            self.__mileRemain = -1.0
+            return self.__mileRemain
 
-        self.__mileRemain = float(mpgDatum) * float(fuelDatum)
-
-        return self.__mileRemain
+        if (fuelDatum >= 0 and mpgDatum >= 0):
+            self.__mileRemain = float(mpgDatum) * float(fuelDatum)
+            return self.__mileRemain
+        else:
+            self.__mileRemain = -1.0
+            return self.__mileRemain
+        
 
 ############################################################################################
 ############################################################################################
