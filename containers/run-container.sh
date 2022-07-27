@@ -45,9 +45,12 @@ fi
 
 ##############
 # UBI8 Dev FastDDS Environment
-CONTAINER_IMAGE="fastdds-python-image"
-CONTAINER_NAME="myfastdds"
+CONTAINER_IMAGE="ubi7-fastdds-python-image "
+CONTAINER_NAME="myubi7-fastdds"
 DEFAULT_COMMAND="/bin/bash"
+#CONTAINER_IMAGE="ubi7-dev-image "
+#CONTAINER_NAME="myubi7-dev"
+#DEFAULT_COMMAND="/bin/bash"
 
 START_TIME=$(date +%s)
 WORKING_DIR=$(pwd)

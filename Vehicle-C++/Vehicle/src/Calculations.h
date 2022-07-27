@@ -1,12 +1,28 @@
+/**
+ * @file Calculations.h
+ * @author Nick Bishop
+ * @brief Defines all the Calculations classes
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef CALCULATIONS_H
 #define CALCULATIONS_H
 
+/**
+ * @def TANK_CAP
+ * 
+ * Defines how big the gas tank of the car is
+ */
 #define TANK_CAP 10
 
 #include <vector>
 #include <iostream>
 
 /**
+ * @class FuelSenor
  * @brief Does calculations that are required for functionality of the Full Sensor
  *
  */
@@ -40,6 +56,7 @@ public:
 };
 
 /**
+ * @class MPG
  * @brief Calculates MPG and stores them in a vector
  *
  */
@@ -68,6 +85,7 @@ public:
 };
 
 /**
+ * @class ML
  * @brief Calculates Miles Left using MPG and Fuel Remaining
  *
  */
@@ -77,6 +95,7 @@ public:
 };
 
 /**
+ * @class TD
  * @brief Calculates the Trip data to get the required values for the dashboard
  *
  */
@@ -135,8 +154,9 @@ public:
 };
 
 /**
+ * @class TM
  * @brief Sets the current trip and calls TD to update the data on that specific
- *trip
+ * trip
  *
  */
 class TM {
@@ -164,8 +184,8 @@ public:
     {
     }
     void toggleTrip();
-    void AvSpeed(double newMiles, double newTime);
-    void AvMpg(double MPG);
+    double AvSpeed(double newMiles, double newTime);
+    double AvMpg(double MPG);
     void updateTrip(double newMiles, double newMPG, double newtime);
     std::tuple<double, double, double, double> GetTripData();
     void clear();

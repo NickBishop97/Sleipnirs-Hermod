@@ -1,3 +1,13 @@
+/**
+ * @file FuelSensor.h
+ * @author Nick Bishop
+ * @brief Contains all the Publishers for The Fuelsensor
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef FUELSENSOR_H
 #define FUELSENSOR_H
 
@@ -170,7 +180,12 @@ public:
             return false;
         }
 
-        //!Run the Publisher
+        /**
+         * @brief Publishes data on the topic and sets the fuel remaining
+         * 
+         * @param calc_ FS Object variable
+         * @param data FuelSensor Object Variable from Calculations.h
+         */
         void run(FuelSenor* calc_, FS* data)
         {
             while (1) {
@@ -184,9 +199,13 @@ public:
                 std::this_thread::sleep_for(std::chrono::milliseconds(250));
             }
         }
-        //!Checks to see if tank is empty
-        // This will check to see if the tank is empty, if it is empty
-        // then it will fill the tank randomly from 1 to 10 Litters
+        /**
+         * @brief Checks to see if tank is empty, if it is then it will fill the 
+         * tank randomly from 1 to 10 Litters
+         * 
+         * @param calc_ FS Object variable
+         * @param data FuelSensor Object Variable from Calculations.h
+         */
         void check(FuelSenor* calc_, FS* data)
         {
             double gain;
@@ -317,11 +336,16 @@ public:
             return true;
         }
 
-        //!Send a publication
+        /**
+         * @brief Publishes data onto FuelSpent topic
+         * 
+         * @param calc_ FS Object variable
+         * @param data FuelSensor Object variable in Calculations.h
+         * @return true 
+         * @return false 
+         */
         bool publish(FuelSenor* calc_, FS* data)
         {
-            //if (listener_.matched_ > 0)
-            //{
             if (data->index > fuel_.index()) {
                 double fuelR, fuelS;
                 fuelR = calc_->get_FuelRemaining();
@@ -334,14 +358,16 @@ public:
                 fuel_.index() = fuel_.index() + 1;
                 return true;
             } else {
-                //fuel_.litersSpent(0);
                 return false;
             }
-            //}
-            //return false;
         }
 
-        //!Run the Publisher
+        /**
+         * @brief Publishes data to topic and prints Litters spent to terminal
+         * 
+         * @param calc_ FS Object variable
+         * @param data FuelSensor Object variable in Calculations.h
+         */
         void run(FuelSenor* calc_, FS* data)
         {
             while (1) {
@@ -350,7 +376,6 @@ public:
                               << std::endl;
                     std::this_thread::sleep_for(std::chrono::milliseconds(248));
                 }
-                //std::this_thread::sleep_for(std::chrono::milliseconds(248));
             }
         }
     };

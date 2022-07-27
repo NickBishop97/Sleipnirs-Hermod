@@ -1,3 +1,13 @@
+/**
+ * @file Moving.h
+ * @author Nick Bishop
+ * @brief Contains all the publishers and subscribers within the Moving class
+ * @version 0.1
+ * @date 2022-07-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #ifndef MOVING_H
 #define MOVING_H
 
