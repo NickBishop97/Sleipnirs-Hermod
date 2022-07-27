@@ -4,6 +4,7 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
+import fastdds
 from sys import version_info as _swig_python_version_info
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
@@ -15,6 +16,7 @@ try:
     import builtins as __builtin__
 except ImportError:
     import __builtin__
+
 
 def _swig_repr(self):
     try:
@@ -113,12 +115,15 @@ class SwigPyIterator(object):
 
     def __sub__(self, *args):
         return _FuelWrapper.SwigPyIterator___sub__(self, *args)
+
     def __iter__(self):
         return self
 
+
 # Register SwigPyIterator in _FuelWrapper:
 _FuelWrapper.SwigPyIterator_swigregister(SwigPyIterator)
-import fastdds
+
+
 class _FuelSeq(fastdds.LoanableCollection):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -127,8 +132,11 @@ class _FuelSeq(fastdds.LoanableCollection):
     __repr__ = _swig_repr
     __swig_destroy__ = _FuelWrapper.delete__FuelSeq
 
+
 # Register _FuelSeq in _FuelWrapper:
 _FuelWrapper._FuelSeq_swigregister(_FuelSeq)
+
+
 class FuelSeq(_FuelSeq):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -143,8 +151,11 @@ class FuelSeq(_FuelSeq):
     def __getitem__(self, i):
         return _FuelWrapper.FuelSeq___getitem__(self, i)
 
+
 # Register FuelSeq in _FuelWrapper:
 _FuelWrapper.FuelSeq_swigregister(FuelSeq)
+
+
 class Fuel(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -193,9 +204,12 @@ class Fuel(object):
     def serializeKey(self, cdr):
         return _FuelWrapper.Fuel_serializeKey(self, cdr)
 
+
 # Register Fuel in _FuelWrapper:
 _FuelWrapper.Fuel_swigregister(Fuel)
 GEN_API_VER = _FuelWrapper.GEN_API_VER
+
+
 class FuelPubSubType(fastdds.TopicDataType):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -233,6 +247,6 @@ class FuelPubSubType(fastdds.TopicDataType):
     m_md5 = property(_FuelWrapper.FuelPubSubType_m_md5_get, _FuelWrapper.FuelPubSubType_m_md5_set)
     m_keyBuffer = property(_FuelWrapper.FuelPubSubType_m_keyBuffer_get, _FuelWrapper.FuelPubSubType_m_keyBuffer_set)
 
+
 # Register FuelPubSubType in _FuelWrapper:
 _FuelWrapper.FuelPubSubType_swigregister(FuelPubSubType)
-

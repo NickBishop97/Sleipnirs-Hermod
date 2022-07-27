@@ -1,3 +1,4 @@
+from TopicNames import TopicNames
 from Writers import *
 import MilesToRefuel as MilesToRefuel
 import LowFuelAlert as LowFuelAlert
@@ -27,7 +28,6 @@ sys.path.insert(0, '../ADTs/')
 from Writers import *  # noqa E402,F403 (linting exemptions)
 from Readers import *  # noqa E402,F403 (linting exemptions)
 from Calculators import *  # noqa E402,F403 (linting exemptions)
-from TopicNames import TopicNames
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -88,32 +88,31 @@ if __name__ == '__main__':
 
     readers = []
     threads = []
-    readers.append(FuelGauge([Fuel, 
-                              "Fuel", 
-                              TopicNames.getTopicName("Fuel"), 
+    readers.append(FuelGauge([Fuel,
+                              "Fuel",
+                              TopicNames.getTopicName("Fuel"),
                               FuelRL]))  # noqa F405 (linting exemption)
-    
-    readers.append(DistanceDisplay([Miles, 
-                                    "Miles", 
+
+    readers.append(DistanceDisplay([Miles,
+                                    "Miles",
                                     TopicNames.getTopicName("Miles"),
                                     DistanceRL]))  # noqa F405
-    
+
     readers.append(MpGDisplay([MpG,
                                "MpG",
                                TopicNames.getTopicName("MpG"),
                                MpGRL]))  # noqa F405 (linting exemption)
-    
+
     readers.append(LowFuelAlertDisplay([LowFuelAlert,
                                         "LowFuelAlert",
                                         TopicNames.getTopicName("LowFuelAlert"),
                                         LowFuelAlertRL]))  # noqa F405
-    
+
     readers.append(MilesRemainDisplay([MilesToRefuel,
                                        "MilesToRefuel",
                                        TopicNames.getTopicName("MilesToRefuel"),
                                        MilesRemainRL]))  # noqa F405
-    
-    
+
     for reader in readers:
         threads.append(Thread(target=(reader.run), daemon=True))
 

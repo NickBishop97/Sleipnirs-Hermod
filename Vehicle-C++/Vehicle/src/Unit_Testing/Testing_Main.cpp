@@ -8,6 +8,14 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+/**
+ * @def BOOST_TEST_DYN_LINK
+ * Setups the dynamic link for boost test case
+ * 
+ * @def BOOST_TEST_MODULE
+ * defines the Main module name for this test module
+ */
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main
 #include "test_MilesLeft.cpp"

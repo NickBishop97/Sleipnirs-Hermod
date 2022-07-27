@@ -1,3 +1,5 @@
+import CLK as CLK
+from TopicNames import TopicNames
 from threading import Thread
 import signal
 # import time
@@ -5,10 +7,9 @@ import sys
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
-from Writers     import LowFuelWriter, LowFuelCalc  # noqa E402,F403 (linting exemptions)
-from Readers     import FuelGauge, FuelRL, CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
+from Writers import LowFuelWriter, LowFuelCalc  # noqa E402,F403 (linting exemptions)
+from Readers import FuelGauge, FuelRL, CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
 from Calculators import LowFuelCalc  # noqa E402,F403 (linting exemptions)
-from TopicNames  import TopicNames
 
 # IDL DATA IMPORTS
 sys.path.insert(1, '../MessageFormats/Fuel/')
@@ -16,6 +17,9 @@ import Fuel as Fuel  # noqa E402 (linting exemption)
 
 sys.path.insert(2, '../MessageFormats/LowFuelAlert/')
 import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
+
+sys.path.insert(3, '../MessageFormats/CLK/')
+
 
 def main():
     writers = []
@@ -30,29 +34,28 @@ def main():
                   ))
 
     print("Press Ctrl+C to stop")
-    
-    clkReader = CLKDisplay([CLK, 
-                            "CLK", 
-                            TopicNames.getTopicName("CLK"), 
+
+    clkReader = CLKDisplay([CLK,
+                            "CLK",
+                            TopicNames.getTopicName("CLK"),
                             CLKRL])
-    
-    FuelReader    = FuelGauge([Fuel,
+
+    FuelReader = FuelGauge([Fuel,
                                "Fuel",
                                TopicNames.getTopicName("Fuel"),
                               FuelRL])  # noqa: F405
-    
+
     lowFuelWriter = LowFuelWriter([LowFuelAlert,
                                    "LowFuelAlert",
-                                   TopicNames.getTopicName("LowFuelAlert")],
+                                   TopicNames.getTopicName("LowFuel")],
                                   LowFuelCalc(50))  # noqa F405 (linting exemption)
-    
-    
+
     readers.append(FuelReader)
     readers.append(clkReader)
     writers.append(lowFuelWriter)
 
     # Add readers and start threads
-    CLKThread  = Thread(target=())
+    CLKThread = Thread(target=())
     FuelThread = Thread(target=(FuelReader.run), daemon=True)
     LowFThread = Thread(target=(writers[0].run),
                         args=(
