@@ -15,23 +15,23 @@ if(POLICY CMP0086)
 endif()
 
 ###############################################################################
-# Library for types defined in LowFuelAlert IDL
+# Library for types defined in CLK IDL
 ###############################################################################
 
-message(STATUS "Configuring python wrapper for types in LowFuelAlert...")
+message(STATUS "Configuring python wrapper for types in CLK...")
 
 ###############################################################################
 # Type library on C++
 
-project(LowFuelAlert)
+project(CLK)
 
 find_package(fastcdr REQUIRED)
 find_package(fastrtps REQUIRED)
 
 
 set(${PROJECT_NAME}_FILES
-    LowFuelAlert.cxx
-    LowFuelAlertPubSubTypes.cxx
+    CLK.cxx
+    CLKPubSubTypes.cxx
     )
 
 include_directories()
@@ -60,7 +60,7 @@ set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 include_directories(${PYTHON_INCLUDE_PATH})
 
 set(${PROJECT_NAME}_MODULE
-    LowFuelAlertWrapper
+    CLKWrapper
     )
 
 set(${PROJECT_NAME}_MODULE_FILES
@@ -91,11 +91,6 @@ SWIG_LINK_LIBRARIES(${${PROJECT_NAME}_MODULE}
     fastrtps
     ${PROJECT_NAME}
     )
-
-
-#############################
-###_ABS_PYTHON_MODULE_PATH###
-#############################
 
 # Find the installation path
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; print(sysconfig.get_python_lib(plat_specific=True, prefix='${CMAKE_INSTALL_PREFIX}'))"
