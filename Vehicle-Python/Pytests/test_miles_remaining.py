@@ -1,3 +1,11 @@
+"""@package docstring
+Runs unit tests on MilesRemainCalc class
+
+@author Spencer Williams
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
+"""
 import sys
 from queue import Queue
 
@@ -18,6 +26,8 @@ INDEX_VALUE = 0
 ERROR_CODE = -1.0
 
 # Verify normal behavior
+
+
 def test_normal_mr():
     fuelList = [INDEX_VALUE, NORMAL_FUEL_SPENT, NORMAL_FUEL_REMAIN]
     mpgList = [INDEX_VALUE, NORMAL_MPG]
@@ -109,5 +119,3 @@ def test_empty_fuel_queue():
     mr = MileRemainCalc()
     result = mr.calculateMileRemain(fuelQ, mpgQ)
     assert result == ERROR_CODE
-
-

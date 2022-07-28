@@ -1,5 +1,10 @@
 """@package docstring
 File used to unit test the distance traveled functionality
+
+@author Nicholas Bishop
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
 """
 import sys
 from queue import Queue
