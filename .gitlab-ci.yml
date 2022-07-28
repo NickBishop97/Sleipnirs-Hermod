@@ -4,7 +4,7 @@ before_script:
   - pipeline_tests/pretest_prep.sh
 
 stages:
-  - build
+  #- build
   - static-testing
   - unit-testing
 
