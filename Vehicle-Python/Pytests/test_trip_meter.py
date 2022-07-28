@@ -56,7 +56,35 @@ def test_update_less_than_2_hours():
     assert tripCalc.getTrips()[0] == expectedDict
     assert tripCalc.getTrips()[1] == expectedDict
     
+#TESTING FOR DIVISION BY ZERO
+def test_update_equal_to_2_hours():
+    tripCalc = TripCalc()
     
+    expectedDict = {
+            "distance": 0,
+            "fuel": 0,
+            "time": 0,
+
+            "averageSpeed": -1,
+            "MpG": -1,
+
+            "twoHours": False,
+            "resetCounterDist": 0,
+            "resetCounterFuel": 0,
+            "resetCounterTime": 0
+        }
+    fuelQueue  = Queue(); fuelQueue.put([1,0,0])
+    milesQueue = Queue(); milesQueue.put([1,0])
+    
+    timeQueue  = Queue(); timeQueue.put([1,0])
+    
+    tripCalc.update([milesQueue,
+                    fuelQueue,
+                    timeQueue
+                    ])
+    
+    assert tripCalc.getTrips()[0] == expectedDict
+    assert tripCalc.getTrips()[1] == expectedDict   
     
 #ENSURE THAT TIMES EQUAL TO 2 HOURS FLIP bool twoHours
 def test_update_equal_to_2_hours():
