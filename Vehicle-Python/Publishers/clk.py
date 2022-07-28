@@ -1,14 +1,14 @@
-from Writers import CLKWriter
-import CLK as CLK
-from TopicNames import TopicNames
 import signal
 import sys
 
 # IDL DATA IMPORTS
 sys.path.insert(0, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402,F403 (linting exemptions)
 
 # ADT IMPORTS
 sys.path.insert(1, '../ADTs/')
+from Writers import CLKWriter  # noqa E402,F403 (linting exemptions)
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
 
 
 # MAIN

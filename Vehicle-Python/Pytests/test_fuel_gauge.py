@@ -1,5 +1,10 @@
 """@package docstring
 File used to unit test the fuel gauge functionality
+
+@author Matthew Hendrickson, Nicholas Bishop
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
 """
 import sys
 sys.path.insert(0, "../ADTs")

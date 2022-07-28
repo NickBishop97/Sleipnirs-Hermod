@@ -1,12 +1,10 @@
-import CLK as CLK
-from TopicNames import TopicNames
 from threading import Thread
 import signal
-# import time
 import sys
 
 # ADT IMPORTS
 sys.path.insert(0, '../ADTs/')
+from TopicNames import TopicNames  # noqa E402,F403 (linting exemptions)
 from Writers import LowFuelWriter, LowFuelCalc  # noqa E402,F403 (linting exemptions)
 from Readers import FuelGauge, FuelRL, CLKDisplay, CLKRL  # noqa E402,F403 (linting exemptions)
 from Calculators import LowFuelCalc  # noqa E402,F403 (linting exemptions)
@@ -19,6 +17,7 @@ sys.path.insert(2, '../MessageFormats/LowFuelAlert/')
 import LowFuelAlert as LowFuelAlert  # noqa E402 (linting exemption)
 
 sys.path.insert(3, '../MessageFormats/CLK/')
+import CLK as CLK  # noqa E402,F403 (linting exemptions)
 
 
 def main():
@@ -41,14 +40,14 @@ def main():
                             CLKRL])
 
     FuelReader = FuelGauge([Fuel,
-                               "Fuel",
-                               TopicNames.getTopicName("Fuel"),
-                              FuelRL])  # noqa: F405
+                            "Fuel",
+                            TopicNames.getTopicName("Fuel"),
+                            FuelRL])  # noqa: F405
 
     lowFuelWriter = LowFuelWriter([LowFuelAlert,
                                    "LowFuelAlert",
                                    TopicNames.getTopicName("LowFuel")],
-                                  LowFuelCalc(50))  # noqa F405 (linting exemption)
+                                   LowFuelCalc(50))  # noqa F405 (linting exemption)
 
     readers.append(FuelReader)
     readers.append(clkReader)
