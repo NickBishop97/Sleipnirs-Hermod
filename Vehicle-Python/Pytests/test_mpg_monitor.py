@@ -64,6 +64,6 @@ def testNegMiles():
 def test_empty_queue():
     fuelQ = Queue()
     mileQ = Queue()
-    
+
     CalculatorClass = MpGCalc()
     assert CalculatorClass.calculateMpG(fuelQ, mileQ) == -1.0
