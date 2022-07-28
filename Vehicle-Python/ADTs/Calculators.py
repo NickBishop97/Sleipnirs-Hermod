@@ -136,12 +136,10 @@ class LowFuelCalc:
         if currentFuel < self.__threshold:
             self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
+            
         else:
             self.__lowFuelAlertFlag = 0
             return self.__lowFuelAlertFlag
-
-    def getlowFuelAlertFlag(self):
-        return self.__lowFuelAlertFlag
 
 
 ############################################################################################
@@ -230,7 +228,6 @@ class TripCalc:
     def update(self,
                queueArray: list) -> None:
 
-        # using a for loop makes the code harder to read
         distance = queueArray[0].get()[1]
         fuel = queueArray[1].get()[1]  # fuel spent
         time = queueArray[2].get()[1]
@@ -242,13 +239,15 @@ class TripCalc:
 
             # AVOID DIVISION BY TIME = 0
             if(time != 0):
-                self.__trips[i]["averageSpeed"] = float(distance / time)
+                self.__trips[i]["averageSpeed"] = float(
+                    self.__trips[i]["distance"] / self.__trips[i]["time"])
             else:
                 self.__trips[i]["averageSpeed"] = -1
 
             # AVOID DIVISION BY FUEL = 0
             if(fuel != 0):
-                self.__trips[i]["MpG"] = float(distance / fuel)
+                self.__trips[i]["MpG"] = float(
+                    self.__trips[i]["distance"] / self.__trips[i]["fuel"])
             else:
                 self.__trips[i]["MpG"] = -1
 
@@ -257,7 +256,7 @@ class TripCalc:
                 self.__trips[i]["twoHours"] = True
 
     def reset(self,
-              resetButton: bool) -> None:
+              resetButton: int) -> None:
         # deep copy
         currentTrip = self.__trips[self.__currentTripNum]
 
@@ -278,3 +277,9 @@ class TripCalc:
             self.__currentTripNum = (self.__currentTripNum + 1) % 2
         else:
             pass
+
+    def getCurrentTripNum(self):
+        return self.__currentTripNum
+
+    def getTrips(self):
+        return self.__trips
