@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     readers.append(LowFuelAlertDisplay([LowFuelAlert,  # noqa F405
                                         "LowFuelAlert",
-                                        TopicNames.getTopicName("LowFuelAlert"),
+                                        TopicNames.getTopicName("LowFuel"),
                                         LowFuelAlertRL]))  # noqa F405
 
     readers.append(MilesRemainDisplay([MilesToRefuel,  # noqa F405
