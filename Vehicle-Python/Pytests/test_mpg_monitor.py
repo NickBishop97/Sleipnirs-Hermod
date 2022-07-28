@@ -1,4 +1,11 @@
-# import pytest
+"""@package docstring
+File used to unit test the distance traveled functionality
+
+@author Matthew Hendrickson, Spencer Williams
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
+"""
 import sys
 from queue import Queue
 
@@ -19,7 +26,6 @@ def testStandardInfo():
 
 
 def testZeros():
-    # CalculatorClass = MpGCalc(120, 0, 100)
     fuelList = [0, 0.0]
     mileList = [0, 0.0]
     fuelQ = Queue()
@@ -32,7 +38,6 @@ def testZeros():
 
 
 def testNegFuel():
-    # CalculatorClass = MpGCalc(80, 120, 100)
     fuelList = [0, -5.0]
     mileList = [0, 100.0]
     fuelQ = Queue()
@@ -45,7 +50,6 @@ def testNegFuel():
 
 
 def testNegMiles():
-    # CalculatorClass = MpGCalc(5000, 200000, 10000)
     fuelList = [0, 10.0]
     mileList = [0, -50.0]
     fuelQ = Queue()
@@ -55,3 +59,11 @@ def testNegMiles():
 
     CalculatorClass = MpGCalc()
     assert CalculatorClass.calculateMpG(fuelQ, mileQ) == -1.0, "MPG did not return error code when negative miles traveled"
+
+
+def test_empty_queue():
+    fuelQ = Queue()
+    mileQ = Queue()
+
+    CalculatorClass = MpGCalc()
+    assert CalculatorClass.calculateMpG(fuelQ, mileQ) == -1.0

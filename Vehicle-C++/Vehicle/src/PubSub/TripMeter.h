@@ -503,10 +503,10 @@ public:
                     std::cout << "Avg MPG: " << trip_.MPG() << std::endl;
                     std::cout << std::endl;
                 } else {
-                    std::cout << "0Miles: " << trip_.miles() << std::endl;
-                    std::cout << "0Avg Speed: " << trip_.speed() << std::endl;
-                    std::cout << "0Time: " << trip_.time() / 60 << std::endl;
-                    std::cout << "0Avg MPG: " << trip_.MPG() << std::endl;
+                    std::cout << "Miles: " << trip_.miles() << std::endl;
+                    std::cout << "Avg Speed: " << trip_.speed() << std::endl;
+                    std::cout << "Time: " << trip_.time() / 60 << std::endl;
+                    std::cout << "Avg MPG: " << trip_.MPG() << std::endl;
                     std::cout << std::endl;
                 }
                 calc_->updateTrip(data->MT, data->MPG, data->time);
