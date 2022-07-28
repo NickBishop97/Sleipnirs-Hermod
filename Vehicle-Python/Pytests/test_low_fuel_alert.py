@@ -80,21 +80,9 @@ def test_negative_fuel():
     lowfuel.put([1, -1])
     assert f.lowFuelAlert(lowfuel) == 1
 
-
-# Fuel capacity is negative, then send an error
-def test_negative_capacity():
-    """Test to see if the system indicates that the capacity amount if negative
-
-    The expected value should be 1 since the threshold is set to -6 and the amount of fuel
-    remaining is set to 20, thus triggering the amount.
-    """
-    f = LowFuelCalc(-6)
-    lowfuel = Queue()
-    lowfuel.put([1, 20])
-    assert f.lowFuelAlert(lowfuel) == -1
-
-
 # Fuel Queue is empty
+
+
 def test_empty_queue():
     """Test to see if the system indicates that the capacity amount if negative
 

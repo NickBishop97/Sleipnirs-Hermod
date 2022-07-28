@@ -110,6 +110,7 @@ class DistTrav:
 class LowFuelCalc:
     def __init__(self,
                  threshold: float):
+        assert threshold >= 0
         self.__threshold = float(threshold)
 
         # __lowFuelAlertFlag acts as a bool in this case
@@ -127,7 +128,6 @@ class LowFuelCalc:
         if currentFuel < self.__threshold:
             self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
-            
         else:
             self.__lowFuelAlertFlag = 0
             return self.__lowFuelAlertFlag
