@@ -78,7 +78,7 @@ def test_negative_fuel():
     f = LowFuelCalc(5)
     lowfuel = Queue()
     lowfuel.put([1, -1])
-    assert f.lowFuelAlert(lowfuel) == 1
+    assert f.lowFuelAlert(lowfuel) == -1
 
 # Fuel Queue is empty
 
