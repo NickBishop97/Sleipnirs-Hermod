@@ -125,7 +125,10 @@ class LowFuelCalc:
 
         currentFuel = fuelQueue.get()[1]
 
-        if currentFuel < self.__threshold:
+        if currentFuel < 0 or self.__threshold < 0:
+            self.__lowFuelAlertFlag = -1
+            return self.__lowFuelAlertFlag
+        elif currentFuel < self.__threshold:
             self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
         else:
