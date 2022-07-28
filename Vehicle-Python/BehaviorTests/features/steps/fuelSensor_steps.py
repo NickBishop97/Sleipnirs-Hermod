@@ -1,10 +1,11 @@
 from behave import *
 
-# Currently, unable to import publishers as path includes another path insert,
-# which behave is unable to find module
-# import sys
-# sys.path.insert(0, "../../../Publishers")
-# import fuelSensor  # noqa E402 (linting exemption)
+
+import sys
+sys.path.insert(0, "../../../Publishers")
+sys.path.insert(1, '../../../MessageFormats/CLK/')
+sys.path.insert(2, '../../../MessageFormats/Fuel/')
+import fuelSensor  # noqa E402 (linting exemption)
 
 
 @given('the Fuel Sensor is running')  # noqa F405 (linting exemption)
