@@ -174,7 +174,7 @@ def test_reset_switch_trips():
     tripCalc.reset(2)
     assert tripCalc.getCurrentTripNum() == 1
 
-
+#ENSURES THAT THE RESET COUNTERS WORK AFTER AN UPDATE
 def test_reset_counter_offset():
     tripCalc = TripCalc()
     previousDist = 1
