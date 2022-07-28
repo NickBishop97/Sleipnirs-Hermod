@@ -11,8 +11,8 @@ echo
 echo "############ Running Pytest ##############"
 echo
 cd ./Vehicle-Python/Pytests
-pytest --cov-report=html:../Build/Coverage --cov=Calculators
-#pytest --cov-report term-missing --cov=Calculators
+#pytest --cov-report=html:../Build/Coverage --cov=Calculators
+pytest --cov-report term-missing --cov=Calculators
 rm .coverage
 echo -e "${LPUR}Python UNIT TESTING COMPLETE${NC}"
 echo

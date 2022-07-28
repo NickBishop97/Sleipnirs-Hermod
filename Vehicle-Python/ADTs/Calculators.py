@@ -7,6 +7,11 @@ This py file contains all of the calculations for the publisher and subscribers
 @class MPGCalc - Calculates the miles per gallon
 @class MileRemainCalc - Calculates the miles remaining till the tank is empty
 @class TripCalc - Does calculations related to tripmeter display.
+
+@author Maxwell Rosales, Nicholas Bishop, Spencer Williams
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
 """
 import queue
 import time
@@ -17,31 +22,6 @@ from xmlrpc.client import Boolean
 
 # NOTE THAT THESE ARE SELF DEFINED CLASSES,
 # EACH TYPE OF CLASS WILL BE DIFFERENT AND WILL HAVE DIFFERENT UNITS
-
-class clkClac:
-    def __init__(self):
-        pass
-
-    def edgeIsHigh(self, clkQueue):
-        timeOut = 0
-        breakTime = 1000
-        # do nothing until the queue is populated
-        while clkQueue.empty():
-            timeOut += 1
-            if(timeOut == breakTime):
-                break
-
-        edge = clkQueue.get()
-        if edge == 1:
-            return True
-        else:
-            return False
-
-############################################################################################
-############################################################################################
-############################################################################################
-############################################################################################
-############################################################################################
 
 
 class FuelConsump:
@@ -88,14 +68,18 @@ class DistTrav:
                  displacement: float,
                  delta: float):
 
-        self.__milesTraveled = float(displacement)
-        self.__delta = float(delta)
+        if delta >= 0 and displacement >= 0:
+            self.__delta = float(delta)
+        else:
+            self.__delta = float(0)
+        if displacement >= 0:
+            self.__milesTraveled = float(displacement)
+        else:
+            self.__milesTraveled = float(0)
 
     def addMiles(self,
                  fuelQueue: Queue) -> float:
         # Fuel has not send data
-        # if not startStopCondition.milesStarter:
-        #    self.__milesTraveled = -1
         if not fuelQueue.empty():
             data = fuelQueue.get()
             # If the fuel guage is sending values <= 0, it is likely that the fuel tank is out
@@ -111,7 +95,10 @@ class DistTrav:
 
     def setDelta(self,
                  delta: float) -> None:
-        self.__delta = delta
+        if delta >= 0:
+            self.__delta = delta
+        else:
+            self.__delta = 0
 
 ############################################################################################
 ############################################################################################
@@ -123,6 +110,7 @@ class DistTrav:
 class LowFuelCalc:
     def __init__(self,
                  threshold: float):
+        assert threshold >= 0
         self.__threshold = float(threshold)
 
         # __lowFuelAlertFlag acts as a bool in this case
@@ -131,12 +119,15 @@ class LowFuelCalc:
     # return __lowFuelAlertFlag acts as a bool
     def lowFuelAlert(self,
                      fuelQueue: Queue) -> int:
+        if fuelQueue.empty():
+            self.__lowFuelAlertFlag = -1
+            return self.__lowFuelAlertFlag
+
         currentFuel = fuelQueue.get()[1]
 
         if currentFuel < self.__threshold:
             self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
-            
         else:
             self.__lowFuelAlertFlag = 0
             return self.__lowFuelAlertFlag
@@ -159,19 +150,20 @@ class MpGCalc:
         fuelDatum = 0.0
         milesDatum = 0.0
 
-        if not fuelQueue.empty():
+        if not fuelQueue.empty() and not milesQueue.empty():
             fuelDatum = fuelQueue.get()[1]
-
-        if not milesQueue.empty():
             milesDatum = milesQueue.get()[1]
-
-        if not fuelDatum == 0:
-            self.__mpg = float(milesDatum / fuelDatum)
-
-        elif fuelDatum <= 0:
+        else:
             self.__mpg = float(-1)
+            return self.__mpg
 
-        return self.__mpg
+        if not fuelDatum <= 0 and not milesDatum <= 0:
+            self.__mpg = float(milesDatum / fuelDatum)
+            return self.__mpg
+        else:
+            self.__mpg = float(-1)
+            return self.__mpg
+
 
 ############################################################################################
 ############################################################################################
@@ -184,21 +176,26 @@ class MileRemainCalc:
     def __init__(self):
         self.__mileRemain = 0
 
-    def calculateMpG(self,
-                     fuelQueue: Queue,
-                     mpgQueue: Queue):
+    def calculateMileRemain(self,
+                            fuelQueue: Queue,
+                            mpgQueue: Queue):
         fuelDatum = 0
         mpgDatum = 0
 
-        if not fuelQueue.empty():
+        if not fuelQueue.empty() and not mpgQueue.empty():
             fuelDatum = fuelQueue.get()[2]
-
-        if not mpgQueue.empty():
             mpgDatum = mpgQueue.get()[1]
+        else:
+            self.__mileRemain = -1.0
+            return self.__mileRemain
 
-        self.__mileRemain = float(mpgDatum) * float(fuelDatum)
+        if (fuelDatum >= 0 and mpgDatum >= 0):
+            self.__mileRemain = float(mpgDatum) * float(fuelDatum)
+            return self.__mileRemain
+        else:
+            self.__mileRemain = -1.0
+            return self.__mileRemain
 
-        return self.__mileRemain
 
 ############################################################################################
 ############################################################################################
