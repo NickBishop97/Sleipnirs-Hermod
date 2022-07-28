@@ -11,12 +11,8 @@ This py file contains all of the calculations for the publisher and subscribers
 import queue
 import time
 import random
-<<<<<<< HEAD
-
-=======
 from queue import Queue
 from xmlrpc.client import Boolean
->>>>>>> 3e4618c9d7da824e2811e946912334dba784bdc6
 
 
 # NOTE THAT THESE ARE SELF DEFINED CLASSES,
@@ -148,11 +144,11 @@ class LowFuelCalc:
 
         currentFuel = fuelQueue.get()[1]
 
-        if currentFuel < self.__threshold:
-            self.__lowFuelAlertFlag = 1
-            return self.__lowFuelAlertFlag
-        elif self.__threshold < 0:
+        if currentFuel < 0 or self.__threshold < 0:
             self.__lowFuelAlertFlag = -1
+            return self.__lowFuelAlertFlag
+        elif currentFuel < self.__threshold:
+            self.__lowFuelAlertFlag = 1
             return self.__lowFuelAlertFlag
         else:
             self.__lowFuelAlertFlag = 0
