@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #Fail if any command exit with error.
-set -e
+#set -e
 
 LPUR='\033[1;35m'
 NC='\033[0m' # No Color
