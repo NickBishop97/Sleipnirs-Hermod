@@ -4,8 +4,8 @@
 # Date: 2022-07-07
 # Author: Christopher J. Mundt
 #
-# Desc: Dockerfile used to define a UBI 8 Development container image that has everything installed
-#       to && FastDDS-Python
+# Desc: Containerfile used to define a UBI 8 Init container image that has all the development tools
+#       installed to support a Fast-DDS
 #
 # Reference: https://confluence.sde.sp.gc1.myngc.com/pages/viewpage.action?pageId=305785145
 #            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
@@ -19,6 +19,7 @@
 #           |-----------------------------------------------------------------------------------------------------------
 #           | 1.0       2022-07-07  LETS-4837    Christopher J. Mundt  Initial Rev.
 #           | 1.1       2022-07-18  LETS-4837    Christopher J. Mundt  Updating to the UBI8-Init base base image
+#           | 1.2       2022-07-29  LETS-4802    Christopher J. Mundt  Added missing tools for Sleipnir Baseline
 #           |-----------------------------------------------------------------------------------------------------------
 # 
 # Notes:    Consolidate the number of && commands because each 1 equates a layer when being built,
@@ -29,9 +30,9 @@
 
 #############################################
 #
-# Start from the Base UBI8-init image.
+# Start from the RedHat UBI8-init Base image.
 # Need to use the Init version to support DBUS/Systemd
-# whic is needed to support Fast-DDS-Python Install later.
+# which is needed to support Fast-DDS-Python Install later.
 #
 FROM registry.access.redhat.com/ubi8/ubi-init as dev-base
 USER root
@@ -60,8 +61,9 @@ RUN dnf config-manager --enable codeready-builder-for-rhel-8-x86_64-rpms \
  && dnf install -y clang boost boost-devel cmake doxygen cppcheck mesa-libGLU mesa-libGLU-devel mesa-dri-drivers glx-utils \
  && dnf install -y tinyxml2.x86_64 tinyxml2-devel.x86_64 openssl-devel.x86_64 openssl-pkcs11.x86_64 asio-devel \
  && dnf install -y dbus-c++.x86_64 dbus-devel.x86_64 dbus-x11.x86_64 \
- && dnf install -y  python38 python38-devel.x86_64 \
- && pip3 install --no-cache-dir gcovr lcov colcon-common-extensions vcstool \
+ && dnf install -y python38 python38-devel.x86_64 \
+ && dnf install -y xterm firefox net-tools \
+ && pip3 install --no-cache-dir colcon-common-extensions flask gcovr lcov numpy vcstool \
  && dnf clean -y all \
  && rm -rf /var/cache/yum
 

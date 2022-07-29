@@ -1,0 +1,59 @@
+########################################################################################################################
+# Filename: Containerfile-ubi7-sleipnir
+# 
+# Date: 2022-07-29
+# Author: Christopher J. Mundt
+#
+# Desc: Dockerfile used to build a container image that will run Sleipnir Baseline
+#
+# Reference: https://github.com/eProsima/Fast-DDS-python
+#            https://www.redhat.com/sysadmin/tiny-containers
+#            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
+#            
+# Info: Based this off of work previously completed under the Triton and Sleipnir projects
+#
+#
+#           ************************************************************************************************************
+# History:  |Version    Date        Task         Author                Desc
+#           |-----------------------------------------------------------------------------------------------------------
+#           | 1.0       2022-07-29  LETS-4802    Christopher J. Mundt  Initial Rev.
+#           |-----------------------------------------------------------------------------------------------------------
+# 
+# Notes:    Consolidate the number of RUN commands because each 1 equates to a new image layer when being built,
+#           which can result in larger than necessary images.  Also clean up repos when done before
+#           exiting a command to minimize size.
+########################################################################################################################
+
+
+#############################################
+#
+# Start from the Base UBI7 Fast-DDS Python image
+FROM localhost/ubi7-fastdds-python-image as ubi7-sleipnir
+USER root
+LABEL maintainer="christopher.mundt@ngc.com"
+
+#############################################
+#
+# Install Sleipnir
+#
+WORKDIR /opt
+COPY dependencies/sleipnir.tar.z /opt/sleipnir.tar.z
+RUN tar --no-same-permissions --no-same-owner -xf sleipnir.tar.z 
+COPY tools/run-c++-vehicle.sh /opt/sleipnir
+COPY tools/run-python-vehicle.sh /opt/sleipnir
+WORKDIR /opt/sleipnir
+ENV PATH=/opt/Fast-DDS-Gen/scripts:/opt/Fast-DDS-Python/install/fastrtps/bin:/opt/Fast-DDS-Python/install/foonathan_memory_vendor/bin:/opt/gradle/bin:/opt/rh/rh-maven36/root/usr/bin:/opt/rh/rh-git29/root/usr/bin:/opt/rh/rh-python38/root/usr/local/bin:/opt/rh/rh-python38/root/usr/bin:/opt/rh/devtoolset-11/root/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:.
+ENV LD_LIBRARY_PATH=/opt/Fast-DDS-Python/install/fastrtps/lib:/opt/Fast-DDS-Python/install/fastdds_python_examples/lib:/opt/Fast-DDS-Python/install/fastdds_python/lib:/opt/Fast-DDS-Python/install/fastcdr/lib:/opt/rh/httpd24/root/usr/lib64:/opt/rh/rh-python38/root/usr/lib64:/opt/rh/devtoolset-11/root/usr/lib64:/opt/rh/devtoolset-11/root/usr/lib:/opt/rh/devtoolset-11/root/usr/lib64/dyninst:/opt/rh/devtoolset-11/root/usr/lib/dyninst
+ENV PYTHONPATH=/opt/Fast-DDS-Python/install/fastdds_python/lib64/python3.8/site-packages:/opt/Fast-DDS-Python/install/fastdds_python_examples/lib64/python3.8/site-packages
+ENV CMAKE_PREFIX_PATH=/opt/Fast-DDS-Python/install/fastrtps:/opt/Fast-DDS-Python/install/foonathan_memory_vendor:/opt/Fast-DDS-Python/install/fastdds_python:/opt/Fast-DDS-Python/install/fastcdr
+RUN ./build.sh
+
+#############################################
+#
+# Clean up actions
+#    *  Remove Yum cache
+#    *  Cleanup Sleipnir
+WORKDIR /opt
+RUN yum clean -y all \
+ && rm -rf /var/cache/yum \
+ && rm sleipnir.tar.z
