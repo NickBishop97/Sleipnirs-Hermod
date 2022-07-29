@@ -1,5 +1,7 @@
 import gym
 
+# OpenAI gym research spike into the possiblity of simulating real time data for Hermod DDS
+# To be read by the sensors and published rather than generating random data to publish.
 env = gym.make('MountainCarContinuous-v0',render_mode="rgb_array")
 
 env.action_space.seed(42)
