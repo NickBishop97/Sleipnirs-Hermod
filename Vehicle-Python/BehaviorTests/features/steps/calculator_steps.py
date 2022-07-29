@@ -1,12 +1,13 @@
 from behave import *
 
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to # Provides explict results of what was expected
 import sys
 from queue import Queue
 sys.path.insert(0, "../../../ADTs")
 from Calculators import LowFuelCalc  # noqa E402 (linting exemption)
 
-
+# Given that this is a unit test, everything will actually occur in the last step.
+# This behave test is a proof of concept before using behave with integration testing.
 @given('fuel domain is running')
 def step_impl(context):
     pass
