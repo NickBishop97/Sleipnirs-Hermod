@@ -1,12 +1,24 @@
+"""@package docstring
+File used to unit test the distance traveled functionality
+
+@author Maxwell Rosales
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
+"""
 import sys
 from queue import Queue
 
 sys.path.insert(0, "../ADTs")
-from Calculators import TripCalc # noqa E402,F403 (linting exemptions)
+from Calculators import TripCalc  # noqa E402,F403 (linting exemptions)
 
 
 # ENSURE CONSTRUCTOR MAKES BLANK MEMBER VARIABLES
 def test_init():
+    """Test for initial conditions
+
+    ENSURE CONSTRUCTOR MAKES BLANK MEMBER VARIABLES
+    """
 
     tripCalc = TripCalc()
 
@@ -32,6 +44,10 @@ def test_init():
 
 
 def test_update_less_than_2_hours():
+    """Test less than two hours of travel
+
+    ENSURE THAT TIMES LESS THAN 2 HOURS FLIP bool twoHours
+    """
     tripCalc = TripCalc()
 
     expectedDict = {
@@ -62,41 +78,51 @@ def test_update_less_than_2_hours():
     assert tripCalc.getTrips()[0] == expectedDict
     assert tripCalc.getTrips()[1] == expectedDict
 
-    
-#TESTING FOR DIVISION BY ZERO
+
+# TESTING FOR DIVISION BY ZERO
 def test_update_div_by_zero():
+    """Test divsion by zero
+
+    TESTING FOR DIVISION BY ZERO in tripcalc
+    """
     tripCalc = TripCalc()
-    
+
     expectedDict = {
-            "distance": 0,
-            "fuel": 0,
-            "time": 0,
+        "distance": 0,
+        "fuel": 0,
+        "time": 0,
 
-            "averageSpeed": -1,
-            "MpG": -1,
+        "averageSpeed": -1,
+        "MpG": -1,
 
-            "twoHours": False,
-            "resetCounterDist": 0,
-            "resetCounterFuel": 0,
-            "resetCounterTime": 0
-        }
-    fuelQueue  = Queue(); fuelQueue.put([1,0,0])
-    milesQueue = Queue(); milesQueue.put([1,0])
-    
-    timeQueue  = Queue(); timeQueue.put([1,0])
-    
+        "twoHours": False,
+        "resetCounterDist": 0,
+        "resetCounterFuel": 0,
+        "resetCounterTime": 0
+    }
+    fuelQueue = Queue()
+    fuelQueue.put([1, 0, 0])
+    milesQueue = Queue()
+    milesQueue.put([1, 0])
+
+    timeQueue = Queue()
+    timeQueue.put([1, 0])
+
     tripCalc.update([milesQueue,
                     fuelQueue,
                     timeQueue
-                    ])
-    
+                     ])
+
     assert tripCalc.getTrips()[0] == expectedDict
-    assert tripCalc.getTrips()[1] == expectedDict   
-    
+    assert tripCalc.getTrips()[1] == expectedDict
 
 
 # ENSURE THAT TIMES EQUAL TO 2 HOURS FLIP bool twoHours
 def test_update_equal_to_2_hours():
+    """Test for time value equal to 2 hours of travel time
+
+    ENSURE THAT TIMES EQUAL TO 2 HOURS FLIP bool twoHours
+    """
     tripCalc = TripCalc()
 
     expectedDict = {
@@ -132,6 +158,10 @@ def test_update_equal_to_2_hours():
 
 
 def test_update_greater_than_2_hours():
+    """Test for time value equal to 2 hours of travel time
+
+    ENSURE THAT TIMES OVER 2 HOURS FLIP bool twoHours
+    """
     tripCalc = TripCalc()
 
     expectedDict = {
@@ -168,6 +198,10 @@ def test_update_greater_than_2_hours():
 
 
 def test_reset_a_trip():
+    """Testing the reset trip
+
+    WHEN RESETTING A TRIP, ENSURE THAT ONLY ONE TRIP GETS RESET
+    """
     tripCalc = TripCalc()
 
     expectedTripOne = {
@@ -220,6 +254,10 @@ def test_reset_a_trip():
 
 
 def test_reset_switch_trips():
+    """Testing the reset switch for the trip counter
+
+    ENSURE THAT THE TRIP NUMBER SWITCHES
+    """
     tripCalc = TripCalc()
 
     assert tripCalc.getCurrentTripNum() == 0
@@ -230,6 +268,10 @@ def test_reset_switch_trips():
 
 
 def test_reset_counter_offset():
+    """Testing rest counter offset
+
+    ENSURES THAT THE RESET COUNTERS WORK AFTER AN UPDATE
+    """
     tripCalc = TripCalc()
     previousDist = 1
     previousFuel = 1
