@@ -4,7 +4,6 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
-import fastdds
 from sys import version_info as _swig_python_version_info
 # Import the low-level C/C++ module
 if __package__ or "." in __name__:
@@ -16,7 +15,6 @@ try:
     import builtins as __builtin__
 except ImportError:
     import __builtin__
-
 
 def _swig_repr(self):
     try:
@@ -115,15 +113,12 @@ class SwigPyIterator(object):
 
     def __sub__(self, *args):
         return _CLKWrapper.SwigPyIterator___sub__(self, *args)
-
     def __iter__(self):
         return self
 
-
 # Register SwigPyIterator in _CLKWrapper:
 _CLKWrapper.SwigPyIterator_swigregister(SwigPyIterator)
-
-
+import fastdds
 class _CLKSeq(fastdds.LoanableCollection):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -132,11 +127,8 @@ class _CLKSeq(fastdds.LoanableCollection):
     __repr__ = _swig_repr
     __swig_destroy__ = _CLKWrapper.delete__CLKSeq
 
-
 # Register _CLKSeq in _CLKWrapper:
 _CLKWrapper._CLKSeq_swigregister(_CLKSeq)
-
-
 class CLKSeq(_CLKSeq):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -151,11 +143,8 @@ class CLKSeq(_CLKSeq):
     def __getitem__(self, i):
         return _CLKWrapper.CLKSeq___getitem__(self, i)
 
-
 # Register CLKSeq in _CLKWrapper:
 _CLKWrapper.CLKSeq_swigregister(CLKSeq)
-
-
 class CLK(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -201,12 +190,9 @@ class CLK(object):
     def serializeKey(self, cdr):
         return _CLKWrapper.CLK_serializeKey(self, cdr)
 
-
 # Register CLK in _CLKWrapper:
 _CLKWrapper.CLK_swigregister(CLK)
 GEN_API_VER = _CLKWrapper.GEN_API_VER
-
-
 class CLKPubSubType(fastdds.TopicDataType):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -244,6 +230,6 @@ class CLKPubSubType(fastdds.TopicDataType):
     m_md5 = property(_CLKWrapper.CLKPubSubType_m_md5_get, _CLKWrapper.CLKPubSubType_m_md5_set)
     m_keyBuffer = property(_CLKWrapper.CLKPubSubType_m_keyBuffer_get, _CLKWrapper.CLKPubSubType_m_keyBuffer_set)
 
-
 # Register CLKPubSubType in _CLKWrapper:
 _CLKWrapper.CLKPubSubType_swigregister(CLKPubSubType)
+
