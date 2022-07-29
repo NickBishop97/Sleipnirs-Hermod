@@ -70,7 +70,6 @@ class FuelRL(Entity.ReaderListener):
         info = fastdds.SampleInfo()
         reader.take_next_sample(data, info)
 
-        # self.printData()
         self.__listenerQueue.put([data.index(),
                                   data.litersSpent(),
                                   data.litersRemaining()])

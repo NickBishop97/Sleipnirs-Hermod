@@ -1,3 +1,11 @@
+"""@package docstring
+This py file starts up and runs the clk signal for syncing purposes
+
+@author Maxwell Rosales
+@version 0.1
+@date 2022-07-21
+@copyright Copyright (c) 2022
+"""
 import signal
 import sys
 
