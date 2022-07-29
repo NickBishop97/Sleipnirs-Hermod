@@ -1,15 +1,14 @@
 ########################################################################################################################
-# Filename: Containerfile-fastdds-python
+# Filename: Containerfile-ubi8-fastdds-python
 # 
 # Date: 2022-07-22
 # Author: Christopher J. Mundt
 #
-# Desc: Dockerfile used to build a container image that will run FastDDS-Python
+# Desc: Containerfile used to define a UBI 8 Init container image with Fast-DDS
 #
 # Reference: https://github.com/eProsima/Fast-DDS-python
 #            https://www.redhat.com/sysadmin/tiny-containers
-#            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
-#            
+#            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html            
 # 
 # Info: Based this off of work previously completed under the Triton and Sleipnir projects
 #
@@ -28,11 +27,10 @@
 
 #############################################
 #
-# Start from the Base UBI8 image
+# Start from the UBI8 DEV Image
 FROM localhost/ubi8-dev-image as ubi8-fastdds-python
 USER root
 LABEL maintainer="christopher.mundt@ngc.com"
-
 
 #############################################
 #
@@ -72,7 +70,8 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git /opt/Fast
 #WORKDIR /root
 COPY configs/ubi8-fastdds-root-bashrc /root/.bashrc
 COPY tools/run-fastdds-hello.sh /opt/run-fastdds-hello.sh
-COPY tools/run-c++-vehicle.sh /opt/run-c++-vehicle.sh
+#COPY tools/run-c++-vehicle.sh /opt/run-c++-vehicle.sh
+#COPY tools/run-c++-vehicle.sh /opt/run-python-vehicle.sh
 
 # cleanup
 WORKDIR /opt
