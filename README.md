@@ -10,6 +10,8 @@
 
 [Hermod - Generated Files](#Generated-Files)
 
+[Hermod - Future Steps](#Future-Steps)
+
 [Hermod - Setup](#FastDDS-Setup)
 
 [Hermod - Known Problems](#Known-Problems)
@@ -58,6 +60,7 @@ The main purpose of Hermod is to determine if a DDS system can be integrated tes
 2. gcc v11.2.1
 3. FastDDS C++/Python
     - Required by FastDDS to install
+        - cmake3
         - Asio
         - pcre2
         - vcstool
@@ -66,6 +69,9 @@ The main purpose of Hermod is to determine if a DDS system can be integrated tes
         - gradle
         - tinyxml2
         - swig
+        - Java JDK 8 with development kit
+        - automake
+        - bison, bison-devel, byacc
 4. Doxygen
 5. cppcheck
 6. clang-format
@@ -81,11 +87,24 @@ The Files below are generated exclusively by the above scripts
     - Python Documentation html: `./Vehicle-Python/Build/html/index.html`
     - Python Coverage html: `./Vehicle-Python/Build/Coverage/index.html` **(Error could be caused trying to gen this, read known problems section)**
 
+## Future Steps
+
+1. If we had more time we would like to finish containerizing the system so we could separate the publishers and subscribers to different containers to run tests and find bugs.
+2. We would like to create an install script for the fastDDS setup so anyone who comes to us this won't have to install fastDDS every time onto a new system
+3. Run the System with real time data from a simulation of a car instead of randomly generated data that its currently using.
+4. Test the system on real embedded hardware for bugs and for real time integration with real hardware and see how it acts and responds.
+5. See if using Behave as an ATDD tester would work in-order to use Grekin syntax as per customers request.
+
 ## FastDDS Setup
 
 The following steps are required to run Hermod.
 
 1. Getting dependencies **(the commands below are assuming your using CentOS 7)**
+    - **Cmake3 make default system wide (Assuming you have cmake3 installed)**
+        - Use these following commands
+            - `sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake 10 \ --slave /usr/local/bin/ctest ctest /usr/bin/ctest \ --slave /usr/local/bin/cpack cpack /usr/bin/cpack \ --slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake \ --family cmake`
+            - `sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \--slave /usr/local/bin/ctest ctest /usr/bin/ctest3 \--slave /usr/local/bin/cpack cpack /usr/bin/cpack3 \--slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake3 \--family cmake`
+
     - **TinyXml2 v9.0.0**
         - Go to a directory that you want to place all of these download files preferably in the "/home/<userID>/<folder>/" location
         - Run these commands in order.
@@ -102,6 +121,20 @@ The following steps are required to run Hermod.
             - `yum install http://mirror.centos.org/centos/7/os/x86_64/Packages/pcre2-utf32-10.23-2.el7.x86_64.rpm`
             - `yum install http://mirror.centos.org/centos/7/os/x86_64/Packages/pcre2-devel-10.23-2.el7.x86_64.rpm`
             - `exit`  #leave root user
+    - **Swig v4.0.2**
+        - Go to a directory that you want to place all of these download files preferably in the "/home/<userID>/<folder>/" location
+        - Run these commands in order
+            - `yum remove swig`      _#Only use if you have older version of swig installed_
+            - `vim ~/.bashrc`      _ #Add the next two line bellow the user specific aliases and functions then exit vim using :wq_
+            - `export LD_LIBRARY_PATH=/usr/local/lib/`
+            - `export LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64`
+            - `git clone https://github.com/swig/swig.git`
+            - `cd swig`
+            - `./autogen.sh`    _#requires automake, and yacc (`sudo yum install automake`, `sudo yum install bison bison-devel byacc`)_
+            - `./configure --prefix=/usr/local`
+            - `make`
+            - `sudo make install`
+            - `swig -version`        _#check to see if its installed correctly (might have to restart terminal to run command)_
     - **OpenSSL & PKCS11 & Softhsm v2.1.0-3 & colcon & vcstool**
         - Directory doesn't matter when installing these dependencies
         - Install these dependencies in order
@@ -126,13 +159,13 @@ The following steps are required to run Hermod.
                 - systemProp.https.proxyPort=80
                 - systemProp.http.proxyHost=contractorproxyeast.northgrum.com
                 - systemProp.http.proxyPort=80
-    - **Cmake3 make default system wide**
-        - Use these following commands
-            - `sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake 10 \ --slave /usr/local/bin/ctest ctest /usr/bin/ctest \ --slave /usr/local/bin/cpack cpack /usr/bin/cpack \ --slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake \ --family cmake`
-            - `sudo alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \--slave /usr/local/bin/ctest ctest /usr/bin/ctest3 \--slave /usr/local/bin/cpack cpack /usr/bin/cpack3 \--slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake3 \--family cmake`
+
     - **Asio v1.10**
         - Use this command to install
             - `sudo yum install https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/a/asio-devel-1.10.8-1.el7.x86_64.rpm`
+    - **Python3.8 Development Kit**
+        - Use this command to install
+            - `sudo yum install rh-python38-python-devel.x86_64`
 
 2. Installing FastDDS C++
     - **FastDDS C++**
@@ -167,10 +200,10 @@ The following steps are required to run Hermod.
             - `cd FastDDS-Python`
             - `wget https://raw.githubusercontent.com/eProsima/Fast-DDS-python/main/fastdds_python.repos`
             - `mkdir src`
-            - `vcs import src < fastdds_python.repos`     _#if this command doesn't exist make sure your not in   root and            - you have vcstool installed through pip3_
-            - `colcon build`      _#If this fails make sure your gcc is version 10.2.1, also make sure Asio is    installed,           - and make sure python38-devel is installed_
+            - `vcs import src < fastdds_python.repos`     _#if this command doesn't exist make sure your not in   root and             you have vcstool installed through pip3_
+            - `colcon build`      _#If this fails make sure your gcc is version 10.2.1, also make sure Asio is    installed,            and make sure python38-devel is installed_
             - `vim ~/.bashrc`    _#Add the next line into your bashrc file_
-            - s`ource /home/<location to fast dds python folder>/FastDDS-Python/install/setup.bash`   _#make  sure to change         - location to the location of the fast dds folder_
+            - s`ource /home/<location to fast dds python folder>/FastDDS-Python/install/setup.bash`   _#make  sure to change         location to the location of the fast dds folder_
             - `source ~/.bashrc`
     - **Fixes**
         - **Fix for FastDDS.py not found**
