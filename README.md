@@ -185,6 +185,10 @@ The following steps are required to run Hermod.
         - Use these following commands in order
             - `git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git`
             - `cd Fast-DDS-Gen`
+            - Note: for the next step to work, you must sudo yum install the following packages:
+                - java-1.8.0-openjdk.x86_64
+                - java-1.8.0-openjdk-devel.x86_64
+                - java-1.8.0-openjdk-headless.x86_64
             - `gradle assemble`
             - `vim ~/.bashrc`  #Add the next line into your bashrc file
             - `export PATH=$PATH:/home/<Location to your Fast-DDS-Gen folder>/Fast-DDS-Gen/scripts`     _#make sure to put in your fast dds gen folder location_

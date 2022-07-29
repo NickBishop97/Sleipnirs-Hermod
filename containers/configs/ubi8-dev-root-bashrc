@@ -24,3 +24,6 @@ export PATH=/opt/gradle/bin:$PATH
 # Begin of: Configure PATH
 #
 #====================
+
+# Alias 
+alias ver='echo "cat /etc/redhat-release"; cat /etc/redhat-release'

@@ -20,3 +20,7 @@ export PATH=$PATH:/opt/Fast-DDS-Python/install:/opt/Fast-DDS-Gen/scripts:/opt/gr
 
 # Setup FastDDS Environment Settings
 source /opt/Fast-DDS-Python/install/local_setup.bash
+
+# Alias for HelloWorld
+alias hello='cd /opt/Fast-DDS-Python/install/fastdds_python_examples/share/fastdds_python_examples/HelloWorld;python3 HelloWorldExample.py  -p publisher & sleep 2; python3 HelloWorldExample.py -p subscriber;cd -'
+alias ver='echo "cat /etc/redhat-release"; cat /etc/redhat-release'

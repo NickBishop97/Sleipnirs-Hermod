@@ -1,11 +1,11 @@
 ########################################################################################################################
 # Filename: Containerfile-ubi7-dev
 # 
-# Date: 2022-07-25#    *  Update Repoistory Cache
+# Date: 2022-07-25
 # Author: Christopher J. Mundt
 #
 # Desc: Containerfile used to define a UBI 7 Init container image that has all the development tools
-#       installed to support a Fast-DDS-Python and Fast-DDS-Gen installation.
+#       installed to support a Fast-DDS
 #
 # Reference: https://confluence.sde.sp.gc1.myngc.com/pages/viewpage.action?pageId=305785145
 #            https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_python_app/simple_python_app.html
@@ -18,17 +18,17 @@
 #           ************************************************************************************************************
 # History:  |Version    Date        Task         Author                Desc
 #           |-----------------------------------------------------------------------------------------------------------
-#           | 1.0       2022-07-25  LETS-4804    Christopher J. Mundt  Initial Rev.
-#           |
+#           | 1.0       2022-07-25  LETS-4802    Christopher J. Mundt  Initial Rev.
+#           | 1.1       2022-07-29  LETS-4802    Christopher J. Mundt  Added missing tools for Sleipnir Baseline
 #           |-----------------------------------------------------------------------------------------------------------
 # 
 ########################################################################################################################
 
 #############################################
 #
-# Start from the Base UBI7-init image.
+# Start from the RedHat UBI7-init Base image.
 # Need to use the Init version to support DBUS/Systemd
-# whic is needed to support Fast-DDS-Python Install later.
+# which is needed to support Fast-DDS-Python Install later.
 #
 FROM registry.access.redhat.com/ubi7/ubi-init as dev-base
 USER root
@@ -42,6 +42,7 @@ LABEL maintainer="christopher.mundt@ngc.com"
 #    *  Install Miscellaneous Tools
 #    *  Install Python 3.8
 #    *  Intall Development Dependencies
+#    *  Install Firefox and Net-Tools
 #    *  Install PCRE2 Libraries
 #    *  Install OpenSSL and PCKS11 Tools
 #    *  Install Asio Development Libraries
@@ -55,6 +56,7 @@ RUN yum update -y
 RUN yum install -y automake byacc cmake3 wget xterm \
  && yum install -y rh-python38 rh-python38-python rh-python38-python-devel rh-python38-python-libs rh-python38-python-pip \
  && yum install -y devtoolset-11 devtoolset-11-gcc devtoolset-11-gcc-c++ rh-git29 rh-maven36 \
+ && yum install -y firefox net-tools \
  && yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/pcre2-utf32-10.23-2.el7.x86_64.rpm \
  && yum install -y http://mirror.centos.org/centos/7/os/x86_64/Packages/pcre2-devel-10.23-2.el7.x86_64.rpm \
  && yum install -y openssl-devel openssl-pkcs11 http://mirror.centos.org/centos/7/os/x86_64/Packages/softhsm-devel-2.1.0-3.el7.x86_64.rpm \
@@ -67,7 +69,7 @@ RUN yum install -y automake byacc cmake3 wget xterm \
 #
 #  Software Channel Libraries are not enabled in an image, so need to use the full path
 #  to the pip3 and then source scl the calls inside the default .bashrc that is loaded into the image
-RUN /opt/rh/rh-python38/root/usr/bin/pip3 install -U colcon-common-extensions vcstool
+RUN /opt/rh/rh-python38/root/usr/bin/pip3 install -U colcon-common-extensions flask numpy vcstool
 
 #############################################
 #
