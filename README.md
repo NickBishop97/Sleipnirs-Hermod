@@ -54,6 +54,7 @@ The main purpose of Hermod is to determine if a DDS system can be integrated tes
         - flake8
         - Json
         - venv (Optional)
+        - hamcrest (Optional)
 2. gcc v11.2.1
 3. FastDDS C++/Python
     - Required by FastDDS to install
