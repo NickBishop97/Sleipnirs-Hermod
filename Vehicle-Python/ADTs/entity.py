@@ -164,7 +164,6 @@ class Entity:
 
             # SAVING THE DATA TYPE OF THE MESSAGE
             try:
-                # __data = HelloWorld.HelloWorld()
                 func = getattr(self.__MessageType, f"{self.__MessageType_name}")  # inputting the idl special datatype
                 self.data = func()
             except AttributeError:
