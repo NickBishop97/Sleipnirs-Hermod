@@ -40,12 +40,11 @@ export LD_LIBRARY_PATH=/opt/rh/httpd24/root/usr/lib64:/opt/rh/rh-python38/root/u
 
 # Setup FastDDS Environment Settings
 source /opt/Fast-DDS-Python/install/local_setup.bash
-export PYTHONPATH=/opt/Fast-DDS-Python/install/fastdds_python/lib64/python3.8/site-packages:/opt/Fast-DDS-Python/install/fastdds_python_examples/l
-ib64/python3.8/site-packages:$PYTHONPATH
+export PYTHONPATH=/opt/Fast-DDS-Python/install/fastdds_python/lib64/python3.8/site-packages:/opt/Fast-DDS-Python/install/fastdds_python_examples/lib64/python3.8/site-packages:$PYTHONPATH
 
 # Alias for HelloWorld
 alias hello='cd /opt/Fast-DDS-Python/install/fastdds_python_examples/share/fastdds_python_examples/HelloWorld;python3 HelloWorldExample.py  -p publisher & sleep 2; python3 HelloWorldExample.py -p subscriber;cd -'
-
+alias ver='echo "cat /etc/redhat-release"; cat /etc/redhat-release'
 
 #====================
 #
